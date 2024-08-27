@@ -31,7 +31,7 @@ const HeaderFirst = () => {
           </Styled.ContainerAllSvgSecondNav>
           <Styled.ContainerAllSvgSecondNav>
             <svg width="18" height="18" viewBox="0 0 16 16">
-              <g fill="none" fill-rule="evenodd" transform="translate(1)">
+              <g fill="none" fillRule="evenodd" transform="translate(1)">
                 <circle cx="7" cy="8" r="7" stroke="currentColor"></circle>
                 <path
                   fill="currentColor"

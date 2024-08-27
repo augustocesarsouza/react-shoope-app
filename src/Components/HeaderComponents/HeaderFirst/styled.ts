@@ -3,7 +3,8 @@ import styled from 'styled-components';
 export const HeaderNavFirstMain = styled.nav`
   display: flex;
   justify-content: center;
-  height: 30px;
+  margin-bottom: 21px;
+  margin-top: 6px;
 `;
 
 export const HeaderNavFirst = styled.nav`
