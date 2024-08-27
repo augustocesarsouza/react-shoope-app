@@ -1,9 +1,7 @@
+import HeaderLoginComponent from '../HeaderLoginComponent/HeaderLoginComponent';
+
 const HeaderLoginComponentsMain = () => {
-  return (
-    <div>
-      <span>HeaderLoginComponentsMain</span>
-    </div>
-  );
+  return <HeaderLoginComponent></HeaderLoginComponent>;
 };
 
 export default HeaderLoginComponentsMain;
