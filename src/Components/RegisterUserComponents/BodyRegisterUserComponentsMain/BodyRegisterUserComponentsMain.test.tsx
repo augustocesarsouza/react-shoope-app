@@ -5,7 +5,7 @@ import BodyRegisterUserComponentsMain from './BodyRegisterUserComponentsMain';
 
 describe('BodyRegisterUserComponentsMain', () => {
   test('should render itens', () => {
-    const { container } = render(
+    render(
       <MemoryRouter>
         <BodyRegisterUserComponentsMain />
       </MemoryRouter>
