@@ -1,7 +1,9 @@
-import HeaderLoginComponent from '../HeaderLoginComponent/HeaderLoginComponent';
+import HeaderToLoginAndRegisterComponent from '../../../LoginAndRegisterUserComponents/HeaderToLoginAndRegisterComponent/HeaderToLoginAndRegisterComponent';
 
 const HeaderLoginComponentsMain = () => {
-  return <HeaderLoginComponent></HeaderLoginComponent>;
+  return (
+    <HeaderToLoginAndRegisterComponent valueToSpan="Entre"></HeaderToLoginAndRegisterComponent>
+  );
 };
 
 export default HeaderLoginComponentsMain;

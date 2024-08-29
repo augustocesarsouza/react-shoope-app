@@ -1,7 +1,13 @@
-import SvgShopee from '../../AllSvgLogin/SvgShopee/SvgShopee';
+import SvgShopee from '../../HeaderComponents/AllSvgHeader/SvgShopee/SvgShopee';
 import * as Styled from './styled';
 
-const HeaderLoginComponent = () => {
+interface HeaderToLoginAndRegisterComponentComponent {
+  valueToSpan: string;
+}
+
+const HeaderToLoginAndRegisterComponent = ({
+  valueToSpan,
+}: HeaderToLoginAndRegisterComponentComponent) => {
   return (
     <Styled.ContainerHeaderLoginComponentMain>
       <Styled.ContainerHeaderLoginComponent>
@@ -9,7 +15,8 @@ const HeaderLoginComponent = () => {
           <Styled.ContainerSvgShopeeLogin>
             <SvgShopee></SvgShopee>
           </Styled.ContainerSvgShopeeLogin>
-          <Styled.Span>Cadastrar</Styled.Span>
+          {/* <Styled.Span>Cadastrar</Styled.Span> */}
+          <Styled.Span>{valueToSpan}</Styled.Span>
         </Styled.ContainerSvgShopeeAndSpanRegister>
         <Styled.ContainerNeedHelp>
           <Styled.Span>Precisa de ajuda?</Styled.Span>
@@ -19,4 +26,4 @@ const HeaderLoginComponent = () => {
   );
 };
 
-export default HeaderLoginComponent;
+export default HeaderToLoginAndRegisterComponent;

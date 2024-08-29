@@ -1,5 +1,5 @@
+import FooterLoginComponentsMain from '../../LoginAndRegisterUserComponents/FooterLoginComponentsMain/FooterLoginComponentsMain';
 import BodyComponentsMain from '../BodyComponents/BodyComponentsMain/BodyComponentsMain';
-import FooterLoginComponentsMain from '../FooterLoginComponents/FooterLoginComponentsMain/FooterLoginComponentsMain';
 import HeaderLoginComponentsMain from '../HeaderLoginComponents/HeaderLoginComponentsMain/HeaderLoginComponentsMain';
 
 const LoginComponentMain = () => {

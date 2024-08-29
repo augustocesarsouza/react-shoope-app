@@ -1,15 +1,16 @@
 import { render } from '@testing-library/react';
 import { screen } from '@testing-library/dom';
-import HeaderLoginComponent from './HeaderLoginComponent';
+import HeaderToLoginAndRegisterComponent from './HeaderToLoginAndRegisterComponent';
 
-describe('HeaderLoginComponent', () => {
+describe('HeaderToLoginAndRegisterComponent', () => {
   it('should render HeaderLoginComponent Component', () => {
-    const { container } = render(<HeaderLoginComponent />);
+    let valueToSpan = 'seila';
+    const { container } = render(<HeaderToLoginAndRegisterComponent valueToSpan={valueToSpan} />);
 
     const allSvgs = container.querySelectorAll('svg');
     expect(allSvgs.length).toEqual(1);
 
-    const span1 = screen.getByText('Cadastrar');
+    const span1 = screen.getByText(valueToSpan);
     expect(span1).toBeInTheDocument();
 
     const span2 = screen.getByText('Precisa de ajuda?');

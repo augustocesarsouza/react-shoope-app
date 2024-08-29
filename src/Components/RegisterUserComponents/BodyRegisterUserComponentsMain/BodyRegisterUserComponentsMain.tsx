@@ -1,13 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import * as Styled from './styled';
 
-const BodyComponentsMain = () => {
+const BodyRegisterUserComponentsMain = () => {
   const nav = useNavigate();
 
-  const onClickRegister = () => {
-    nav('/signup');
-
-    // nav('/', { state: { user: null } });
+  const onClickLoggin = () => {
+    nav('/login');
   };
 
   return (
@@ -15,23 +13,18 @@ const BodyComponentsMain = () => {
       <Styled.ContainerMiddleBody>
         <Styled.ContainerLoginRegisterMain>
           <Styled.ContainerLoginRegister>
-            <h1>Entre</h1>
+            <h1>Cadastrar</h1>
             <Styled.ContainerInput>
-              <input type="text" placeholder="Número de telefone/Nome do usuário/Email" />
-              <input type="text" placeholder="Senha" />
+              <input type="text" placeholder="Número de telefone" />
             </Styled.ContainerInput>
             <Styled.ContainerButtonSpansOrWhiteLine>
-              <Styled.Button>ENTRE</Styled.Button>
-              <Styled.ContainerSpan>
-                <Styled.Span>Esqueci minha senha</Styled.Span>
-                <Styled.Span>Fazer login com SMS</Styled.Span>
-              </Styled.ContainerSpan>
-              <Styled.ContainerLinesAndSpanOr>
-                <Styled.SpanLineWhite></Styled.SpanLineWhite>
-                <Styled.SpanOr>OU</Styled.SpanOr>
-                <Styled.SpanLineWhite></Styled.SpanLineWhite>
-              </Styled.ContainerLinesAndSpanOr>
+              <Styled.Button>PRÓXIMO</Styled.Button>
             </Styled.ContainerButtonSpansOrWhiteLine>
+            <Styled.ContainerLinesAndSpanOr>
+              <Styled.SpanLineWhite></Styled.SpanLineWhite>
+              <Styled.SpanOr>OU</Styled.SpanOr>
+              <Styled.SpanLineWhite></Styled.SpanLineWhite>
+            </Styled.ContainerLinesAndSpanOr>
             <Styled.ContainerFacebookGoogleApple>
               <Styled.ContainerSocialMedia>
                 <Styled.ContainerImgSocialMedia $whichimg="facebook"></Styled.ContainerImgSocialMedia>
@@ -41,14 +34,17 @@ const BodyComponentsMain = () => {
                 <Styled.ContainerImgSocialMedia $whichimg="google"></Styled.ContainerImgSocialMedia>
                 <span>Google</span>
               </Styled.ContainerSocialMedia>
-              <Styled.ContainerSocialMedia>
-                <Styled.ContainerImgSocialMedia $whichimg="apple"></Styled.ContainerImgSocialMedia>
-                <span>Apple</span>
-              </Styled.ContainerSocialMedia>
             </Styled.ContainerFacebookGoogleApple>
+            <Styled.ContainerSpanWarning>
+              <Styled.SpanWarning>
+                Ao se inscrever, você concorda com as políticas da Shopee{' '}
+                <Styled.SpanHighlighted>Termos de serviço</Styled.SpanHighlighted> &{' '}
+                <Styled.SpanHighlighted>Política de privacidade</Styled.SpanHighlighted>
+              </Styled.SpanWarning>
+            </Styled.ContainerSpanWarning>
             <Styled.ContainerNewInTheShopee>
-              <Styled.Span>Novo na Shopee?</Styled.Span>
-              <a onClick={() => onClickRegister()}>Cadastrar</a>
+              <Styled.Span>Tem uma Conta?</Styled.Span>
+              <a onClick={() => onClickLoggin()}>Entre</a>
             </Styled.ContainerNewInTheShopee>
           </Styled.ContainerLoginRegister>
         </Styled.ContainerLoginRegisterMain>
@@ -57,4 +53,4 @@ const BodyComponentsMain = () => {
   );
 };
 
-export default BodyComponentsMain;
+export default BodyRegisterUserComponentsMain;
