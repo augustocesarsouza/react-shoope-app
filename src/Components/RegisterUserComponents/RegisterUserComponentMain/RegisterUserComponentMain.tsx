@@ -1,4 +1,4 @@
-import FooterLoginComponentsMain from '../../LoginAndRegisterUserComponents/FooterLoginComponentsMain/FooterLoginComponentsMain';
+import FooterLoginAndRegister from '../../LoginAndRegisterUserComponents/FooterLoginAndRegisterUserComponents/FooterLoginAndRegister/FooterLoginAndRegister';
 import HeaderToLoginAndRegisterComponent from '../../LoginAndRegisterUserComponents/HeaderToLoginAndRegisterComponent/HeaderToLoginAndRegisterComponent';
 import BodyRegisterUserComponentsMain from '../BodyRegisterUserComponentsMain/BodyRegisterUserComponentsMain';
 
@@ -7,7 +7,7 @@ const RegisterUserComponentMain = () => {
     <div>
       <HeaderToLoginAndRegisterComponent valueToSpan="Cadastrar"></HeaderToLoginAndRegisterComponent>
       <BodyRegisterUserComponentsMain></BodyRegisterUserComponentsMain>
-      <FooterLoginComponentsMain></FooterLoginComponentsMain>
+      <FooterLoginAndRegister></FooterLoginAndRegister>
     </div>
   );
 };

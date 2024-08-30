@@ -1,4 +1,4 @@
-import FooterLoginComponentsMain from '../../LoginAndRegisterUserComponents/FooterLoginComponentsMain/FooterLoginComponentsMain';
+import FooterLoginAndRegister from '../../LoginAndRegisterUserComponents/FooterLoginAndRegisterUserComponents/FooterLoginAndRegister/FooterLoginAndRegister';
 import BodyComponentsMain from '../BodyComponents/BodyComponentsMain/BodyComponentsMain';
 import HeaderLoginComponentsMain from '../HeaderLoginComponents/HeaderLoginComponentsMain/HeaderLoginComponentsMain';
 
@@ -7,7 +7,7 @@ const LoginComponentMain = () => {
     <div>
       <HeaderLoginComponentsMain></HeaderLoginComponentsMain>
       <BodyComponentsMain></BodyComponentsMain>
-      <FooterLoginComponentsMain></FooterLoginComponentsMain>
+      <FooterLoginAndRegister></FooterLoginAndRegister>
     </div>
   );
 };

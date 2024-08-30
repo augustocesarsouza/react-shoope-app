@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const ContainerHeaderLoginComponentMain = styled.div`
   display: flex;
   justify-content: center;
-  padding: 15px 0px;
+  padding: 10px 0px 30px 20px;
 `;
 
 export const ContainerHeaderLoginComponent = styled.div`
