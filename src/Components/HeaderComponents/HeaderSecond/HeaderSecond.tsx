@@ -10,7 +10,11 @@ const HeaderSecond = () => {
           <SvgShopee></SvgShopee>
         </Styled.ContainerSvgShopee>
         <Styled.ContainerInputSearchShopee>
-          <Styled.Input type="text" placeholder="Buscar na Shopee" />
+          <Styled.Input
+            className="input-search-shoppe"
+            type="text"
+            placeholder="Buscar na Shopee"
+          />
           <Styled.Button>
             <SvgLoupe></SvgLoupe>
           </Styled.Button>
