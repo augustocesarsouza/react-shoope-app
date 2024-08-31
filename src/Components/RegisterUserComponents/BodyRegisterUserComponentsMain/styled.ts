@@ -47,6 +47,7 @@ export const ContainerInput = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  position: relative;
 
   >input {
     border: 0;
@@ -58,12 +59,21 @@ export const ContainerInput = styled.div`
     padding: 12px;
     border: 1px solid #73737347;
   }
+
+  >svg {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    right: 14px;
+    top: 11px;
+  }
 `;
 
 export const ContainerButtonSpansOrWhiteLine = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  height: 40px;
 `;
 
 export const Button = styled.button`
@@ -72,6 +82,9 @@ export const Button = styled.button`
   border: none;
   background-color: #f3826c;
   color: #fff;
+  cursor: not-allowed;
+  height: 100%;
+  width: 100%;
 `
 
 export const ContainerSpan = styled.div`

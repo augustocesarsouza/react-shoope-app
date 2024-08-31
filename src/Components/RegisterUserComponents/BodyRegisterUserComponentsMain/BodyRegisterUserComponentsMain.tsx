@@ -1,11 +1,62 @@
 import { useNavigate } from 'react-router-dom';
 import * as Styled from './styled';
+import { useEffect, useState } from 'react';
+import SvgAllRight from '../AllSvgRegisterUser/SvgAllRight/SvgAllRight';
+import Inputmask from 'inputmask';
 
 const BodyRegisterUserComponentsMain = () => {
+  const [showSvgOkPhoneRight, setShowSvgOkPhoneRight] = useState(false);
   const nav = useNavigate();
 
   const onClickLoggin = () => {
     nav('/login');
+  };
+
+  const onClickNext = () => {
+    let inputNumberPhone = document.getElementById('input-number-phone') as HTMLInputElement;
+    let valueInputNumberPhoneClean = inputNumberPhone.value.replace('(', '').replace(')', '');
+
+    if (showSvgOkPhoneRight) {
+      console.log(valueInputNumberPhoneClean.length);
+    }
+  };
+
+  useEffect(() => {
+    let inputNumberPhone = document.getElementById('input-number-phone');
+
+    if (inputNumberPhone) {
+      let mask = new Inputmask({
+        mask: '(99) 999999999',
+        placeholder: '(__)_____-____',
+        insertMode: true, // Ensure the mask does not insert mode to avoid jumping characters
+        showMaskOnHover: false,
+        showMaskOnFocus: false,
+      });
+      mask.mask(inputNumberPhone);
+    }
+  }, []);
+
+  useEffect(() => {
+    let buttonNext = document.getElementById('button-next') as HTMLButtonElement;
+
+    if (showSvgOkPhoneRight) {
+      buttonNext.style.cursor = 'pointer';
+      buttonNext.style.backgroundColor = '#ee4d2d';
+    } else {
+      buttonNext.style.cursor = 'not-allowed';
+      buttonNext.style.backgroundColor = '#f3826c';
+    }
+  }, [showSvgOkPhoneRight]);
+
+  const onChangeInputNumberPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let valueInput = e.target.value
+      .replace(/\(/g, '')
+      .replace(/\)/g, '')
+      .replace(/_/g, '')
+      .replace(/-/g, '');
+
+    // let showSvgOkPhoneRight = valueInput.length >= 12;
+    setShowSvgOkPhoneRight(valueInput.length >= 12);
   };
 
   return (
@@ -15,10 +66,19 @@ const BodyRegisterUserComponentsMain = () => {
           <Styled.ContainerLoginRegister>
             <h1>Cadastrar</h1>
             <Styled.ContainerInput>
-              <input type="text" placeholder="Número de telefone" />
+              <input
+                type="text"
+                id="input-number-phone"
+                placeholder="Número de telefone"
+                onChange={(e) => onChangeInputNumberPhone(e)}
+              />
+
+              {showSvgOkPhoneRight && <SvgAllRight></SvgAllRight>}
             </Styled.ContainerInput>
             <Styled.ContainerButtonSpansOrWhiteLine>
-              <Styled.Button>PRÓXIMO</Styled.Button>
+              <Styled.Button id="button-next" onClick={() => onClickNext()}>
+                PRÓXIMO
+              </Styled.Button>
             </Styled.ContainerButtonSpansOrWhiteLine>
             <Styled.ContainerLinesAndSpanOr>
               <Styled.SpanLineWhite></Styled.SpanLineWhite>
