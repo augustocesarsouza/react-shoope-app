@@ -4,7 +4,13 @@ import { useEffect, useState } from 'react';
 import SvgAllRight from '../AllSvgRegisterUser/SvgAllRight/SvgAllRight';
 import Inputmask from 'inputmask';
 
-const BodyRegisterUserComponentsMain = () => {
+interface BodyRegisterUserComponentsMainProps {
+  setValueInputPhone: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const BodyRegisterUserComponentsMain = ({
+  setValueInputPhone,
+}: BodyRegisterUserComponentsMainProps) => {
   const [showSvgOkPhoneRight, setShowSvgOkPhoneRight] = useState(false);
   const nav = useNavigate();
 
@@ -17,7 +23,7 @@ const BodyRegisterUserComponentsMain = () => {
     let valueInputNumberPhoneClean = inputNumberPhone.value.replace('(', '').replace(')', '');
 
     if (showSvgOkPhoneRight) {
-      console.log(valueInputNumberPhoneClean.length);
+      setValueInputPhone(valueInputNumberPhoneClean);
     }
   };
 
