@@ -5,6 +5,7 @@ export const ContainerStepOneMain = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 120px;
 `;
 
 export const ContainerHeaderCreateAccount = styled.div`
@@ -83,70 +84,4 @@ export const ContainerArrow = styled.div`
     transform: rotate(45deg);
     width: 5px;
   }
-`;
-
-export const ContainerTypeCodeVerification = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-`;
-
-export const ContainerTypeCode = styled.div`
-  display: flex;
-  gap: 50px;
-
-  >span {
-    font-size: 20px;
-  }
-`;
-
-export const ContainerSvgArrow = styled.div`
-  display: flex;
-
-  >svg {
-    width: 20px;
-    height: 20px;
-    fill: #ee4d2d;
-  }
-`
-
-export const ContainerYourCodeWasSendSmsMain = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 40px 0px 0px 70px;
-`;
-
-export const ContainerYourCodeWasSendSms = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: 350px;
-
-  >span {
-    font-size: 14px;
-    text-align: center;
-    color: rgba(0, 0, 0, 0.8);
-  }
-`;
-
-export const SpanPhone = styled.span`
-  color: rgba(0, 0, 0, 0.8);
-  font-weight: 600;
-`;
-
-export const ContainerInputCode = styled.div`
-  display: flex;
-  gap: 4px;
-`
-
-export const InputCelphone = styled.input`
-  outline: none;
-  width: 32px;
-  height: 44px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-    
 `;
