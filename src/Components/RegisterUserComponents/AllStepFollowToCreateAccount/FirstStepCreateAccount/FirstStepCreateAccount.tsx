@@ -87,7 +87,7 @@ const FirstStepCreateAccount = ({ setWhichStepIsNow }: FirstStepCreateAccountPro
   return (
     <Styled.ContainerTypeCodeVerification>
       <Styled.ContainerTypeCode>
-        <Styled.ContainerSvgArrow>
+        <Styled.ContainerSvgArrow className="container-svg-arrow">
           <SvgArrowLeft></SvgArrowLeft>
         </Styled.ContainerSvgArrow>
         <Styled.Span>Digite o código de verificação</Styled.Span>
