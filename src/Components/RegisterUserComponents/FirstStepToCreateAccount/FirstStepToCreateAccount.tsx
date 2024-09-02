@@ -3,6 +3,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import * as Styled from './styled';
 import FirstStepCreateAccount from '../AllStepFollowToCreateAccount/FirstStepCreateAccount/FirstStepCreateAccount';
 import { useState } from 'react';
+import SecondStepCreateAccount from '../AllStepFollowToCreateAccount/SecondStepCreateAccount/SecondStepCreateAccount';
 
 const FirstStepToCreateAccount = () => {
   const [whatStepIsNow, setWhichStepIsNow] = useState(1);
@@ -16,14 +17,14 @@ const FirstStepToCreateAccount = () => {
           </Styled.Container>
           <Styled.Span>Verifique número de telefone</Styled.Span>
         </Styled.ContainerFirstBall>
-        <Styled.ContainerArrow></Styled.ContainerArrow>
-        <Styled.ContainerFirstBall $colorgreen={false}>
+        <Styled.ContainerArrow $colorgreen={whatStepIsNow >= 2}></Styled.ContainerArrow>
+        <Styled.ContainerFirstBall $colorgreen={whatStepIsNow === 2}>
           <Styled.Container>
             <Styled.Span>2</Styled.Span>
           </Styled.Container>
           <Styled.Span>Criar senha</Styled.Span>
         </Styled.ContainerFirstBall>
-        <Styled.ContainerArrow></Styled.ContainerArrow>
+        <Styled.ContainerArrow $colorgreen={whatStepIsNow >= 3}></Styled.ContainerArrow>
         <Styled.ContainerFirstBall $colorgreen={false}>
           <Styled.Container>
             <FontAwesomeIcon icon={faCheck} />
@@ -34,11 +35,7 @@ const FirstStepToCreateAccount = () => {
       {whatStepIsNow === 1 && (
         <FirstStepCreateAccount setWhichStepIsNow={setWhichStepIsNow}></FirstStepCreateAccount>
       )}
-      {whatStepIsNow === 2 && (
-        <div>
-          <h1>2</h1>
-        </div>
-      )}
+      {whatStepIsNow === 2 && <SecondStepCreateAccount></SecondStepCreateAccount>}
     </Styled.ContainerStepOneMain>
   );
 };

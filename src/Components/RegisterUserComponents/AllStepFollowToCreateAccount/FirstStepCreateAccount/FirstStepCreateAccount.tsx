@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SvgArrowLeft from '../../AllSvgRegisterUser/SvgArrowLeft/SvgArrowLeft';
 import * as Styled from './styled';
 
@@ -14,6 +14,8 @@ const FirstStepCreateAccount = ({ setWhichStepIsNow }: FirstStepCreateAccountPro
   const [valueInputPhoneFive, setValueInputPhoneFive] = useState('');
   const [valueInputPhoneSix, setValueInputPhoneSix] = useState('');
   const [allInputs, setAllInputs] = useState<[] | NodeListOf<HTMLInputElement>>([]);
+
+  const [alreadyTypePassword, setAlreadyTypePassword] = useState(false);
 
   const onClickInputCreateAccount = () => {
     for (let i = 0; i < allInputs.length; i++) {
@@ -45,6 +47,8 @@ const FirstStepCreateAccount = ({ setWhichStepIsNow }: FirstStepCreateAccountPro
     if (input.value.length === 1 && index < allInputs.length - 1) {
       allInputs[index + 1].focus();
     }
+
+    setAlreadyTypePassword(true);
   };
 
   const onKeyDownCreateAccount = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
@@ -83,6 +87,63 @@ const FirstStepCreateAccount = ({ setWhichStepIsNow }: FirstStepCreateAccountPro
   const onClickNextStep = () => {
     setWhichStepIsNow(2);
   };
+
+  const buttonRegisterMouseEnter = (buttonRegister: HTMLButtonElement) => {
+    buttonRegister.style.backgroundColor = 'rgb(238, 92, 63)';
+  };
+
+  const buttonRegisterMouseLeave = (buttonRegister: HTMLButtonElement) => {
+    buttonRegister.style.backgroundColor = 'rgb(238, 77, 45)';
+  };
+
+  const refButtonNext = useRef<HTMLButtonElement | null>(null);
+
+  const handleMouseEnter = () => buttonRegisterMouseEnter(refButtonNext.current!);
+  const handleMouseLeave = () => buttonRegisterMouseLeave(refButtonNext.current!);
+
+  useEffect(() => {
+    let buttonRegister = refButtonNext.current;
+
+    if (buttonRegister === null) return;
+
+    if (
+      Number(valueInputPhoneOne) > 0 &&
+      Number(valueInputPhoneTwo) > 0 &&
+      Number(valueInputPhoneThree) > 0 &&
+      Number(valueInputPhoneFour) > 0 &&
+      Number(valueInputPhoneFive) > 0 &&
+      Number(valueInputPhoneSix) > 0
+    ) {
+      buttonRegister.style.opacity = '1';
+      buttonRegister.style.cursor = 'pointer';
+
+      buttonRegister.addEventListener('mouseenter', handleMouseEnter);
+      buttonRegister.addEventListener('mouseleave', handleMouseLeave);
+    } else {
+      if (alreadyTypePassword) {
+        buttonRegister.style.opacity = '.7';
+        buttonRegister.style.cursor = 'not-allowed';
+
+        buttonRegister.removeEventListener('mouseenter', handleMouseEnter);
+        buttonRegister.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    }
+
+    return () => {
+      if (buttonRegister !== null) {
+        buttonRegister.removeEventListener('mouseenter', handleMouseEnter);
+        buttonRegister.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
+  }, [
+    valueInputPhoneOne,
+    valueInputPhoneTwo,
+    valueInputPhoneThree,
+    valueInputPhoneFour,
+    valueInputPhoneFive,
+    valueInputPhoneSix,
+    alreadyTypePassword,
+  ]);
 
   return (
     <Styled.ContainerTypeCodeVerification>
@@ -174,7 +235,9 @@ const FirstStepCreateAccount = ({ setWhichStepIsNow }: FirstStepCreateAccountPro
               </Styled.Span>
             </Styled.ContainerDidNotReceiveTheCode>
             <Styled.ContainerButtonNext>
-              <Styled.Button onClick={() => onClickNextStep()}>PRÓXIMO</Styled.Button>
+              <Styled.Button ref={refButtonNext} onClick={() => onClickNextStep()}>
+                PRÓXIMO
+              </Styled.Button>
             </Styled.ContainerButtonNext>
           </Styled.ContainerDidNotReceiveTheCodeAndButtonNext>
         </Styled.ContainerYourCodeWasSendSms>

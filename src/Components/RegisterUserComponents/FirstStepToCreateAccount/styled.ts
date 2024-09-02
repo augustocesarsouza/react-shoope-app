@@ -64,16 +64,23 @@ export const Span = styled.span`
 
 `;
 
-export const ContainerArrow = styled.div`
-  background-color: rgba(0, 0, 0, .26);
+interface ContainerArrowProps {
+  $colorgreen: boolean;
+}
+
+export const ContainerArrow = styled.div<ContainerArrowProps>`
+  /* background-color: rgba(0, 0, 0, .26); */
+  background-color: ${props => props.$colorgreen ? "#38af3c" : "rgba(0, 0, 0, .26)"};
   top: 15px;
   height: 1px;
   position: relative;
   width: 85px;
 
   &::after {
-    border-right: .0625rem solid rgba(0, 0, 0, .26);
-    border-top: .0625rem solid rgba(0, 0, 0, .26);
+    /* border-right: .0625rem solid rgba(0, 0, 0, .26);
+    border-top: .0625rem solid rgba(0, 0, 0, .26); */
+    border-right: .0625rem solid ${props => props.$colorgreen ? "#38af3c" : "rgba(0, 0, 0, .26)"};
+    border-top: .0625rem solid ${props => props.$colorgreen ? "#38af3c" : "rgba(0, 0, 0, .26)"};
     box-sizing: border-box;
     content: "";
     display: block;
