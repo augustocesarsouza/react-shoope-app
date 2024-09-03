@@ -10,7 +10,7 @@ const ThirdStepCreateAccount = ({ numberToCreateAccount }: ThirdStepCreateAccoun
   return (
     <Styled.ContainerMain>
       <Styled.H1>Cadastrado com sucesso</Styled.H1>
-      <Styled.ContainerCheck>
+      <Styled.ContainerCheck className="container-svg-check">
         <FontAwesomeIcon icon={faCheck} />
       </Styled.ContainerCheck>
       <Styled.SpanYouCreateAccount>

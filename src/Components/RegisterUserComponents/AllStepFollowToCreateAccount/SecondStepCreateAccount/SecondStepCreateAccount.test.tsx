@@ -4,7 +4,9 @@ import SecondStepCreateAccount from './SecondStepCreateAccount';
 
 describe('SecondStepCreateAccount', () => {
   test('should render itens', () => {
-    const { container } = render(<SecondStepCreateAccount />);
+    const fn = jest.fn();
+
+    const { container } = render(<SecondStepCreateAccount changeValueWhatStepIsNow={fn} />);
 
     const containerSvg = container.querySelector('.container-svg-arrow') as HTMLElement;
     const svgArrow = containerSvg.firstChild;

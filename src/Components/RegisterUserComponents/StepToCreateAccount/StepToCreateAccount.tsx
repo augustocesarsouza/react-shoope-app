@@ -15,7 +15,7 @@ const StepToCreateAccount = ({
   numberToCreateAccount,
   changeValueShowStepToContinueCreateAccount,
 }: StepToCreateAccountProps) => {
-  const [whatStepIsNow, setWhichStepIsNow] = useState(2);
+  const [whatStepIsNow, setWhichStepIsNow] = useState(3);
 
   const changeValueWhatStepIsNow = (value: number) => {
     setWhichStepIsNow(value);
