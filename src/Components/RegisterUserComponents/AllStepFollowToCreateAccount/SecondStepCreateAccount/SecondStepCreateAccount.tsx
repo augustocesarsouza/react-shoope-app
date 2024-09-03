@@ -5,7 +5,11 @@ import { useEffect, useRef, useState } from 'react';
 import SvgExit from '../../AllSvgRegisterUser/SvgExit/SvgExit';
 import SvgEye from '../../AllSvgRegisterUser/SvgEye/SvgEye';
 
-const SecondStepCreateAccount = () => {
+interface SecondStepCreateAccountProps {
+  changeValueWhatStepIsNow: (value: number) => void;
+}
+
+const SecondStepCreateAccount = ({ changeValueWhatStepIsNow }: SecondStepCreateAccountProps) => {
   const [alreadyTypePassword, setAlreadyTypePassword] = useState(false);
 
   const [onlyLettersCommon, setOnlyLettersCommon] = useState(true);
@@ -110,10 +114,28 @@ const SecondStepCreateAccount = () => {
     atLestOneLowercaseCharacter,
   ]);
 
+  const onClickBackToStepOne = () => {
+    changeValueWhatStepIsNow(1);
+  };
+
+  const onClickRegister = () => {
+    if (
+      onlyLettersCommon &&
+      haveEightSixteenCharacters &&
+      atLestOneUppercaseCharacter &&
+      atLestOneLowercaseCharacter
+    ) {
+      changeValueWhatStepIsNow(3);
+    }
+  };
+
   return (
     <Styled.ContainerTypeCodeVerification>
       <Styled.ContainerTypeCode>
-        <Styled.ContainerSvgArrow className="container-svg-arrow">
+        <Styled.ContainerSvgArrow
+          onClick={() => onClickBackToStepOne()}
+          className="container-svg-arrow"
+        >
           <SvgArrowLeft></SvgArrowLeft>
         </Styled.ContainerSvgArrow>
         <Styled.Span>Defina sua senha</Styled.Span>
@@ -168,7 +190,9 @@ const SecondStepCreateAccount = () => {
             </Styled.ContainerSpanAndSvg>
           </Styled.ContainerInputPasswordAndValidations>
           <Styled.ContainerButtonNext>
-            <Styled.Button ref={refButtonRegister}>CADASTRAR</Styled.Button>
+            <Styled.Button ref={refButtonRegister} onClick={() => onClickRegister()}>
+              CADASTRAR
+            </Styled.Button>
           </Styled.ContainerButtonNext>
         </Styled.ContainerYourCodeWasSendSms>
       </Styled.ContainerYourCodeWasSendSmsMain>

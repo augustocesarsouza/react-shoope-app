@@ -4,9 +4,13 @@ import * as Styled from './styled';
 
 interface FirstStepCreateAccountProps {
   setWhichStepIsNow: React.Dispatch<React.SetStateAction<number>>;
+  changeValueShowStepToContinueCreateAccount: (value: boolean) => void;
 }
 
-const FirstStepCreateAccount = ({ setWhichStepIsNow }: FirstStepCreateAccountProps) => {
+const FirstStepCreateAccount = ({
+  setWhichStepIsNow,
+  changeValueShowStepToContinueCreateAccount,
+}: FirstStepCreateAccountProps) => {
   const [valueInputPhoneOne, setValueInputPhoneOne] = useState('');
   const [valueInputPhoneTwo, setValueInputPhoneTwo] = useState('');
   const [valueInputPhoneThree, setValueInputPhoneThree] = useState('');
@@ -85,7 +89,16 @@ const FirstStepCreateAccount = ({ setWhichStepIsNow }: FirstStepCreateAccountPro
   }, []);
 
   const onClickNextStep = () => {
-    setWhichStepIsNow(2);
+    if (
+      Number(valueInputPhoneOne) > 0 &&
+      Number(valueInputPhoneTwo) > 0 &&
+      Number(valueInputPhoneThree) > 0 &&
+      Number(valueInputPhoneFour) > 0 &&
+      Number(valueInputPhoneFive) > 0 &&
+      Number(valueInputPhoneSix) > 0
+    ) {
+      setWhichStepIsNow(2);
+    }
   };
 
   const buttonRegisterMouseEnter = (buttonRegister: HTMLButtonElement) => {
@@ -145,10 +158,14 @@ const FirstStepCreateAccount = ({ setWhichStepIsNow }: FirstStepCreateAccountPro
     alreadyTypePassword,
   ]);
 
+  const onClickBackStar = () => {
+    changeValueShowStepToContinueCreateAccount(false);
+  };
+
   return (
     <Styled.ContainerTypeCodeVerification>
       <Styled.ContainerTypeCode>
-        <Styled.ContainerSvgArrow className="container-svg-arrow">
+        <Styled.ContainerSvgArrow onClick={() => onClickBackStar()} className="container-svg-arrow">
           <SvgArrowLeft></SvgArrowLeft>
         </Styled.ContainerSvgArrow>
         <Styled.Span>Digite o código de verificação</Styled.Span>

@@ -25,6 +25,7 @@ export const ContainerTypeCode = styled.div`
 
 export const ContainerSvgArrow = styled.div`
   display: flex;
+  cursor: pointer;
 
   >svg {
     width: 20px;

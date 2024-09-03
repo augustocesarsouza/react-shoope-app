@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import FooterLoginAndRegister from '../../LoginAndRegisterUserComponents/FooterLoginAndRegisterUserComponents/FooterLoginAndRegister/FooterLoginAndRegister';
 import HeaderToLoginAndRegisterComponent from '../../LoginAndRegisterUserComponents/HeaderToLoginAndRegisterComponent/HeaderToLoginAndRegisterComponent';
 import BodyRegisterUserComponentsMain from '../BodyRegisterUserComponentsMain/BodyRegisterUserComponentsMain';
-import FirstStepToCreateAccount from '../FirstStepToCreateAccount/FirstStepToCreateAccount';
+import StepToCreateAccount from '../StepToCreateAccount/StepToCreateAccount';
 
 const RegisterUserComponentMain = () => {
   const [valueInputPhone, setValueInputPhone] = useState('');
@@ -16,6 +16,12 @@ const RegisterUserComponentMain = () => {
     }
   }, [valueInputPhone]);
 
+  const [numberToCreateAccount, setNumberToCreateAccount] = useState('(+55) 67 98114 5503');
+
+  const changeValueShowStepToContinueCreateAccount = (value: boolean) => {
+    setShowStepToContinueCreateAccount(value);
+  };
+
   return (
     <div>
       <HeaderToLoginAndRegisterComponent valueToSpan="Cadastrar"></HeaderToLoginAndRegisterComponent>
@@ -25,7 +31,12 @@ const RegisterUserComponentMain = () => {
         ></BodyRegisterUserComponentsMain>
       )}
 
-      {showStepToContinueCreateAccount && <FirstStepToCreateAccount></FirstStepToCreateAccount>}
+      {showStepToContinueCreateAccount && (
+        <StepToCreateAccount
+          numberToCreateAccount={numberToCreateAccount}
+          changeValueShowStepToContinueCreateAccount={changeValueShowStepToContinueCreateAccount}
+        ></StepToCreateAccount>
+      )}
       <FooterLoginAndRegister></FooterLoginAndRegister>
     </div>
   );
