@@ -6,7 +6,7 @@ import { useState } from 'react';
 import SecondStepCreateAccount from '../AllStepFollowToCreateAccount/SecondStepCreateAccount/SecondStepCreateAccount';
 
 const FirstStepToCreateAccount = () => {
-  const [whatStepIsNow, setWhichStepIsNow] = useState(1);
+  const [whatStepIsNow, setWhichStepIsNow] = useState(2);
 
   return (
     <Styled.ContainerStepOneMain>

@@ -126,10 +126,11 @@ const SecondStepCreateAccount = () => {
               <Styled.Input
                 type="password"
                 placeholder="Senha"
+                className="input-password"
                 ref={refInputPassword}
                 onChange={(e) => onChangeInputPassword(e)}
               />
-              <Styled.Container onClick={() => onCLickEye()}>
+              <Styled.Container className="container-svg-eye" onClick={() => onCLickEye()}>
                 <SvgEye></SvgEye>
               </Styled.Container>
             </Styled.ContainerInputPassword>

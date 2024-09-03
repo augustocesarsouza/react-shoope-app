@@ -119,7 +119,9 @@ export const ContainerInputPassword = styled.div`
     width: 100%;
     border-radius: 1px;
     border: 1px solid #0000006e;
-    padding: 10px 0px 10px 8px;
+    /* padding: 10px 0px 10px 8px; */
+    padding-left: 10px;
+    height: 40px;
     outline: none;
   }
 
