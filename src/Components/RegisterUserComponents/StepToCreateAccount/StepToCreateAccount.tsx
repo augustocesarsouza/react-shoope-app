@@ -8,14 +8,16 @@ import ThirdStepCreateAccount from '../AllStepFollowToCreateAccount/ThirdStepCre
 
 interface StepToCreateAccountProps {
   numberToCreateAccount: string;
+  valueInputPhone: string;
   changeValueShowStepToContinueCreateAccount: (value: boolean) => void;
 }
 
 const StepToCreateAccount = ({
   numberToCreateAccount,
+  valueInputPhone,
   changeValueShowStepToContinueCreateAccount,
 }: StepToCreateAccountProps) => {
-  const [whatStepIsNow, setWhichStepIsNow] = useState(3);
+  const [whatStepIsNow, setWhichStepIsNow] = useState(1);
 
   const changeValueWhatStepIsNow = (value: number) => {
     setWhichStepIsNow(value);
@@ -48,6 +50,7 @@ const StepToCreateAccount = ({
       {whatStepIsNow === 1 && (
         <FirstStepCreateAccount
           setWhichStepIsNow={setWhichStepIsNow}
+          valueInputPhone={valueInputPhone}
           changeValueShowStepToContinueCreateAccount={changeValueShowStepToContinueCreateAccount}
         ></FirstStepCreateAccount>
       )}

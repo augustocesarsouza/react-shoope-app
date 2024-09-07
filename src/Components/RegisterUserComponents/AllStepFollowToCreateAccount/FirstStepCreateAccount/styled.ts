@@ -129,3 +129,25 @@ export const ContainerButtonNext = styled.div`
     width: 100%;
   }
 `;
+
+export const ContainerCodeIsWrong = styled.div`
+  margin-bottom: 20px;
+
+  >h1 {
+    font-size: 17px;
+    color: #eb3232;
+  }
+`;
+
+export const ContainerTimePass = styled.div`
+  
+
+  >h1 {
+    font-size: 12px;
+    color: #0a0a0a47;
+  }
+`;
+
+export const H1 = styled.h1`
+
+`;

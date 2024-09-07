@@ -1,14 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import SvgArrowLeft from '../../AllSvgRegisterUser/SvgArrowLeft/SvgArrowLeft';
 import * as Styled from './styled';
+import { ContextRegisterUserComponentMain } from '../../RegisterUserComponentMain/RegisterUserComponentMain';
 
 interface FirstStepCreateAccountProps {
   setWhichStepIsNow: React.Dispatch<React.SetStateAction<number>>;
+  valueInputPhone: string;
   changeValueShowStepToContinueCreateAccount: (value: boolean) => void;
 }
 
 const FirstStepCreateAccount = ({
   setWhichStepIsNow,
+  valueInputPhone,
   changeValueShowStepToContinueCreateAccount,
 }: FirstStepCreateAccountProps) => {
   const [valueInputPhoneOne, setValueInputPhoneOne] = useState('');
@@ -19,7 +22,19 @@ const FirstStepCreateAccount = ({
   const [valueInputPhoneSix, setValueInputPhoneSix] = useState('');
   const [allInputs, setAllInputs] = useState<[] | NodeListOf<HTMLInputElement>>([]);
 
+  const [codeSendPhone, setCodeSendPhone] = useState('');
   const [alreadyTypePassword, setAlreadyTypePassword] = useState(false);
+  const [codeTypeIsWrong, setCodeTypeIsWrong] = useState(false);
+
+  const context = useContext(ContextRegisterUserComponentMain);
+
+  if (!context) {
+    throw new Error(
+      'SomeComponent must be used within a ContextRegisterUserComponentMain.Provider'
+    );
+  }
+
+  const { codeUserCreate, numberPhone, setCodeUserCreate } = context;
 
   const onClickInputCreateAccount = () => {
     for (let i = 0; i < allInputs.length; i++) {
@@ -31,6 +46,19 @@ const FirstStepCreateAccount = ({
       }
     }
   };
+
+  useEffect(() => {
+    let number = '(+55) ';
+    for (let i = 0; i < valueInputPhone.length; i++) {
+      const element = valueInputPhone[i];
+      number += element;
+      if (i == 7) {
+        number += ' ';
+      }
+    }
+
+    setCodeSendPhone(number);
+  }, [valueInputPhone]);
 
   const onChangeInputCreateAccount = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     if (Number.isNaN(Number(e.target.value))) return;
@@ -97,7 +125,15 @@ const FirstStepCreateAccount = ({
       Number(valueInputPhoneFive) > 0 &&
       Number(valueInputPhoneSix) > 0
     ) {
-      setWhichStepIsNow(2);
+      let numberComplet = `${valueInputPhoneOne}${valueInputPhoneTwo}${valueInputPhoneThree}${valueInputPhoneFour}${valueInputPhoneFive}${valueInputPhoneSix}`;
+
+      let valueGetCode = codeUserCreate[numberPhone];
+
+      if (valueGetCode === numberComplet) {
+        setWhichStepIsNow(2);
+      } else {
+        setCodeTypeIsWrong(true);
+      }
     }
   };
 
@@ -113,6 +149,8 @@ const FirstStepCreateAccount = ({
 
   const handleMouseEnter = () => buttonRegisterMouseEnter(refButtonNext.current!);
   const handleMouseLeave = () => buttonRegisterMouseLeave(refButtonNext.current!);
+
+  const [timeValue, setTimeValue] = useState(60);
 
   useEffect(() => {
     let buttonRegister = refButtonNext.current;
@@ -158,6 +196,23 @@ const FirstStepCreateAccount = ({
     alreadyTypePassword,
   ]);
 
+  const [showSendCodeAgain, setShowSendCodeAgain] = useState(false);
+
+  useEffect(() => {
+    let time = 60;
+
+    const countdown = setInterval(() => {
+      time--;
+
+      if (time <= 0) {
+        clearInterval(countdown);
+        setTimeValue(0);
+        setShowSendCodeAgain(true);
+      }
+      setTimeValue(time);
+    }, 1000);
+  }, []);
+
   const onClickBackStar = () => {
     changeValueShowStepToContinueCreateAccount(false);
   };
@@ -173,7 +228,7 @@ const FirstStepCreateAccount = ({
       <Styled.ContainerYourCodeWasSendSmsMain>
         <Styled.ContainerYourCodeWasSendSms>
           <Styled.Span>Seu código de verificação foi enviado por mensagem SMS para</Styled.Span>
-          <Styled.SpanPhone>(+55) 67 98213 3193</Styled.SpanPhone>
+          <Styled.SpanPhone>{codeSendPhone}</Styled.SpanPhone>
           <Styled.ContainerInputCode>
             <Styled.InputCelphone
               className="input-cel-phone"
@@ -244,13 +299,25 @@ const FirstStepCreateAccount = ({
           </Styled.ContainerInputCode>
           <Styled.ContainerSplit></Styled.ContainerSplit>
           <Styled.ContainerDidNotReceiveTheCodeAndButtonNext>
-            <Styled.ContainerDidNotReceiveTheCode>
-              <Styled.Span>Não recebeu o código?</Styled.Span>
-              <Styled.Span>
-                <Styled.Button>Reenviar</Styled.Button> ou tente{' '}
-                <Styled.Button>Outros métodos</Styled.Button>
-              </Styled.Span>
-            </Styled.ContainerDidNotReceiveTheCode>
+            {codeTypeIsWrong && (
+              <Styled.ContainerCodeIsWrong>
+                <Styled.H1>Código digitado errado</Styled.H1>
+              </Styled.ContainerCodeIsWrong>
+            )}
+            {!showSendCodeAgain && (
+              <Styled.ContainerTimePass>
+                <Styled.H1>{`Aguarde ${timeValue} segundos para reenviar`}</Styled.H1>
+              </Styled.ContainerTimePass>
+            )}
+            {showSendCodeAgain && (
+              <Styled.ContainerDidNotReceiveTheCode>
+                <Styled.Span>Não recebeu o código?</Styled.Span>
+                <Styled.Span>
+                  <Styled.Button>Reenviar</Styled.Button> ou tente{' '}
+                  <Styled.Button>Outros métodos</Styled.Button>
+                </Styled.Span>
+              </Styled.ContainerDidNotReceiveTheCode>
+            )}
             <Styled.ContainerButtonNext>
               <Styled.Button ref={refButtonNext} onClick={() => onClickNextStep()}>
                 PRÓXIMO
