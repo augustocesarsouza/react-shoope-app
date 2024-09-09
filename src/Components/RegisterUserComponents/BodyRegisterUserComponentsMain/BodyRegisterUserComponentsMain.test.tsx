@@ -5,9 +5,11 @@ import BodyRegisterUserComponentsMain from './BodyRegisterUserComponentsMain';
 
 describe('BodyRegisterUserComponentsMain', () => {
   test('should render itens', () => {
+    const fn = jest.fn();
+
     render(
       <MemoryRouter>
-        <BodyRegisterUserComponentsMain />
+        <BodyRegisterUserComponentsMain setValueInputPhone={fn} />
       </MemoryRouter>
     );
 

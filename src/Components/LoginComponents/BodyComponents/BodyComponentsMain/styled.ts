@@ -1,5 +1,7 @@
 import { styled } from 'styled-components';
 
+export const H1 = styled.h1``;
+
 export const ContainerBodyMain = styled.div`
   display: flex;
   align-items: center;
@@ -169,3 +171,25 @@ export const ContainerNewInTheShopee = styled.div`
   }
 `;
 
+export const ContainerErroLogin = styled.div`
+  border: 1px solid #ed373742;
+  padding: 12px 15px;
+  /* padding-bottom: 12px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 12px; */
+  display: flex;
+  align-items: flex-start;
+
+  >h1 {
+    font-size: 14px;
+    color: rgb(93 86 86);
+    font-weight: 500;
+  }
+
+  >svg {
+    width: 26px;
+    height: 14px;
+    margin-right: 10px;
+  }
+`;
