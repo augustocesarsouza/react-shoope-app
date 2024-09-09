@@ -4,32 +4,40 @@ import HeaderMain from '../../Components/HeaderComponents/HeaderMain/HeaderMain'
 import * as Styled from './styled';
 
 export interface ContextHomeProps {
-  // userObj: ObjUser;
+  userObj: ObjUser | null;
   // setUserObj: React.Dispatch<React.SetStateAction<ObjUser | null>>;
-  value: string;
+}
+
+export interface ObjUser {
+  name: string;
+  email: string;
 }
 
 export const ContextHome = createContext<ContextHomeProps | null>(null);
 
 const Home = () => {
-  const [userObj, setUserObj] = useState('');
+  const [userObj, setUserObj] = useState<ObjUser | null>(null);
   const location = useLocation();
   const nav = useNavigate();
 
   useEffect(() => {
     let userLocalStorage = localStorage.getItem('user');
 
-    if (userLocalStorage === null) nav('/login');
+    if (userLocalStorage === null) {
+      nav('/login');
 
-    if (location.state === null) return;
-    const objState = location.state;
+      return;
+    }
 
-    setUserObj('');
+    // if (location.state === null) return;
+    // const objState = location.state;
+
+    setUserObj(JSON.parse(userLocalStorage));
   }, [location]);
   return (
     <ContextHome.Provider
       value={{
-        value: 'seila',
+        userObj: userObj,
       }}
     >
       <Styled.ContainerMain>

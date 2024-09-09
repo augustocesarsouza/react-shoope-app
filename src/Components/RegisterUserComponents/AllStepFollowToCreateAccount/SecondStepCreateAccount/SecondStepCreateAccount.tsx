@@ -1,9 +1,12 @@
 import SvgArrowLeft from '../../AllSvgRegisterUser/SvgArrowLeft/SvgArrowLeft';
 import * as Styled from './styled';
 import SvgCheck from '../../AllSvgRegisterUser/SvgCheck/SvgCheck';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import SvgExit from '../../AllSvgRegisterUser/SvgExit/SvgExit';
 import SvgEye from '../../AllSvgRegisterUser/SvgEye/SvgEye';
+import { ContextRegisterUserComponentMain } from '../../RegisterUserComponentMain/RegisterUserComponentMain';
+import { useNavigate } from 'react-router-dom';
+import { Url } from '../../../../Utils/Url';
 
 interface SecondStepCreateAccountProps {
   changeValueWhatStepIsNow: (value: number) => void;
@@ -19,6 +22,7 @@ const SecondStepCreateAccount = ({ changeValueWhatStepIsNow }: SecondStepCreateA
 
   const refInputPassword = useRef<HTMLInputElement | null>(null);
   const refButtonRegister = useRef<HTMLButtonElement | null>(null);
+  const nav = useNavigate();
 
   const onChangeInputPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     let input = e.target;
@@ -118,14 +122,48 @@ const SecondStepCreateAccount = ({ changeValueWhatStepIsNow }: SecondStepCreateA
     changeValueWhatStepIsNow(1);
   };
 
-  const onClickRegister = () => {
+  const context = useContext(ContextRegisterUserComponentMain);
+
+  if (!context) {
+    throw new Error(
+      'SomeComponent must be used within a ContextRegisterUserComponentMain.Provider'
+    );
+  }
+
+  const { codeUserCreate, numberPhone, numberPhoneToCreate, setCodeUserCreate } = context;
+
+  const onClickRegister = async () => {
     if (
       onlyLettersCommon &&
       haveEightSixteenCharacters &&
       atLestOneUppercaseCharacter &&
       atLestOneLowercaseCharacter
     ) {
-      changeValueWhatStepIsNow(3);
+      if (refInputPassword.current === null) return;
+
+      let objCreate = {
+        Phone: numberPhoneToCreate,
+        Password: refInputPassword.current.value,
+      };
+
+      const resp = await fetch(`${Url}/public/user/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(objCreate),
+      });
+
+      if (resp.status === 200) {
+        let json = await resp.json();
+        let data = json.data;
+
+        localStorage.setItem('user', JSON.stringify(data));
+        nav('/');
+        changeValueWhatStepIsNow(3);
+      } else if (resp.status === 400) {
+        // setShowStepToContinueCreateAccount(false);
+      }
     }
   };
 

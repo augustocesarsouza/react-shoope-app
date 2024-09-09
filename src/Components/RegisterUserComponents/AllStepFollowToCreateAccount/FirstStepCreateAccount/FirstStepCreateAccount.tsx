@@ -1,4 +1,4 @@
-import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import SvgArrowLeft from '../../AllSvgRegisterUser/SvgArrowLeft/SvgArrowLeft';
 import * as Styled from './styled';
 import { ContextRegisterUserComponentMain } from '../../RegisterUserComponentMain/RegisterUserComponentMain';
@@ -199,7 +199,7 @@ const FirstStepCreateAccount = ({
   const [showSendCodeAgain, setShowSendCodeAgain] = useState(false);
 
   useEffect(() => {
-    let time = 60;
+    let time = 10;
 
     const countdown = setInterval(() => {
       time--;
@@ -215,6 +215,33 @@ const FirstStepCreateAccount = ({
 
   const onClickBackStar = () => {
     changeValueShowStepToContinueCreateAccount(false);
+  };
+
+  const onClickResendCode = () => {
+    let numberRandom = '';
+
+    for (let i = 0; i < 6; i++) {
+      const code = Math.floor(Math.random() * 9) + 1;
+      numberRandom += code;
+    }
+
+    setCodeUserCreate((code) => {
+      return { ...code, [numberPhone]: numberRandom };
+    });
+
+    // const resp = await fetch('http://localhost:3000/send-message', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(objSend),
+    // });
+
+    // if (resp.status === 200) {
+    //   setShowStepToContinueCreateAccount(true);
+    // } else if (resp.status === 400) {
+    //   setShowStepToContinueCreateAccount(false);
+    // }
   };
 
   return (
@@ -313,8 +340,8 @@ const FirstStepCreateAccount = ({
               <Styled.ContainerDidNotReceiveTheCode>
                 <Styled.Span>Não recebeu o código?</Styled.Span>
                 <Styled.Span>
-                  <Styled.Button>Reenviar</Styled.Button> ou tente{' '}
-                  <Styled.Button>Outros métodos</Styled.Button>
+                  <Styled.Button onClick={() => onClickResendCode()}>Reenviar</Styled.Button> ou
+                  tente <Styled.Button>Outros métodos</Styled.Button>
                 </Styled.Span>
               </Styled.ContainerDidNotReceiveTheCode>
             )}

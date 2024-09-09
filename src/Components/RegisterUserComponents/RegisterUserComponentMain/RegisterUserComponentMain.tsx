@@ -8,6 +8,7 @@ export interface RegisterUserComponentMainProps {
   setCodeUserCreate: React.Dispatch<React.SetStateAction<{ [key: string]: string }>>;
   codeUserCreate: { [key: string]: string };
   numberPhone: string;
+  numberPhoneToCreate: string;
 }
 
 export const ContextRegisterUserComponentMain =
@@ -18,6 +19,7 @@ const RegisterUserComponentMain = () => {
   const [showStepToContinueCreateAccount, setShowStepToContinueCreateAccount] = useState(false);
   const [codeUserCreate, setCodeUserCreate] = useState<{ [key: string]: string }>({});
   const [numberPhone, setNumberPhone] = useState('');
+  const [numberPhoneToCreate, setNumberPhoneToCreate] = useState('');
 
   const sendSmsPhone = async (number: string) => {
     //GERAR AMANHA O CODIGO QUE A PESSOA TEM QUE CONFIRMAR PARA CRIAR A CONTA!
@@ -41,7 +43,7 @@ const RegisterUserComponentMain = () => {
       phone: number,
     };
 
-    console.log(objSend);
+    setShowStepToContinueCreateAccount(true);
 
     // const resp = await fetch('http://localhost:3000/send-message', {
     //   method: 'POST',
@@ -65,10 +67,18 @@ const RegisterUserComponentMain = () => {
   useEffect(() => {
     if (valueInputPhone.length >= 12) {
       let number = '+55';
+      let numberToCreate = '(+55) ';
+
       for (let i = 0; i < valueInputPhone.length; i++) {
         const element = valueInputPhone[i];
         number += element;
+
+        numberToCreate += element;
+        if (i == 7) {
+          numberToCreate += ' ';
+        }
       }
+      setNumberPhoneToCreate(numberToCreate);
 
       sendSmsPhone(number.replace(/\s+/g, ''));
 
@@ -92,6 +102,7 @@ const RegisterUserComponentMain = () => {
         setCodeUserCreate: setCodeUserCreate,
         codeUserCreate: codeUserCreate,
         numberPhone: numberPhone,
+        numberPhoneToCreate: numberPhoneToCreate,
       }}
     >
       <HeaderToLoginAndRegisterComponent valueToSpan="Cadastrar"></HeaderToLoginAndRegisterComponent>

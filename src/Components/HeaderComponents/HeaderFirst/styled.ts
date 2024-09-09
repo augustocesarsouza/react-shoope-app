@@ -22,6 +22,7 @@ export const Link = styled.a`
   color: #fff;
   border-right: 1px solid #c7c7c76e;
   padding-right: 6px;
+  cursor: pointer;
 
   &:hover {
     color: #c9c9c9;
