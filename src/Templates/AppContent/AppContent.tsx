@@ -7,6 +7,7 @@ import RegisterUserComponentMain from '../../Components/RegisterUserComponents/R
 import AccountSetting from '../../Components/AccountsComponents/AccountSetting';
 import Perfil from '../../Components/AccountsComponents/MyAccount/Perfil/Perfil';
 import CardsBankAccounts from '../../Components/AccountsComponents/MyAccount/CardsBankAccounts/CardsBankAccounts';
+import InsertEmail from '../../Components/AccountsComponents/MyAccount/InsertEmail/InsertEmail';
 
 const AppContent = () => {
   document.body.style.overflowY = 'none';
@@ -24,6 +25,7 @@ const AppContent = () => {
           <Route index element={<Navigate to="profile" />}></Route>
           <Route path="profile" element={<Perfil />} />
           <Route path="payment" element={<CardsBankAccounts />} />
+          <Route path="email" element={<InsertEmail />} />
         </Route>
         <Route path="/login" element={<LoginComponentMain />} />
         <Route path="/signup" element={<RegisterUserComponentMain />} />

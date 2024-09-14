@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@fastify/cors": "^9.0.1",
+    "@getbrevo/brevo": "^2.2.0",
     "dotenv": "^16.4.5",
     "fastify": "^4.28.1",
     "textflow.js": "^0.1.4",
