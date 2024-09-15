@@ -1,16 +1,56 @@
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import * as Styled from './styled';
 import { useEffect, useState } from 'react';
 import { ObjUser } from '../../../../Templates/Home/Home';
+import { Url } from '../../../../Utils/Url';
 
 const Perfil = () => {
   const [userObj, setUserObj] = useState<ObjUser | null>(null);
   const [valueInput, setValueInput] = useState('');
+  const [emailUser, setEmailUser] = useState('');
 
   const [showInsertEmail, setShowInsertEmail] = useState(false);
   const [showMyPerfil, setShowMyPerfil] = useState(true);
 
   const nav = useNavigate();
+  const location = useLocation();
+
+  const emailToShowToUserMyPerfil = (email: string) => {
+    if (email.length <= 0) {
+      setEmailUser('');
+
+      return;
+    }
+
+    let emailNew = `${email[0]}${email[1]}`;
+    let indexArroba = email.indexOf('@');
+
+    for (let i = 0; i < indexArroba; i++) {
+      if (i > 1) {
+        emailNew += '*';
+      }
+    }
+
+    emailNew += '@gmail.com';
+
+    setEmailUser(emailNew);
+  };
+
+  const getInfoUser = async (userObj: ObjUser) => {
+    let userId = userObj?.id;
+    const res = await fetch(`${Url}/public/user/get-user-by-id/${userId}`);
+
+    if (res.status === 200) {
+      const json = await res.json();
+      let data: ObjUser = json.data;
+
+      emailToShowToUserMyPerfil(data.email);
+
+      setUserObj(data);
+    } else if (res.status === 400) {
+      const json = await res.json();
+    }
+  };
 
   useEffect(() => {
     let userLocalStorage = localStorage.getItem('user');
@@ -21,10 +61,30 @@ const Perfil = () => {
       return;
     }
 
+    if (location.state) {
+      const objState = location.state;
+
+      setUserObj((prop) => {
+        if (prop) {
+          return {
+            ...prop,
+            email: objState.user.email,
+          };
+        }
+
+        return prop;
+      });
+
+      emailToShowToUserMyPerfil(objState.user.email);
+    }
+
     let userJson = JSON.parse(userLocalStorage);
     setUserObj(userJson);
+    getInfoUser(userJson);
+    // location.state.user = userJson;
+    emailToShowToUserMyPerfil(userJson.email);
     setValueInput(userJson.name);
-  }, []);
+  }, [location]);
 
   const onChangeInputNameUser = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputValue = e.target.value;
@@ -36,11 +96,23 @@ const Perfil = () => {
     setShowMyPerfil(false);
   };
 
+  const onClickChangeEmail = () => {};
+
   useEffect(() => {
     if (showInsertEmail) {
       nav('/user/account/email', { state: { user: userObj } });
     }
   }, [showInsertEmail]);
+
+  const [showChangeEmailLink, setShowChangeEmailLink] = useState(false);
+
+  useEffect(() => {
+    if (emailUser && emailUser.length > 0 && emailUser.includes('@')) {
+      setShowChangeEmailLink(true);
+    } else {
+      setShowChangeEmailLink(false);
+    }
+  }, [emailUser]);
 
   return (
     <>
@@ -90,7 +162,13 @@ const Perfil = () => {
                     </Styled.TdNome>
                     <Styled.TdSecond>
                       <Styled.ContainerLinkInsert>
-                        <Styled.Link onClick={() => onClickInsertEmail()}>Inserir</Styled.Link>
+                        {showChangeEmailLink && <Styled.Span>{emailUser}</Styled.Span>}
+                        {!showChangeEmailLink && (
+                          <Styled.Link onClick={() => onClickInsertEmail()}>Inserir</Styled.Link>
+                        )}
+                        {showChangeEmailLink && (
+                          <Styled.Link onClick={() => onClickChangeEmail()}>Trocar</Styled.Link>
+                        )}
                       </Styled.ContainerLinkInsert>
                     </Styled.TdSecond>
                   </Styled.Tr>

@@ -1,22 +1,89 @@
 import { styled } from 'styled-components';
 
 export const Container = styled.div`
-
 `;
 
 export const Span = styled.span`
+`;
 
+export const ContainerTypeCodeVerificationMain = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ContainerVerificationCodeHeaderMain = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 90px;
+  margin-top: 13px;
+  position: relative;
+`;
+
+export const ContainerVerificationCodeHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin: 0px 0px;
+  width: 1200px;
+  font-size: 13px;
+  font-weight: 300;
+
+  >span {
+    font-size: 14px;
+    color: #ee4d2d;
+  }
+`;
+
+export const ContainerImgShopeeSpanVerficationCode = styled.div`
+  display: flex;
+`;
+
+export const ContainerSVGShopee = styled.div`
+  display: flex;
+  align-items: flex-end;
+
+  >svg {
+    width: 190px;
+    height: 42px;
+    fill: #ee4d2d;
+  }
+
+  >span {
+    font-size: 24px;
+    font-weight: 400;
+    color: rgb(34, 34, 34);
+  }
+`;
+
+export const ContainerInvalidCode = styled.div`
+  border: 1px solid #ff000038;
+  padding: 13px 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 330px;
+  margin-left: 70px;
+
+  >svg {
+    width: 16px;
+  }
+
+  >span {
+    font-size: 14px;
+  }
 `;
 
 export const ContainerTypeCodeVerification = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin-bottom: 225px;
 `;
 
 export const ContainerTypeCode = styled.div`
   display: flex;
   gap: 50px;
+  margin-bottom: 20px;
 
   >span {
     font-size: 20px;
@@ -37,8 +104,10 @@ export const ContainerSvgArrow = styled.div`
 export const ContainerYourCodeWasSendSmsMain = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 40px 0px 0px 70px;
+  padding: 40px 50px 0px 50px;
   height: 425px;
+  border-bottom: 1px solid #00000024;
+  margin-left: 60px;
 `;
 
 export const ContainerYourCodeWasSendSms = styled.div`
@@ -97,10 +166,10 @@ export const ContainerDidNotReceiveTheCodeAndButtonNext = styled.div`
 
 export const ContainerDidNotReceiveTheCode = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
   font-size: 14px;
   font-weight: 400;
+  gap: 3px;
 
   > span > button{
     border: none;

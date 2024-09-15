@@ -1,12 +1,19 @@
+import { useNavigate } from 'react-router-dom';
 import SvgLoupe from '../AllSvgHeader/SvgLoupe/SvgLoupe';
 import SvgShopee from '../AllSvgHeader/SvgShopee/SvgShopee';
 import * as Styled from './styled';
 
 const HeaderSecond = () => {
+  const nav = useNavigate();
+
+  const onClickContainerSendBackHome = () => {
+    nav('/');
+  };
+
   return (
     <Styled.ContainerMainHeaderSecondMain>
       <Styled.ContainerMainHeaderSecond>
-        <Styled.ContainerSvgShopee>
+        <Styled.ContainerSvgShopee onClick={() => onClickContainerSendBackHome()}>
           <SvgShopee></SvgShopee>
         </Styled.ContainerSvgShopee>
         <Styled.ContainerInputSearchShopee>

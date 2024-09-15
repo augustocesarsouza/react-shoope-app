@@ -1,36 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
 import SvgArrowLeft from '../../../RegisterUserComponents/AllSvgRegisterUser/SvgArrowLeft/SvgArrowLeft';
 import * as Styled from './styled';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Url } from '../../../../Utils/Url';
+import SvgShopee from '../../../HeaderComponents/AllSvgHeader/SvgShopee/SvgShopee';
+import FooterLoginAndRegister from '../../../LoginAndRegisterUserComponents/FooterLoginAndRegisterUserComponents/FooterLoginAndRegister/FooterLoginAndRegister';
+import { ObjUser } from '../../../../Templates/Home/Home';
+import SvgExit from '../../../RegisterUserComponents/AllSvgRegisterUser/SvgExit/SvgExit';
 
 const EmailConfirmCode = () => {
-  const [valueInputPhoneOne, setValueInputPhoneOne] = useState('');
-  const [valueInputPhoneTwo, setValueInputPhoneTwo] = useState('');
-  const [valueInputPhoneThree, setValueInputPhoneThree] = useState('');
-  const [valueInputPhoneFour, setValueInputPhoneFour] = useState('');
-  const [valueInputPhoneFive, setValueInputPhoneFive] = useState('');
-  const [valueInputPhoneSix, setValueInputPhoneSix] = useState('');
+  const [valueInputPhoneOne, setValueInputPhoneOne] = useState('-1');
+  const [valueInputPhoneTwo, setValueInputPhoneTwo] = useState('-1');
+  const [valueInputPhoneThree, setValueInputPhoneThree] = useState('-1');
+  const [valueInputPhoneFour, setValueInputPhoneFour] = useState('-1');
+  const [valueInputPhoneFive, setValueInputPhoneFive] = useState('-1');
+  const [valueInputPhoneSix, setValueInputPhoneSix] = useState('-1');
   const [allInputs, setAllInputs] = useState<[] | NodeListOf<HTMLInputElement>>([]);
 
-  const [codeSendPhone, setCodeSendPhone] = useState('');
   const [alreadyTypePassword, setAlreadyTypePassword] = useState(false);
   const [codeTypeIsWrong, setCodeTypeIsWrong] = useState(false);
-
-  const [codeUserCreate, setCodeUserCreate] = useState<{ [key: string]: string }>({});
-  const [numberPhone, setNumberPhone] = useState('');
+  const [userLogin, setUserLogin] = useState<ObjUser | null>(null);
 
   const nav = useNavigate();
-
-  // const context = useContext(ContextRegisterUserComponentMain);
-
-  // if (!context) {
-  //   throw new Error(
-  //     'SomeComponent must be used within a ContextRegisterUserComponentMain.Provider'
-  //   );
-  // }
-
-  // const { codeUserCreate, numberPhone, setCodeUserCreate } = context;
 
   const onClickInputCreateAccount = () => {
     for (let i = 0; i < allInputs.length; i++) {
@@ -43,18 +34,34 @@ const EmailConfirmCode = () => {
     }
   };
 
-  // useEffect(() => {
-  //   let number = '(+55) ';
-  //   for (let i = 0; i < valueInputPhone.length; i++) {
-  //     const element = valueInputPhone[i];
-  //     number += element;
-  //     if (i == 7) {
-  //       number += ' ';
-  //     }
-  //   }
+  const location = useLocation();
+  const [emailThatWasSent, setEmailThatWasSent] = useState('');
 
-  //   setCodeSendPhone(number);
-  // }, [valueInputPhone]);
+  useEffect(() => {
+    let userLocalStorage = localStorage.getItem('user');
+
+    if (userLocalStorage === null) {
+      nav('/login');
+
+      return;
+    }
+
+    if (location.state) {
+      const objState = location.state;
+
+      if (objState.user === null) {
+        nav('/login');
+
+        return;
+      }
+
+      setEmailThatWasSent(objState.user.email);
+    }
+
+    let userJson = JSON.parse(userLocalStorage);
+    // setEmailThatWasSent(userJson);
+    setUserLogin(userJson);
+  }, [location]);
 
   const onChangeInputCreateAccount = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     if (Number.isNaN(Number(e.target.value))) return;
@@ -72,6 +79,7 @@ const EmailConfirmCode = () => {
     if (index === 5) setValueInputPhoneSix(String(e.target.value));
 
     const input = e.target as HTMLInputElement;
+
     if (input.value.length === 1 && index < allInputs.length - 1) {
       allInputs[index + 1].focus();
     }
@@ -86,17 +94,17 @@ const EmailConfirmCode = () => {
       if (input.value.length === 1) {
         // allInputs[index].value = '';
 
-        if (index === 0) setValueInputPhoneOne('');
+        if (index === 0) setValueInputPhoneOne('-1');
 
-        if (index === 1) setValueInputPhoneTwo('');
+        if (index === 1) setValueInputPhoneTwo('-1');
 
-        if (index === 2) setValueInputPhoneThree('');
+        if (index === 2) setValueInputPhoneThree('-1');
 
-        if (index === 3) setValueInputPhoneFour('');
+        if (index === 3) setValueInputPhoneFour('-1');
 
-        if (index === 4) setValueInputPhoneFive('');
+        if (index === 4) setValueInputPhoneFive('-1');
 
-        if (index === 5) setValueInputPhoneSix('');
+        if (index === 5) setValueInputPhoneSix('-1');
 
         allInputs[index - 1].focus();
       } else {
@@ -112,60 +120,46 @@ const EmailConfirmCode = () => {
     setAllInputs(document.querySelectorAll('.input-cel-phone') as NodeListOf<HTMLInputElement>);
   }, []);
 
-  const sendCodeEmail = async (number: string) => {
-    // Tem que salvar esse codigo, e depois verificar quando ele mandar e comparar pode ser um "chave"e valor, e o valor com codigo e tals
-    // Colocar amanha esse 'accountSid' e esse 'authToken' valor "ENV" environment
-    let numberRandom = '';
-
-    for (let i = 0; i < 6; i++) {
-      const code = Math.floor(Math.random() * 9) + 1;
-      numberRandom += code;
-    }
-
-    setNumberPhone(number);
-
-    setCodeUserCreate((value) => {
-      return { ...value, [number]: numberRandom };
-    });
-
-    let objSend = {
-      body: `Use o codigo ${numberRandom} para criar sua conta Shopee`,
-      phone: number,
-    };
-
-    // const resp = await fetch('http://localhost:3000/send-message', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(objSend),
-    // });
-
-    // if (resp.status === 200) {
-    //   setShowStepToContinueCreateAccount(true);
-    // } else if (resp.status === 400) {
-    //   setShowStepToContinueCreateAccount(false);
-    // }
-  };
-
   const onClickNextStep = async () => {
     if (
-      Number(valueInputPhoneOne) > 0 &&
-      Number(valueInputPhoneTwo) > 0 &&
-      Number(valueInputPhoneThree) > 0 &&
-      Number(valueInputPhoneFour) > 0 &&
-      Number(valueInputPhoneFive) > 0 &&
-      Number(valueInputPhoneSix) > 0
+      Number(valueInputPhoneOne) >= 0 &&
+      Number(valueInputPhoneTwo) >= 0 &&
+      Number(valueInputPhoneThree) >= 0 &&
+      Number(valueInputPhoneFour) >= 0 &&
+      Number(valueInputPhoneFive) >= 0 &&
+      Number(valueInputPhoneSix) >= 0
     ) {
-      let numberComplet = `${valueInputPhoneOne}${valueInputPhoneTwo}${valueInputPhoneThree}${valueInputPhoneFour}${valueInputPhoneFive}${valueInputPhoneSix}`;
+      let code = `${valueInputPhoneOne}${valueInputPhoneTwo}${valueInputPhoneThree}${valueInputPhoneFour}${valueInputPhoneFive}${valueInputPhoneSix}`;
 
-      let code = '';
-      let guidId = '';
-      //~FAZER A CONFIRMARÇÃO DO CODE
-      const resp = await fetch(`${Url}/public/user/verific/${code}/${guidId}`);
+      if (userLogin === null || code.length <= 5) return;
+
+      let userId = userLogin.id;
+
+      let bodyUserEmailCode = {
+        Code: code,
+        UserId: userId,
+        Email: emailThatWasSent,
+      };
+
+      const resp = await fetch(`${Url}/public/user/verific`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bodyUserEmailCode),
+      });
 
       if (resp.status === 200) {
+        let json = await resp.json();
+        // console.log(json);
+
+        nav('/user/account/profile', { state: { user: { email: emailThatWasSent } } });
+        // passar o obj aqui para dentro 'nav('/user/account/profile')', para passar para o email do 'profile' e colocar o "LINK" "Troca"
       } else if (resp.status === 400) {
+        let json = await resp.json();
+
+        setCodeTypeIsWrong(true);
+        // console.log(json);
       }
     }
   };
@@ -183,20 +177,18 @@ const EmailConfirmCode = () => {
   const handleMouseEnter = () => buttonRegisterMouseEnter(refButtonNext.current!);
   const handleMouseLeave = () => buttonRegisterMouseLeave(refButtonNext.current!);
 
-  const [timeValue, setTimeValue] = useState(60);
-
   useEffect(() => {
     let buttonRegister = refButtonNext.current;
 
     if (buttonRegister === null) return;
 
     if (
-      Number(valueInputPhoneOne) > 0 &&
-      Number(valueInputPhoneTwo) > 0 &&
-      Number(valueInputPhoneThree) > 0 &&
-      Number(valueInputPhoneFour) > 0 &&
-      Number(valueInputPhoneFive) > 0 &&
-      Number(valueInputPhoneSix) > 0
+      Number(valueInputPhoneOne) >= 0 &&
+      Number(valueInputPhoneTwo) >= 0 &&
+      Number(valueInputPhoneThree) >= 0 &&
+      Number(valueInputPhoneFour) >= 0 &&
+      Number(valueInputPhoneFive) >= 0 &&
+      Number(valueInputPhoneSix) >= 0
     ) {
       buttonRegister.style.opacity = '1';
       buttonRegister.style.cursor = 'pointer';
@@ -229,165 +221,134 @@ const EmailConfirmCode = () => {
     alreadyTypePassword,
   ]);
 
-  const [showSendCodeAgain, setShowSendCodeAgain] = useState(false);
-
-  useEffect(() => {
-    let time = 10;
-
-    const countdown = setInterval(() => {
-      time--;
-
-      if (time <= 0) {
-        clearInterval(countdown);
-        setTimeValue(0);
-        setShowSendCodeAgain(true);
-      }
-      setTimeValue(time);
-    }, 1000);
-  }, []);
-
   const onClickBackStar = () => {
-    // changeValueShowStepToContinueCreateAccount(false);
     nav('/user/account/email');
   };
 
-  const onClickResendCode = () => {
-    let numberRandom = '';
-
-    for (let i = 0; i < 6; i++) {
-      const code = Math.floor(Math.random() * 9) + 1;
-      numberRandom += code;
-    }
-
-    setCodeUserCreate((code) => {
-      return { ...code, [numberPhone]: numberRandom };
-    });
-
-    // const resp = await fetch('http://localhost:3000/send-message', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(objSend),
-    // });
-
-    // if (resp.status === 200) {
-    //   setShowStepToContinueCreateAccount(true);
-    // } else if (resp.status === 400) {
-    //   setShowStepToContinueCreateAccount(false);
-    // }
-  };
+  const onClickResendCode = () => {};
 
   return (
-    <Styled.ContainerTypeCodeVerification>
-      <Styled.ContainerTypeCode>
-        <Styled.ContainerSvgArrow onClick={() => onClickBackStar()} className="container-svg-arrow">
-          <SvgArrowLeft></SvgArrowLeft>
-        </Styled.ContainerSvgArrow>
-        <Styled.Span>Digite o código de verificação</Styled.Span>
-      </Styled.ContainerTypeCode>
-      <Styled.ContainerYourCodeWasSendSmsMain>
-        <Styled.ContainerYourCodeWasSendSms>
-          <Styled.Span>Seu código de verificação foi enviado por mensagem SMS para</Styled.Span>
-          <Styled.SpanPhone>{codeSendPhone}</Styled.SpanPhone>
-          <Styled.ContainerInputCode>
-            <Styled.InputCelphone
-              className="input-cel-phone"
-              type="text"
-              maxLength={1}
-              placeholder="·"
-              autoComplete="off"
-              value={valueInputPhoneOne}
-              onClick={() => onClickInputCreateAccount()}
-              onChange={(e) => onChangeInputCreateAccount(e, 0)}
-              onKeyDown={(e) => onKeyDownCreateAccount(e, 0)}
-            />
-            <Styled.InputCelphone
-              className="input-cel-phone"
-              type="text"
-              maxLength={1}
-              placeholder="·"
-              autoComplete="off"
-              value={valueInputPhoneTwo}
-              onClick={() => onClickInputCreateAccount()}
-              onChange={(e) => onChangeInputCreateAccount(e, 1)}
-              onKeyDown={(e) => onKeyDownCreateAccount(e, 1)}
-            />
-            <Styled.InputCelphone
-              className="input-cel-phone"
-              type="text"
-              maxLength={1}
-              placeholder="·"
-              autoComplete="off"
-              value={valueInputPhoneThree}
-              onClick={() => onClickInputCreateAccount()}
-              onChange={(e) => onChangeInputCreateAccount(e, 2)}
-              onKeyDown={(e) => onKeyDownCreateAccount(e, 2)}
-            />
-            <Styled.InputCelphone
-              className="input-cel-phone"
-              type="text"
-              maxLength={1}
-              placeholder="·"
-              autoComplete="off"
-              value={valueInputPhoneFour}
-              onClick={() => onClickInputCreateAccount()}
-              onChange={(e) => onChangeInputCreateAccount(e, 3)}
-              onKeyDown={(e) => onKeyDownCreateAccount(e, 3)}
-            />
-            <Styled.InputCelphone
-              className="input-cel-phone"
-              type="text"
-              maxLength={1}
-              placeholder="·"
-              autoComplete="off"
-              value={valueInputPhoneFive}
-              onClick={() => onClickInputCreateAccount()}
-              onChange={(e) => onChangeInputCreateAccount(e, 4)}
-              onKeyDown={(e) => onKeyDownCreateAccount(e, 4)}
-            />
-            <Styled.InputCelphone
-              className="input-cel-phone"
-              type="text"
-              maxLength={1}
-              placeholder="·"
-              autoComplete="off"
-              value={valueInputPhoneSix}
-              onClick={() => onClickInputCreateAccount()}
-              onChange={(e) => onChangeInputCreateAccount(e, 5)}
-              onKeyDown={(e) => onKeyDownCreateAccount(e, 5)}
-            />
-          </Styled.ContainerInputCode>
-          <Styled.ContainerSplit></Styled.ContainerSplit>
-          <Styled.ContainerDidNotReceiveTheCodeAndButtonNext>
-            {codeTypeIsWrong && (
-              <Styled.ContainerCodeIsWrong>
-                <Styled.H1>Código digitado errado</Styled.H1>
-              </Styled.ContainerCodeIsWrong>
-            )}
-            {!showSendCodeAgain && (
-              <Styled.ContainerTimePass>
-                <Styled.H1>{`Aguarde ${timeValue} segundos para reenviar`}</Styled.H1>
-              </Styled.ContainerTimePass>
-            )}
-            {showSendCodeAgain && (
+    <Styled.ContainerTypeCodeVerificationMain>
+      <Styled.ContainerVerificationCodeHeaderMain>
+        <Styled.ContainerVerificationCodeHeader>
+          <Styled.ContainerImgShopeeSpanVerficationCode>
+            <Styled.ContainerSVGShopee>
+              <SvgShopee></SvgShopee>
+              <Styled.Span>Código de Verificação</Styled.Span>
+            </Styled.ContainerSVGShopee>
+          </Styled.ContainerImgShopeeSpanVerficationCode>
+          <Styled.Span>Precisa de ajuda?</Styled.Span>
+        </Styled.ContainerVerificationCodeHeader>
+      </Styled.ContainerVerificationCodeHeaderMain>
+      <Styled.ContainerTypeCodeVerification>
+        <Styled.ContainerTypeCode>
+          <Styled.ContainerSvgArrow
+            onClick={() => onClickBackStar()}
+            className="container-svg-arrow"
+          >
+            <SvgArrowLeft></SvgArrowLeft>
+          </Styled.ContainerSvgArrow>
+          <Styled.Span>Digite o código de verificação</Styled.Span>
+        </Styled.ContainerTypeCode>
+        {codeTypeIsWrong && (
+          <Styled.ContainerInvalidCode>
+            <SvgExit></SvgExit>
+            <Styled.Span>Código Inválido.</Styled.Span>
+          </Styled.ContainerInvalidCode>
+        )}
+        <Styled.ContainerYourCodeWasSendSmsMain>
+          <Styled.ContainerYourCodeWasSendSms>
+            <Styled.Span>Seu código de verificação é enviado por Email para</Styled.Span>
+            <Styled.SpanPhone>{emailThatWasSent}</Styled.SpanPhone>
+            <Styled.ContainerInputCode>
+              <Styled.InputCelphone
+                className="input-cel-phone"
+                type="text"
+                maxLength={1}
+                placeholder="·"
+                autoComplete="off"
+                value={Number(valueInputPhoneOne) < 0 ? '' : valueInputPhoneOne}
+                onClick={() => onClickInputCreateAccount()}
+                onChange={(e) => onChangeInputCreateAccount(e, 0)}
+                onKeyDown={(e) => onKeyDownCreateAccount(e, 0)}
+              />
+              <Styled.InputCelphone
+                className="input-cel-phone"
+                type="text"
+                maxLength={1}
+                placeholder="·"
+                autoComplete="off"
+                value={Number(valueInputPhoneTwo) < 0 ? '' : valueInputPhoneTwo}
+                onClick={() => onClickInputCreateAccount()}
+                onChange={(e) => onChangeInputCreateAccount(e, 1)}
+                onKeyDown={(e) => onKeyDownCreateAccount(e, 1)}
+              />
+              <Styled.InputCelphone
+                className="input-cel-phone"
+                type="text"
+                maxLength={1}
+                placeholder="·"
+                autoComplete="off"
+                value={Number(valueInputPhoneThree) < 0 ? '' : valueInputPhoneThree}
+                onClick={() => onClickInputCreateAccount()}
+                onChange={(e) => onChangeInputCreateAccount(e, 2)}
+                onKeyDown={(e) => onKeyDownCreateAccount(e, 2)}
+              />
+              <Styled.InputCelphone
+                className="input-cel-phone"
+                type="text"
+                maxLength={1}
+                placeholder="·"
+                autoComplete="off"
+                value={Number(valueInputPhoneFour) < 0 ? '' : valueInputPhoneFour}
+                onClick={() => onClickInputCreateAccount()}
+                onChange={(e) => onChangeInputCreateAccount(e, 3)}
+                onKeyDown={(e) => onKeyDownCreateAccount(e, 3)}
+              />
+              <Styled.InputCelphone
+                className="input-cel-phone"
+                type="text"
+                maxLength={1}
+                placeholder="·"
+                autoComplete="off"
+                value={Number(valueInputPhoneFive) < 0 ? '' : valueInputPhoneFive}
+                onClick={() => onClickInputCreateAccount()}
+                onChange={(e) => onChangeInputCreateAccount(e, 4)}
+                onKeyDown={(e) => onKeyDownCreateAccount(e, 4)}
+              />
+              <Styled.InputCelphone
+                className="input-cel-phone"
+                type="text"
+                maxLength={1}
+                placeholder="·"
+                autoComplete="off"
+                value={Number(valueInputPhoneSix) < 0 ? '' : valueInputPhoneSix}
+                onClick={() => onClickInputCreateAccount()}
+                onChange={(e) => onChangeInputCreateAccount(e, 5)}
+                onKeyDown={(e) => onKeyDownCreateAccount(e, 5)}
+              />
+            </Styled.ContainerInputCode>
+            <Styled.ContainerSplit></Styled.ContainerSplit>
+            <Styled.ContainerDidNotReceiveTheCodeAndButtonNext>
               <Styled.ContainerDidNotReceiveTheCode>
                 <Styled.Span>Não recebeu o código?</Styled.Span>
                 <Styled.Span>
-                  <Styled.Button onClick={() => onClickResendCode()}>Reenviar</Styled.Button> ou
-                  tente <Styled.Button>Outros métodos</Styled.Button>
+                  <Styled.Button onClick={() => onClickResendCode()}>Reenviar</Styled.Button>
                 </Styled.Span>
               </Styled.ContainerDidNotReceiveTheCode>
-            )}
-            <Styled.ContainerButtonNext>
-              <Styled.Button ref={refButtonNext} onClick={() => onClickNextStep()}>
-                PRÓXIMO
-              </Styled.Button>
-            </Styled.ContainerButtonNext>
-          </Styled.ContainerDidNotReceiveTheCodeAndButtonNext>
-        </Styled.ContainerYourCodeWasSendSms>
-      </Styled.ContainerYourCodeWasSendSmsMain>
-    </Styled.ContainerTypeCodeVerification>
+
+              <Styled.ContainerButtonNext>
+                <Styled.Button ref={refButtonNext} onClick={() => onClickNextStep()}>
+                  PRÓXIMO
+                </Styled.Button>
+              </Styled.ContainerButtonNext>
+            </Styled.ContainerDidNotReceiveTheCodeAndButtonNext>
+          </Styled.ContainerYourCodeWasSendSms>
+        </Styled.ContainerYourCodeWasSendSmsMain>
+      </Styled.ContainerTypeCodeVerification>
+
+      <FooterLoginAndRegister></FooterLoginAndRegister>
+    </Styled.ContainerTypeCodeVerificationMain>
   );
 };
 

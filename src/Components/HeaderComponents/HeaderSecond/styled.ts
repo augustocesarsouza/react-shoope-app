@@ -18,6 +18,7 @@ export const ContainerMainHeaderSecond = styled.div`
 export const ContainerSvgShopee = styled.div`
   display: flex;
   width: 145px;
+  cursor: pointer;
 
   > svg {
     fill: #fff;

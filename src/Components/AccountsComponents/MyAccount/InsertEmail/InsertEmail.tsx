@@ -4,6 +4,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Url } from '../../../../Utils/Url';
 import { ObjUser } from '../../../../Templates/Home/Home';
 
+interface DataObjConfirmCodeEmail {
+  code: string;
+  codeSendToEmailSuccessfully: boolean;
+}
+
 const InsertEmail = () => {
   const [showCheckbox, setShowCheckbox] = useState(false);
   const location = useLocation();
@@ -57,8 +62,7 @@ const InsertEmail = () => {
 
     if (RefButtonNext.current === null) return;
 
-    let button = RefButtonNext.current;
-    console.log(button);
+    // let button = RefButtonNext.current;
 
     let email = RefInputEmail.current.value;
 
@@ -79,15 +83,18 @@ const InsertEmail = () => {
 
     if (resp.status === 200) {
       let json = await resp.json();
-      let data = json.data;
+      let data: DataObjConfirmCodeEmail = json.data;
       console.log(data);
-      // mostrar o negocio de confirmar codigo
+
+      if (data.codeSendToEmailSuccessfully) {
+        nav('/confirm-code-email', { state: { user: { email: objSend.Email } } });
+      }
 
       // setShowStepToContinueCreateAccount(true);
     } else if (resp.status === 400) {
       let json = await resp.json();
 
-      console.log(json);
+      // console.log(json);
 
       // setShowStepToContinueCreateAccount(false);
     }
@@ -130,7 +137,6 @@ const InsertEmail = () => {
       RefInputEmail.current.value.includes('@')
     ) {
       if (RefButtonNext.current) {
-        console.log(RefButtonNext.current);
         RefButtonNext.current.style.backgroundColor = '#ee4d2d';
       }
     }
