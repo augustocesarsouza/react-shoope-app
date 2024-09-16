@@ -119,6 +119,11 @@ export const ContainerCelPhone = styled.div`
 
   color: #333;
   font-size: 14px;
+
+  >a {
+    border-bottom: 1px solid rgb(0, 85, 170);
+    cursor: pointer;
+  }
 `
 
 export const ContainerMainInputs = styled.div`
