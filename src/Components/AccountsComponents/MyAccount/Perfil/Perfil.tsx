@@ -10,6 +10,7 @@ const Perfil = () => {
   const [emailUser, setEmailUser] = useState('');
 
   const [showInsertEmail, setShowInsertEmail] = useState(false);
+  const [showChangeEmail, setShowChangeEmail] = useState(false);
   const [showMyPerfil, setShowMyPerfil] = useState(true);
 
   const nav = useNavigate();
@@ -49,6 +50,8 @@ const Perfil = () => {
       setUserObj(data);
     } else if (res.status === 400) {
       const json = await res.json();
+      localStorage.removeItem('user');
+      nav('/login');
     }
   };
 
@@ -96,13 +99,22 @@ const Perfil = () => {
     setShowMyPerfil(false);
   };
 
-  const onClickChangeEmail = () => {};
+  const onClickChangeEmail = () => {
+    setShowChangeEmail(true);
+    setShowMyPerfil(false);
+  };
 
   useEffect(() => {
     if (showInsertEmail) {
       nav('/user/account/email', { state: { user: userObj } });
     }
   }, [showInsertEmail]);
+
+  useEffect(() => {
+    if (showChangeEmail) {
+      nav('/user/account/change-email', { state: { user: userObj } });
+    }
+  }, [showChangeEmail]);
 
   const [showChangeEmailLink, setShowChangeEmailLink] = useState(false);
 

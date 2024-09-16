@@ -41,6 +41,14 @@ export const ContainerInsertEmail = styled.div`
   }
 `;
 
+export const ContainerInputToEmailAndErrorIfEmailAlreadyRegistered = styled.div`
+  
+  >span {
+    font-size: 12px;
+    color: rgb(255, 66, 79);
+  }
+`;
+
 export const ContainerInputEmailButtonCheckbox = styled.div`
   display: flex;
   flex-direction: column;
