@@ -126,6 +126,29 @@ const Perfil = () => {
     }
   }, [emailUser]);
 
+  const [emailToShowUser, setEmailToShowUser] = useState('');
+
+  useEffect(() => {
+    if (userObj && userObj.phone) {
+      let emailSlice = userObj.phone.slice(6);
+      let emailNew = '';
+
+      for (let i = 0; i < emailSlice.length; i++) {
+        if (i >= 11) {
+          emailNew += emailSlice[i];
+        } else {
+          emailNew += '*';
+        }
+      }
+
+      setEmailToShowUser(emailNew);
+    }
+  }, [userObj]);
+
+  const onClickChangePhone = () => {
+    nav('/user/account/phone', { state: { user: userObj } });
+  };
+
   return (
     <>
       {showMyPerfil && (
@@ -190,8 +213,17 @@ const Perfil = () => {
                     </Styled.TdNome>
                     <Styled.TdSecond>
                       <Styled.ContainerCelPhone>
-                        <Styled.Container>***********93</Styled.Container>
-                        <Styled.Link href="#">Inserir</Styled.Link>
+                        {emailToShowUser.length > 0 && (
+                          <Styled.Container>{emailToShowUser}</Styled.Container>
+                        )}
+                        {emailToShowUser.length <= 0 && (
+                          <Styled.Container>***********23</Styled.Container>
+                        )}
+
+                        {emailToShowUser.length > 0 && (
+                          <Styled.Link onClick={() => onClickChangePhone()}>Trocar</Styled.Link>
+                        )}
+                        {emailToShowUser.length <= 0 && <Styled.Link>Inserir</Styled.Link>}
                       </Styled.ContainerCelPhone>
                     </Styled.TdSecond>
                   </Styled.Tr>
@@ -237,7 +269,7 @@ const Perfil = () => {
                     </Styled.TdNome>
                     <Styled.TdSecond>
                       <Styled.ContainerCelPhone>
-                        <Styled.Link href="#">Preencher agora</Styled.Link>
+                        <Styled.Link>Preencher agora</Styled.Link>
                       </Styled.ContainerCelPhone>
                     </Styled.TdSecond>
                   </Styled.Tr>
@@ -257,30 +289,6 @@ const Perfil = () => {
       )}
 
       <Outlet></Outlet>
-
-      {/* {showInsertEmail && (
-        <Styled.ContainerShowInsertEmailMain>
-          <Styled.H1>Adicionar Endereço de E-mail</Styled.H1>
-          <Styled.ContainerInsertEmail>
-            <Styled.Label>Novo Endereço de E-mail</Styled.Label>
-            <Styled.ContainerInputEmailButtonCheckbox>
-              <Styled.ContainerInputEmail>
-                <Styled.Input type="text" placeholder="Insira seu Endereço de E-mail" />
-              </Styled.ContainerInputEmail>
-              <Styled.Button>Próximo</Styled.Button>
-              <Styled.ContainerCheckboxToEmailMain>
-                <Styled.ContainerCheckboxToEmail
-                  onClick={() => onClickCheckbox()}
-                  $showCheckbox={showCheckbox}
-                ></Styled.ContainerCheckboxToEmail>
-                <Styled.Span onClick={() => onClickCheckbox()}>
-                  Envie-me notícias sobre as últimas atualizações, em alta e negócios.
-                </Styled.Span>
-              </Styled.ContainerCheckboxToEmailMain>
-            </Styled.ContainerInputEmailButtonCheckbox>
-          </Styled.ContainerInsertEmail>
-        </Styled.ContainerShowInsertEmailMain>
-      )} */}
     </>
   );
 };
