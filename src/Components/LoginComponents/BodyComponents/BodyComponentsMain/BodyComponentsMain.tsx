@@ -9,7 +9,8 @@ interface UserLogin {
   userDTO: UserDTO;
 }
 
-interface UserDTO {
+export interface UserDTO {
+  id: string;
   name: string;
   email: string;
 }

@@ -9,6 +9,7 @@ export interface ContextHomeProps {
 }
 
 export interface ObjUser {
+  id: string;
   name: string;
   email: string;
 }
