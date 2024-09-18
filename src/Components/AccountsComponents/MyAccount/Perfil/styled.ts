@@ -136,6 +136,7 @@ export const ContainerInputs = styled.div`
   gap: 5px;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.87);
+  cursor: pointer;
 `;
 
 interface InputCheckboxProps {

@@ -14,7 +14,7 @@ export const Label = styled.label``;
 
 export const ContainerShowInsertPhoneMain = styled.div`
   /* width: 750px; */
-  width: 100%;
+  width: 900px;
 
   >h1 {
     color: rgba(0, 0, 0, .87);
@@ -27,33 +27,6 @@ export const ContainerShowInsertPhoneMain = styled.div`
     padding-bottom: 20px;
     margin-bottom: 40px;
   }
-`;
-
-export const ContainerInsertPhone = styled.div`
-  display: flex;
-
-  >label {
-    color: rgba(0, 0, 0, .65);
-    font-size: 16px;
-    min-width: 170px;
-    padding: 10px 20px 0 0;
-    text-align: left;
-  }
-`;
-
-export const ContainerInputToPhoneAndErrorIfPhoneAlreadyRegistered = styled.div`
-  
-  >span {
-    font-size: 12px;
-    color: rgb(255, 66, 79);
-  }
-`;
-
-export const ContainerInputPhoneButtonCheckbox = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  width: 400px;
 
   >button {
     height: 40px;
@@ -73,6 +46,34 @@ export const ContainerInputPhoneButtonCheckbox = styled.div`
     box-shadow: none;
     cursor: not-allowed;
   }
+`;
+
+export const ContainerLabelAndInput = styled.div`
+  display: flex;
+  margin-bottom: 25px;
+
+  >label {
+    color: rgba(0, 0, 0, .65);
+    font-size: 16px;
+    min-width: 170px;
+    padding: 10px 20px 0 0;
+    text-align: end;
+  }
+`;
+
+export const ContainerInputToCpfAndErrorIfPhoneAlreadyRegistered = styled.div`
+  
+  >span {
+    font-size: 12px;
+    color: rgb(255, 66, 79);
+  }
+`;
+
+export const ContainerInputCpfButtonCheckbox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 65%;
 `;
 
 export const ContainerInputPhone = styled.div`
@@ -136,3 +137,50 @@ export const ContainerLinkInsert = styled.div`
     cursor: pointer;
   }
 `;
+
+export const ContainerMainDayMonthYear = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 65%;
+`;
+
+export const ContainerBirthday = styled.div`
+  width: 190px;
+
+`;
+
+export const Select = styled.select`
+  user-select: none;
+  outline: none;
+  padding: 10px;
+  color: #676767;
+  border: 1px solid #00000024;
+  margin-bottom: 6px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 5px;
+`
+
+export const Option = styled.option``
+
+export const ContainerSelect = styled.div`
+  display: flex;
+  width: 19rem;
+`
+
+export const ButtonVerify = styled.button`
+    height: 40px;
+    width: 105px;
+
+    color: #fff;
+    position: relative;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+
+    /* background: #facac0; */
+    background: #ee4d2d;
+    box-shadow: none;
+    /* cursor: not-allowed; */
+    cursor: pointer;
+`

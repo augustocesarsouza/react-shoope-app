@@ -15,6 +15,17 @@ const HeaderFirst = () => {
   const location = useLocation();
 
   useEffect(() => {
+    let userString = localStorage.getItem('user');
+
+    if (userString === null) {
+      localStorage.clearItem('user');
+      nav('/login');
+      return;
+    }
+
+    let userJson = JSON.parse(userString);
+    setUserObjState(userJson);
+
     if (location.state) {
       const objState = location.state;
       setUserObjState(objState.user);

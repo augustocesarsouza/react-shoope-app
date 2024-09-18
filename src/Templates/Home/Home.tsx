@@ -13,6 +13,9 @@ export interface ObjUser {
   name: string;
   email: string;
   phone: string;
+  cpf: string;
+  birthDate: string;
+  gender: string;
 }
 
 export const ContextHome = createContext<ContextHomeProps | null>(null);
