@@ -4,6 +4,6 @@ interface ContainerMainProps {
 }
 
 export const ContainerMain = styled.div<ContainerMainProps>`
-  position: relative;
+  /* position: relative; */
   width: 100%;
 `

@@ -136,6 +136,7 @@ export const ContainerInputs = styled.div`
   gap: 5px;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.87);
+  cursor: pointer;
 `;
 
 interface InputCheckboxProps {
@@ -357,4 +358,32 @@ export const ContainerLinkInsert = styled.div`
     border-bottom: 1px solid rgb(0, 85, 170);
     cursor: pointer;
   }
+`;
+
+export const ContainerUpdateSuccessfully = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #00000059;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ContainerProfileUpdate = styled.div`
+  background-color: #fff;
+  width: 450px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const ContainerMainMain = styled.div`
+  display: flex;
+  flex-direction: column;
 `;

@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ObjUser } from '../../../../Templates/Home/Home';
 
 const PhoneChange = () => {
-  const [showCheckbox, setShowCheckbox] = useState(false);
   const location = useLocation();
 
   const nav = useNavigate();
@@ -33,10 +32,6 @@ const PhoneChange = () => {
     setUserObj(userJson);
     // setValueInput(userJson.name);
   }, [location]);
-
-  const onClickCheckbox = () => {
-    setShowCheckbox((el) => !el);
-  };
 
   const RefInputEmail = useRef<HTMLInputElement | null>(null);
   const RefButtonNext = useRef<HTMLButtonElement | null>(null);

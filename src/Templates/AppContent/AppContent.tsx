@@ -11,6 +11,7 @@ import InsertEmail from '../../Components/AccountsComponents/MyAccount/InsertEma
 import EmailConfirmCode from '../../Components/AccountsComponents/MyAccount/EmailConfirmCode/EmailConfirmCode';
 import ChangeInformationEmail from '../../Components/AccountsComponents/MyAccount/ChangeInformationEmail/ChangeInformationEmail';
 import PhoneChange from '../../Components/AccountsComponents/MyAccount/PhoneChange/PhoneChange';
+import FillCpfAndBirthdate from '../../Components/AccountsComponents/MyAccount/FillCpfAndBirthdate/FillCpfAndBirthdate';
 
 const AppContent = () => {
   document.body.style.overflowY = 'none';
@@ -31,6 +32,7 @@ const AppContent = () => {
           <Route path="email" element={<InsertEmail />} />
           <Route path="change-email" element={<ChangeInformationEmail />} />
           <Route path="phone" element={<PhoneChange />} />
+          <Route path="kyc" element={<FillCpfAndBirthdate />} />
         </Route>
         <Route path="/login" element={<LoginComponentMain />} />
         <Route path="/signup" element={<RegisterUserComponentMain />} />

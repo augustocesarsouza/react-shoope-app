@@ -78,6 +78,7 @@ const ChangeInformationEmail = () => {
     if (resp.status === 200) {
       let json = await resp.json();
       let data: DataObjConfirmCodeEmail = json.data;
+      console.log(data);
 
       if (data.userAlreadyExist) {
         setEmailAlreadyExist(data.userAlreadyExist);
