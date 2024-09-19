@@ -39,7 +39,7 @@ const ChangeInformationEmail = () => {
     let userJson = JSON.parse(userLocalStorage);
     setUserObj(userJson);
     // setValueInput(userJson.name);
-  }, [location]);
+  }, []);
 
   const onClickCheckbox = () => {
     setShowCheckbox((el) => !el);
@@ -162,6 +162,7 @@ const ChangeInformationEmail = () => {
                 type="text"
                 placeholder="Insira seu Endereço de E-mail"
                 ref={RefInputEmail}
+                id="input-insert-your-email"
                 onChange={(e) => onChangeInputInsertEmail(e)}
               />
             </Styled.ContainerInputEmail>

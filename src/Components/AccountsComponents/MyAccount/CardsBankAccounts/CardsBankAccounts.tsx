@@ -10,7 +10,7 @@ const CardsBankAccounts = () => {
       const objState = location.state;
       // console.log(objState);
     }
-  }, [location]);
+  }, []);
 
   return (
     <Styled.ContainerMain>

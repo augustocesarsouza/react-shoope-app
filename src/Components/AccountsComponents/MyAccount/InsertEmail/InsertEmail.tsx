@@ -39,7 +39,7 @@ const InsertEmail = () => {
     let userJson = JSON.parse(userLocalStorage);
     setUserObj(userJson);
     // setValueInput(userJson.name);
-  }, [location]);
+  }, []);
 
   const onClickCheckbox = () => {
     setShowCheckbox((el) => !el);

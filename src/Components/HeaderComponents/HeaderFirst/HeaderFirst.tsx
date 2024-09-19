@@ -38,7 +38,7 @@ const HeaderFirst = () => {
 
       setUserObjState(userObj);
     }
-  }, [context, location]);
+  }, [context]);
 
   const [showOptionsUserLogin, setShowOptionsUserLogin] = useState(false);
   const [allowMouseLeaveHeadUser, setAllowMouseLeaveHeadUser] = useState(false);

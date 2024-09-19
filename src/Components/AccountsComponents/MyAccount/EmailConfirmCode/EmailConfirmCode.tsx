@@ -61,7 +61,7 @@ const EmailConfirmCode = () => {
     let userJson = JSON.parse(userLocalStorage);
     // setEmailThatWasSent(userJson);
     setUserLogin(userJson);
-  }, [location]);
+  }, []);
 
   const onChangeInputCreateAccount = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     if (Number.isNaN(Number(e.target.value))) return;

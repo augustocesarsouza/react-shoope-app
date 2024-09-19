@@ -28,7 +28,7 @@ const AccountSetting = () => {
 
     let userJson = JSON.parse(userLocalStorage);
     setUserObjState(userJson);
-  }, [location]);
+  }, []);
 
   const onClickMyAccountItens = (number: string) => {
     setWhichWasClicked(number);
