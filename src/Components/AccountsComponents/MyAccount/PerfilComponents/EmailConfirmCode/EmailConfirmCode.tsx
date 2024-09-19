@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import SvgArrowLeft from '../../../RegisterUserComponents/AllSvgRegisterUser/SvgArrowLeft/SvgArrowLeft';
 import * as Styled from './styled';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Url } from '../../../../Utils/Url';
-import SvgShopee from '../../../HeaderComponents/AllSvgHeader/SvgShopee/SvgShopee';
-import FooterLoginAndRegister from '../../../LoginAndRegisterUserComponents/FooterLoginAndRegisterUserComponents/FooterLoginAndRegister/FooterLoginAndRegister';
-import { ObjUser } from '../../../../Templates/Home/Home';
-import SvgExit from '../../../RegisterUserComponents/AllSvgRegisterUser/SvgExit/SvgExit';
+import { ObjUser } from '../../../../../Templates/Home/Home';
+import { Url } from '../../../../../Utils/Url';
+import FooterLoginAndRegister from '../../../../LoginAndRegisterUserComponents/FooterLoginAndRegisterUserComponents/FooterLoginAndRegister/FooterLoginAndRegister';
+import SvgShopee from '../../../../HeaderComponents/AllSvgHeader/SvgShopee/SvgShopee';
+import SvgArrowLeft from '../../../../RegisterUserComponents/AllSvgRegisterUser/SvgArrowLeft/SvgArrowLeft';
+import SvgExit from '../../../../RegisterUserComponents/AllSvgRegisterUser/SvgExit/SvgExit';
 
 const EmailConfirmCode = () => {
   const [valueInputPhoneOne, setValueInputPhoneOne] = useState('-1');

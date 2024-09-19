@@ -1,9 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import * as Styled from './styled';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ObjUser } from '../../../../Templates/Home/Home';
+import { ObjUser } from '../../../../../Templates/Home/Home';
+import { Url } from '../../../../../Utils/Url';
 
-const PhoneChange = () => {
+interface DataObjConfirmCodeEmail {
+  code: string;
+  codeSendToEmailSuccessfully: boolean;
+  userAlreadyExist: boolean;
+}
+
+const InsertEmail = () => {
+  const [showCheckbox, setShowCheckbox] = useState(false);
   const location = useLocation();
 
   const nav = useNavigate();
@@ -33,12 +41,57 @@ const PhoneChange = () => {
     // setValueInput(userJson.name);
   }, []);
 
+  const onClickCheckbox = () => {
+    setShowCheckbox((el) => !el);
+  };
+
   const RefInputEmail = useRef<HTMLInputElement | null>(null);
   const RefButtonNext = useRef<HTMLButtonElement | null>(null);
   const refContainerInputEmail = useRef<HTMLDivElement | null>(null);
   const [emailAlreadyExist, setEmailAlreadyExist] = useState(false);
 
-  const onClickSendCodeEmail = async () => {};
+  const onClickSendCodeEmail = async () => {
+    if (
+      RefInputEmail.current === null ||
+      RefInputEmail.current.value.length <= 0 ||
+      !RefInputEmail.current.value.includes('@')
+    )
+      return;
+
+    if (RefButtonNext.current === null) return;
+
+    let email = RefInputEmail.current.value;
+
+    let objSend = {
+      Name: userObj?.name,
+      Email: email,
+    };
+
+    const resp = await fetch(`${Url}/public/user/confirm-email-send-code`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(objSend),
+    });
+
+    if (resp.status === 200) {
+      let json = await resp.json();
+      let data: DataObjConfirmCodeEmail = json.data;
+
+      if (data.userAlreadyExist) {
+        setEmailAlreadyExist(data.userAlreadyExist);
+      }
+
+      if (data.codeSendToEmailSuccessfully) {
+        nav('/confirm-code-email', { state: { user: { email: objSend.Email } } });
+      }
+
+      // setShowStepToContinueCreateAccount(true);
+    } else if (resp.status === 400) {
+      let json = await resp.json();
+    }
+  };
 
   const onChangeInputInsertEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     let button = RefButtonNext.current;
@@ -83,23 +136,22 @@ const PhoneChange = () => {
   };
 
   return (
-    <Styled.ContainerShowInsertPhoneMain>
-      <Styled.H1>Editar Número de Telefone</Styled.H1>
-      <Styled.ContainerInsertPhone>
-        <Styled.Label>Novo Número de Telefone</Styled.Label>
-        <Styled.ContainerInputPhoneButtonCheckbox>
-          <Styled.ContainerInputToPhoneAndErrorIfPhoneAlreadyRegistered>
-            <Styled.ContainerInputPhone ref={refContainerInputEmail}>
+    <Styled.ContainerShowInsertEmailMain>
+      <Styled.H1>Adicionar Endereço de E-mail</Styled.H1>
+      <Styled.ContainerInsertEmail>
+        <Styled.Label>Novo Endereço de E-mail</Styled.Label>
+        <Styled.ContainerInputEmailButtonCheckbox>
+          <Styled.ContainerInputToEmailAndErrorIfEmailAlreadyRegistered>
+            <Styled.ContainerInputEmail ref={refContainerInputEmail}>
               <Styled.Input
                 type="text"
-                placeholder=""
-                id="input-number-phone"
+                placeholder="Insira seu Endereço de E-mail"
                 ref={RefInputEmail}
                 onChange={(e) => onChangeInputInsertEmail(e)}
               />
-            </Styled.ContainerInputPhone>
+            </Styled.ContainerInputEmail>
             {emailAlreadyExist && <Styled.Span>O e-mail foi registrado</Styled.Span>}
-          </Styled.ContainerInputToPhoneAndErrorIfPhoneAlreadyRegistered>
+          </Styled.ContainerInputToEmailAndErrorIfEmailAlreadyRegistered>
           <Styled.Button
             onClick={() => onClickSendCodeEmail()}
             ref={RefButtonNext}
@@ -108,10 +160,19 @@ const PhoneChange = () => {
           >
             Próximo
           </Styled.Button>
-        </Styled.ContainerInputPhoneButtonCheckbox>
-      </Styled.ContainerInsertPhone>
-    </Styled.ContainerShowInsertPhoneMain>
+          <Styled.ContainerCheckboxToEmailMain>
+            <Styled.ContainerCheckboxToEmail
+              onClick={() => onClickCheckbox()}
+              $showCheckbox={showCheckbox}
+            ></Styled.ContainerCheckboxToEmail>
+            <Styled.Span onClick={() => onClickCheckbox()}>
+              Envie-me notícias sobre as últimas atualizações, em alta e negócios.
+            </Styled.Span>
+          </Styled.ContainerCheckboxToEmailMain>
+        </Styled.ContainerInputEmailButtonCheckbox>
+      </Styled.ContainerInsertEmail>
+    </Styled.ContainerShowInsertEmailMain>
   );
 };
 
-export default PhoneChange;
+export default InsertEmail;

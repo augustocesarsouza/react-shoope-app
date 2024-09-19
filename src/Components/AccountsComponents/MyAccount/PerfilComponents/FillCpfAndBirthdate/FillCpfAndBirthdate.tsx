@@ -1,11 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as Styled from './styled';
 import { useEffect, useRef, useState } from 'react';
-import { ObjUser } from '../../../../Templates/Home/Home';
 import { eachYearOfInterval, format, getDaysInMonth, getMonth, parse } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Url } from '../../../../Utils/Url';
 import Inputmask from 'inputmask';
+import { ObjUser } from '../../../../../Templates/Home/Home';
+import { Url } from '../../../../../Utils/Url';
 
 export interface UserUpdateData {
   birthDate: string;
