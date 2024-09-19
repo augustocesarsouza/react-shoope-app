@@ -5,13 +5,13 @@ import Home from '../Home/Home';
 import LoginComponentMain from '../../Components/LoginComponents/LoginComponentMain/LoginComponentMain';
 import RegisterUserComponentMain from '../../Components/RegisterUserComponents/RegisterUserComponentMain/RegisterUserComponentMain';
 import AccountSetting from '../../Components/AccountsComponents/AccountSetting';
-import Perfil from '../../Components/AccountsComponents/MyAccount/Perfil/Perfil';
+import Perfil from '../../Components/AccountsComponents/MyAccount/PerfilComponents/Perfil/Perfil';
 import CardsBankAccounts from '../../Components/AccountsComponents/MyAccount/CardsBankAccounts/CardsBankAccounts';
-import InsertEmail from '../../Components/AccountsComponents/MyAccount/InsertEmail/InsertEmail';
-import EmailConfirmCode from '../../Components/AccountsComponents/MyAccount/EmailConfirmCode/EmailConfirmCode';
-import ChangeInformationEmail from '../../Components/AccountsComponents/MyAccount/ChangeInformationEmail/ChangeInformationEmail';
-import PhoneChange from '../../Components/AccountsComponents/MyAccount/PhoneChange/PhoneChange';
-import FillCpfAndBirthdate from '../../Components/AccountsComponents/MyAccount/FillCpfAndBirthdate/FillCpfAndBirthdate';
+import FillCpfAndBirthdate from '../../Components/AccountsComponents/MyAccount/PerfilComponents/FillCpfAndBirthdate/FillCpfAndBirthdate';
+import InsertEmail from '../../Components/AccountsComponents/MyAccount/PerfilComponents/InsertEmail/InsertEmail';
+import ChangeInformationEmail from '../../Components/AccountsComponents/MyAccount/PerfilComponents/ChangeInformationEmail/ChangeInformationEmail';
+import PhoneChange from '../../Components/AccountsComponents/MyAccount/PerfilComponents/PhoneChange/PhoneChange';
+import EmailConfirmCode from '../../Components/AccountsComponents/MyAccount/PerfilComponents/EmailConfirmCode/EmailConfirmCode';
 
 const AppContent = () => {
   document.body.style.overflowY = 'none';

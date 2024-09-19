@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import * as Styled from './styled';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Url } from '../../../../Utils/Url';
-import { ObjUser } from '../../../../Templates/Home/Home';
+import { Url } from '../../../../../Utils/Url';
+import { ObjUser } from '../../../../../Templates/Home/Home';
 
 interface DataObjConfirmCodeEmail {
   code: string;
@@ -10,7 +10,7 @@ interface DataObjConfirmCodeEmail {
   userAlreadyExist: boolean;
 }
 
-const InsertEmail = () => {
+const ChangeInformationEmail = () => {
   const [showCheckbox, setShowCheckbox] = useState(false);
   const location = useLocation();
 
@@ -78,6 +78,7 @@ const InsertEmail = () => {
     if (resp.status === 200) {
       let json = await resp.json();
       let data: DataObjConfirmCodeEmail = json.data;
+      console.log(data);
 
       if (data.userAlreadyExist) {
         setEmailAlreadyExist(data.userAlreadyExist);
@@ -97,6 +98,10 @@ const InsertEmail = () => {
     let button = RefButtonNext.current;
 
     if (button === null || RefButtonNext.current === null) return;
+
+    if (emailAlreadyExist) {
+      setEmailAlreadyExist(false);
+    }
 
     if (e.target !== null && e.target.value.length > 1 && e.target.value.includes('@')) {
       button.style.backgroundColor = '#ee4d2d';
@@ -135,10 +140,20 @@ const InsertEmail = () => {
     }
   };
 
+  useEffect(() => {
+    if (refContainerInputEmail.current === null) return;
+
+    if (emailAlreadyExist) {
+      refContainerInputEmail.current.style.border = '1px solid rgb(255, 66, 79)';
+    } else {
+      refContainerInputEmail.current.style.border = '1px solid rgba(0, 0, 0, .14)';
+    }
+  }, [emailAlreadyExist]);
+
   return (
-    <Styled.ContainerShowInsertEmailMain>
-      <Styled.H1>Adicionar Endereço de E-mail</Styled.H1>
-      <Styled.ContainerInsertEmail>
+    <Styled.ContainerShowChangeEmailMain>
+      <Styled.H1>Mudar endereço de E-mail</Styled.H1>
+      <Styled.ContainerChangeEmail>
         <Styled.Label>Novo Endereço de E-mail</Styled.Label>
         <Styled.ContainerInputEmailButtonCheckbox>
           <Styled.ContainerInputToEmailAndErrorIfEmailAlreadyRegistered>
@@ -147,6 +162,7 @@ const InsertEmail = () => {
                 type="text"
                 placeholder="Insira seu Endereço de E-mail"
                 ref={RefInputEmail}
+                id="input-insert-your-email"
                 onChange={(e) => onChangeInputInsertEmail(e)}
               />
             </Styled.ContainerInputEmail>
@@ -170,9 +186,9 @@ const InsertEmail = () => {
             </Styled.Span>
           </Styled.ContainerCheckboxToEmailMain>
         </Styled.ContainerInputEmailButtonCheckbox>
-      </Styled.ContainerInsertEmail>
-    </Styled.ContainerShowInsertEmailMain>
+      </Styled.ContainerChangeEmail>
+    </Styled.ContainerShowChangeEmailMain>
   );
 };
 
-export default InsertEmail;
+export default ChangeInformationEmail;
