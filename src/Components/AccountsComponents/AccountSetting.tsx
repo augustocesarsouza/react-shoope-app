@@ -12,11 +12,22 @@ const AccountSetting = () => {
   const nav = useNavigate();
 
   useEffect(() => {
+    let userLocalStorage = localStorage.getItem('user');
+
+    if (userLocalStorage === null) {
+      nav('/login');
+
+      return;
+    }
+
     if (location.state) {
       const objState = location.state;
 
       setUserObjState(objState.user);
     }
+
+    let userJson = JSON.parse(userLocalStorage);
+    setUserObjState(userJson);
   }, [location]);
 
   const onClickMyAccountItens = (number: string) => {
@@ -24,6 +35,7 @@ const AccountSetting = () => {
 
     if (number === '1') {
       // pode ser um switch
+      console.log(userObjState);
 
       if (userObjState) {
         nav('/user/account/profile', { state: { user: userObjState } });
