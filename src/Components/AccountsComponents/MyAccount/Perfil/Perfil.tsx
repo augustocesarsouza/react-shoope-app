@@ -97,7 +97,7 @@ const Perfil = () => {
     // location.state.user = userJson;
     emailToShowToUserMyPerfil(userJson.email);
     setValueInput(userJson.name);
-  }, [location]);
+  }, []);
 
   const onChangeInputNameUser = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputValue = e.target.value;

@@ -31,7 +31,7 @@ const PhoneChange = () => {
     let userJson = JSON.parse(userLocalStorage);
     setUserObj(userJson);
     // setValueInput(userJson.name);
-  }, [location]);
+  }, []);
 
   const RefInputEmail = useRef<HTMLInputElement | null>(null);
   const RefButtonNext = useRef<HTMLButtonElement | null>(null);
@@ -93,6 +93,7 @@ const PhoneChange = () => {
               <Styled.Input
                 type="text"
                 placeholder=""
+                id="input-number-phone"
                 ref={RefInputEmail}
                 onChange={(e) => onChangeInputInsertEmail(e)}
               />

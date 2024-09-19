@@ -5,6 +5,7 @@ import { ObjUser } from '../../../../Templates/Home/Home';
 import { eachYearOfInterval, format, getDaysInMonth, getMonth, parse } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Url } from '../../../../Utils/Url';
+import Inputmask from 'inputmask';
 
 export interface UserUpdateData {
   birthDate: string;
@@ -41,29 +42,23 @@ const FillCpfAndBirthdate = () => {
     let userJson = JSON.parse(userLocalStorage);
     setUserObj(userJson);
     // setValueInput(userJson.name);
-  }, [location]);
+  }, []);
 
   const RefInputCpf = useRef<HTMLInputElement | null>(null);
   const RefButtonNext = useRef<HTMLButtonElement | null>(null);
   const refContainerInputEmail = useRef<HTMLDivElement | null>(null);
 
-  const onChangeInputInsertEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let button = RefButtonNext.current;
+  const onMouseEnterButtonNext = () => {
+    if (RefButtonNext.current === null) return;
 
-    if (button === null || RefButtonNext.current === null) return;
-
-    // if (e.target !== null && e.target.value.length > 1 && e.target.value.includes('@')) {
-    //   button.style.backgroundColor = '#ee4d2d';
-    //   button.style.cursor = 'pointer';
-    // } else {
-    //   button.style.backgroundColor = '#facac0';
-    //   button.style.cursor = 'not-allowed';
-    // }
+    RefButtonNext.current.style.background = '#ee6449';
   };
 
-  const onMouseEnterButtonNext = () => {};
+  const onMouseLeaveButtonNext = () => {
+    if (RefButtonNext.current === null) return;
 
-  const onMouseLeaveButtonNext = () => {};
+    RefButtonNext.current.style.background = '#ee4d2d';
+  };
 
   const [changeOptions, setChangeOption] = useState(false);
   const [changeOptionsYear, setChangeOptionYear] = useState(false);
@@ -74,7 +69,6 @@ const FillCpfAndBirthdate = () => {
   const refYears = useRef<string[]>([]);
   const [birthday, setBirthday] = useState<string | null>(null);
 
-  const [valueDay, setValueDay] = useState(0);
   const [valueYear, setValueYear] = useState(0);
 
   const handleCLickOption = () => {
@@ -377,7 +371,6 @@ const FillCpfAndBirthdate = () => {
                 placeholder="CPF"
                 id="input-cpf-fill-birthday"
                 ref={RefInputCpf}
-                onChange={(e) => onChangeInputInsertEmail(e)}
               />
             </Styled.ContainerInputPhone>
           </Styled.ContainerInputToCpfAndErrorIfPhoneAlreadyRegistered>
@@ -437,7 +430,9 @@ const FillCpfAndBirthdate = () => {
             >
               <Styled.Option>Ano</Styled.Option>
               {refYears.current.map((year) => (
-                <Styled.Option key={Number(year)}>{year}</Styled.Option>
+                <Styled.Option id="option-years" key={Number(year)}>
+                  {year}
+                </Styled.Option>
               ))}
             </Styled.Select>
           </Styled.ContainerBirthday>

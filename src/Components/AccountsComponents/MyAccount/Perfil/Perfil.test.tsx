@@ -33,9 +33,12 @@ describe('Perfil', () => {
     const span4 = screen.getByText('Outros');
     expect(span4).toBeInTheDocument();
 
+    const linkFillNow = screen.getByText(/Preencher agora/);
+    expect(linkFillNow).toBeInTheDocument();
+
     const buttonRecord = screen.getByRole('button', { name: /Gravar/ });
     expect(buttonRecord).toBeInTheDocument();
 
-    expect.assertions(8);
+    expect.assertions(9);
   });
 });
