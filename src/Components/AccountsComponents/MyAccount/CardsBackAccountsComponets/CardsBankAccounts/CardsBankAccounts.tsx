@@ -12,8 +12,6 @@ const CardsBankAccounts = () => {
     }
   }, []);
 
-  //AMANHAR CRIAR A "BRANCH" do cardsbankaccounts
-
   return (
     <Styled.ContainerMain>
       <Styled.ContainerFirst>

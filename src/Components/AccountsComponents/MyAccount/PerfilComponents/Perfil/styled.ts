@@ -10,6 +10,13 @@ export const Button = styled.button``;
 
 export const Container = styled.div``;
 
+export const ContainerMainMain = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 950px;
+
+`;
+
 export const ContainerPerfilMain = styled.div`
   display: flex;
   flex-direction: column;
@@ -383,7 +390,3 @@ export const ContainerProfileUpdate = styled.div`
   gap: 10px;
 `;
 
-export const ContainerMainMain = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
