@@ -6,7 +6,7 @@ import LoginComponentMain from '../../Components/LoginComponents/LoginComponentM
 import RegisterUserComponentMain from '../../Components/RegisterUserComponents/RegisterUserComponentMain/RegisterUserComponentMain';
 import AccountSetting from '../../Components/AccountsComponents/AccountSetting';
 import Perfil from '../../Components/AccountsComponents/MyAccount/PerfilComponents/Perfil/Perfil';
-import CardsBankAccounts from '../../Components/AccountsComponents/MyAccount/CardsBankAccounts/CardsBankAccounts';
+import CardsBankAccounts from '../../Components/AccountsComponents/MyAccount/CardsBackAccountsComponets/CardsBankAccounts/CardsBankAccounts';
 import FillCpfAndBirthdate from '../../Components/AccountsComponents/MyAccount/PerfilComponents/FillCpfAndBirthdate/FillCpfAndBirthdate';
 import InsertEmail from '../../Components/AccountsComponents/MyAccount/PerfilComponents/InsertEmail/InsertEmail';
 import ChangeInformationEmail from '../../Components/AccountsComponents/MyAccount/PerfilComponents/ChangeInformationEmail/ChangeInformationEmail';
