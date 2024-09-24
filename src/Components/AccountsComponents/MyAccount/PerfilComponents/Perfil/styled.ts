@@ -58,12 +58,14 @@ export const Td = styled.td`
   white-space: nowrap;
   padding-bottom: 54px;
   font-size: 14px;
+  font-weight: 400;
 `;
 
 export const TdSecond = styled.td`
   box-sizing: border-box;
   padding-bottom: 30px;
   padding-left: 20px;
+  font-weight: 400;
 `;
 
 export const TdNome = styled.td`
@@ -74,6 +76,8 @@ export const TdNome = styled.td`
   text-align: right;
   white-space: nowrap;
   font-size: 14px;
+  font-weight: 400;
+
 `;
 
 export const ContainerOnlyInputNameUser = styled.div`

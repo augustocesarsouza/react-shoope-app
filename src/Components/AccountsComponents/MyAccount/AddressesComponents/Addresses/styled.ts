@@ -83,32 +83,34 @@ export const ContainerModalNewAddress = styled.div`
   background-color: rgba(0, 0, 0, .4);
   width: 100%;
   height: 100%;
-
   display: flex;
   justify-content: center;
   align-items: center;
-  
 `;
 
 export const ContainerModalInner = styled.div`
   width: 500px;
-  height: 564px;
+  min-height: 564px;
   background-color: #fff;
   padding: 30px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  border-radius: 5px;
+  position: relative;
 
   >span {
     font-size: 20px;
     font-weight: 400;
     color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 10px;
   }
 `;
 
 export const ContainerAllInputs = styled.div`
   display: flex;
   gap: 10px;
+  margin-bottom: 7px;
 `;
 
 interface ContainerInputAllProps {
@@ -141,7 +143,11 @@ export const ContainerNameInput = styled.div`
   /* display: block; */
 `;
 
-export const Input = styled.input`
+interface InputProps {
+  $placeholdercolor: string;
+}
+
+export const Input = styled.input<InputProps>`
   background-color: initial;
   border: 0;
   box-sizing: border-box;
@@ -155,7 +161,8 @@ export const Input = styled.input`
   width: 100%;
 
   &::placeholder {
-    color: rgb(0 0 0 / 43%);
+    /* color: rgb(0 0 0 / 43%); */
+    color: ${props => props.$placeholdercolor};
   }
 `;
 
@@ -168,6 +175,7 @@ export const ContainerSaveAs = styled.div`
   >span {
     font-size: 14px;
     color: #555;
+    font-weight: 500;
   }
 `;
 
@@ -177,25 +185,35 @@ export const ContainerSaveHomeWork = styled.div`
   font-weight: 500;
 `; 
 
-export const ContainerSaveHome = styled.div`
+interface ContainerSaveHomeProps {
+  $whatwasclicksave: string;
+}
+
+export const ContainerSaveHome = styled.div<ContainerSaveHomeProps>`
   align-items: center;
   border: 1px solid rgba(0, 0, 0, .09);
   border-radius: 2px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .03);
   box-sizing: border-box;
   display: flex;
   height: 40px;
   margin-right: 10px;
   max-width: 146px;
   padding: 0 12px;
-  color: rgb(0 0 0 / 42%);
+  /* color: rgb(0 0 0 / 42%); */
+  color: ${props => props.$whatwasclicksave === "home" ? "#fff" : "rgb(0 0 0 / 42%)"};
+  background: ${props => props.$whatwasclicksave === "home" ? "#ff6c00" : "#fff"};
+  cursor: pointer;
+  
 `;
 
-export const ContainerSaveWork = styled.div`
+interface ContainerSaveWorkProps {
+  $whatwasclicksave: string;
+}
+
+export const ContainerSaveWork = styled.div<ContainerSaveWorkProps>`
   align-items: center;
   border: 1px solid rgba(0, 0, 0, .09);
   border-radius: 2px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .03);
   box-sizing: border-box;
   display: flex;
   height: 40px;
@@ -203,6 +221,10 @@ export const ContainerSaveWork = styled.div`
   max-width: 146px;
   padding: 0 12px;
   color: rgb(0 0 0 / 42%);
+  color: ${props => props.$whatwasclicksave === "work" ? "#fff" : "rgb(0 0 0 / 42%)"};
+  background: ${props => props.$whatwasclicksave === "work" ? "#ff6c00" : "#fff"};
+  cursor: pointer;
+
 `;
 
 export const ContainerTwoButton = styled.div`
@@ -241,4 +263,61 @@ export const ButtonSend = styled.button`
   min-width: 140px;
   outline: none;
   padding: 10px;
+`;
+
+export const ContainerCpfAndErrors = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 6px;
+  
+
+  >span {
+    font-size: 12px;
+    font-weight: 400;
+    color: #ff424f;
+    display: block;
+  }
+`;
+
+export const ContainerShowNumberPhoneUser = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  right: 29px;
+  top: 120px;
+  background-color: #fff;
+  width: 216px;
+  height: 42px;
+  border: 1px solid #55555530;
+  border-right: 1px solid transparent;
+  font-size: 14px;
+  border-radius: 2px;
+  z-index: 5;
+  cursor: pointer;
+
+  >span {
+    padding-left: 10px;
+    color: #000000de;
+    font-weight: 300;
+  }
+
+  &:hover {
+    >span {
+      color: black;
+      font-weight: 400;
+
+    }
+  }
+
+  >div {
+    color: #f44336;
+    margin-right: 10px;
+    border: 1px solid #f44336;
+    font-size: 12px;
+    font-weight: 400;
+    border-radius: 3px;
+    padding: 5px 7px;
+  }
 `;
