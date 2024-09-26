@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import SvgAddresses from '../../SvgMyAccount/SvgAddresses/SvgAddresses';
 import Inputmask from 'inputmask';
 import { ObjUser } from '../../../../../Templates/Home/Home';
+import { Url } from '../../../../../Utils/Url';
+import { IAddresses } from '../../Interface/IAddresses/IAddresses';
+import SvgPlus from '../../../../Svg/SvgPlus/SvgPlus';
 
 enum InputsNames {
   FullName = 'fullName',
@@ -99,6 +102,7 @@ const Addresses = () => {
   const [alreadyClickedSendDb, setAlreadyClickedSendDb] = useState(false);
   const [errorCelPhone, setErrorCelPhone] = useState(false);
   const [errorNeighborhood, setErrorNeighborhood] = useState(false);
+  const [cepIsInvalid, setCepIsInvalid] = useState(false);
 
   const [placeholderColorNameFull, setPlaceholderColorNameFull] = useState('rgb(0 0 0 / 43%)');
   const [placeholderColorNamberPhone, setPlaceholderColorNamberPhone] =
@@ -114,7 +118,10 @@ const Addresses = () => {
   const [valueInputStateCity, setValueInputStateCity] = useState('');
   const [valueInputNumberHouse, setValueInputNumberHouse] = useState('');
 
-  const onChangeInputNameFull = (e: React.ChangeEvent<HTMLInputElement>, inputName: string) => {
+  const onChangeInputNameFull = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    inputName: string
+  ) => {
     e.preventDefault();
     if (
       RefContainerNameFull === null ||
@@ -123,11 +130,15 @@ const Addresses = () => {
       RefContainerAllNeighborhood.current === null ||
       RefContainerAllStreet.current === null ||
       RefContainerAllNameFull.current === null ||
-      RefContainerAllNamberPhone.current === null
+      RefContainerAllNamberPhone.current === null ||
+      RefInputCep.current === null ||
+      RefInputStateCity.current === null ||
+      RefInputNeighborhood.current === null ||
+      RefInputStreetAvenue.current === null
     )
       return;
-    let input = e.target;
     setAlreadyClickedSendDb(true);
+    let input = e.target as HTMLInputElement;
 
     if (inputName === InputsNames.FullName) {
       if (input.value.length <= 1) {
@@ -143,13 +154,23 @@ const Addresses = () => {
       setValueInputStyled(input, RefContainerNameFull);
     } else if (inputName === InputsNames.NumberPhone) {
       if (input.value.length <= 1) {
-        RefContainerAllNamberPhone.current.style.borderColor = 'red';
-        setPlaceholderColorNamberPhone('red');
+        ContainerNumberPhonePutColor('red', 'red');
       } else {
+        ContainerNumberPhonePutColor('rgb(0 0 0 / 43%', '#222');
       }
 
       setValueInputStyled(input, RefContainerNamberPhone);
     } else if (inputName === InputsNames.Cep) {
+      if (RefContainerAllCep.current === null) return;
+      if (input.value.length > 0) {
+        ContainerCepPutColor('rgb(0 0 0 / 43%)', 'rgb(0 0 0 / 43%)');
+        setInputCepIsLessThanEight(false);
+
+        verifyCepUser(input.value);
+      } else {
+        ContainerCepPutColor('red', 'red');
+        setInputCepIsLessThanEight(true);
+      }
       setValueInputStyled(input, RefContainerCep);
     } else if (inputName === InputsNames.StateCity) {
       if (!cannotTypeInputStateCity) {
@@ -159,12 +180,10 @@ const Addresses = () => {
       setValueInputStyled(input, RefContainerStateCity);
     } else if (inputName === InputsNames.Neighborhood) {
       if (input.value.length <= 1) {
-        RefContainerAllNeighborhood.current.style.borderColor = 'red';
-        setPlaceholderColorNeighborhood('red');
+        ContainerNeighborhoodPutColor('red', 'red');
         setErrorNeighborhood(true);
       } else {
-        RefContainerAllNeighborhood.current.style.borderColor = 'rgb(0 0 0 / 43%)';
-        setPlaceholderColorNeighborhood('#222');
+        ContainerNeighborhoodPutColor('rgb(0 0 0 / 43%)', '#222');
         setErrorNeighborhood(false);
       }
 
@@ -195,6 +214,72 @@ const Addresses = () => {
     }
   };
 
+  const ContainerNumberPhonePutColor = (colorBorder: string, colorPlaceholder: string) => {
+    if (RefContainerAllNamberPhone === null || RefContainerAllNamberPhone.current === null) return;
+
+    RefContainerAllNamberPhone.current.style.borderColor = colorBorder;
+    setPlaceholderColorNamberPhone(colorPlaceholder);
+  };
+
+  const ContainerCepPutColor = (colorBorder: string, colorPlaceholder: string) => {
+    if (RefContainerAllCep === null || RefContainerAllCep.current === null) return;
+
+    RefContainerAllCep.current.style.borderColor = colorBorder;
+    setPlaceholderColorCep(colorPlaceholder);
+  };
+
+  const ContainerNeighborhoodPutColor = (colorBorder: string, colorPlaceholder: string) => {
+    if (RefContainerAllNeighborhood === null || RefContainerAllNeighborhood.current === null)
+      return;
+
+    RefContainerAllNeighborhood.current.style.borderColor = colorBorder;
+    setPlaceholderColorNeighborhood(colorPlaceholder);
+  };
+
+  const verifyCepUser = async (cepValue: string) => {
+    if (
+      RefInputStateCity.current === null ||
+      RefContainerAllStreet.current === null ||
+      RefInputNeighborhood.current === null ||
+      RefInputStreetAvenue.current === null
+    )
+      return;
+
+    let cep = cepValue;
+    cep = cep.replace(/\D/g, '');
+    let validacep = /^[0-9]{8}$/;
+
+    if (validacep.test(cep)) {
+      let res = await fetch(`https://viacep.com.br/ws/${cep}/json`);
+      let json: any = await res.json();
+
+      let cepIsValid = Boolean(json.erro);
+      setCepIsInvalid(cepIsValid);
+
+      if (!cepIsValid) {
+        setValueInputStateCity(`${json.estado} - ${json.localidade}`);
+        RefInputStateCity.current.style.color = '#bbb';
+        RefInputStateCity.current.style.caretColor = 'transparent';
+        setCannotTypeInputStateCity(true);
+
+        ContainerNeighborhoodPutColor('rgb(0 0 0 / 43%)', 'rgb(0 0 0 / 43%)');
+        RefContainerAllStreet.current.style.borderColor = 'rgb(0 0 0 / 43%)';
+        setPlaceholderColorStreet('#222');
+        RefInputNeighborhood.current.value = json.bairro;
+        RefInputStreetAvenue.current.value = json.logradouro;
+
+        setErrorCepIsInvalid(false);
+        changeCepColorsSuccess();
+      } else {
+        setErrorCepIsInvalid(true);
+        changeCepColorsFail();
+      }
+    } else {
+      setInputCepIsLessThanEight(true);
+      changeCepColorsFail();
+    }
+  };
+
   useEffect(() => {
     if (RefContainerAllNumber.current === null || !alreadyClickedSendDb) return;
 
@@ -218,15 +303,13 @@ const Addresses = () => {
   const changeCepColorsSuccess = () => {
     if (RefContainerAllCep.current === null) return;
 
-    RefContainerAllCep.current.style.borderColor = 'rgb(0 0 0 / 43%)';
-    setPlaceholderColorCep('rgb(0 0 0 / 43%)');
+    ContainerCepPutColor('rgb(0 0 0 / 43%)', 'rgb(0 0 0 / 43%)');
   };
 
   const changeCepColorsFail = () => {
     if (RefContainerAllCep.current === null) return;
 
-    RefContainerAllCep.current.style.borderColor = 'red';
-    setPlaceholderColorCep('red');
+    ContainerCepPutColor('red', 'red');
   };
 
   useEffect(() => {
@@ -254,7 +337,8 @@ const Addresses = () => {
       RefInputComplement.current === null ||
       RefContainerAllComplement.current === null ||
       RefInputStateCity.current === null ||
-      RefContainerNeighborhood.current === null
+      RefContainerNeighborhood.current === null ||
+      userLogin === null
     )
       return;
 
@@ -264,13 +348,11 @@ const Addresses = () => {
     }
 
     if (RefInputNumberPhone.current.value.length <= 0) {
-      RefContainerAllNamberPhone.current.style.borderColor = 'red';
-      setPlaceholderColorNamberPhone('red');
+      ContainerNumberPhonePutColor('red', 'red');
     }
 
     if (RefInputNeighborhood.current.value.length <= 0) {
-      RefContainerAllNeighborhood.current.style.borderColor = 'red';
-      setPlaceholderColorNeighborhood('red');
+      ContainerNeighborhoodPutColor('red', 'red');
     }
 
     if (RefInputStreetAvenue.current.value.length <= 0) {
@@ -283,48 +365,14 @@ const Addresses = () => {
       setPlaceholderColorNumber('red');
     }
 
-    let cep = RefInputCep.current.value;
-    cep = cep.replace(/\D/g, '');
-    let validacep = /^[0-9]{8}$/;
-    let cepIsValidOurNot = false;
-
-    if (validacep.test(cep)) {
-      let res = await fetch(`https://viacep.com.br/ws/${cep}/json`);
-      let json: any = await res.json();
-      let cepIsValid = Boolean(json.erro);
-
-      setInputCepIsLessThanEight(false);
-      setErrorCepIsInvalid(cepIsValid);
-
-      if (!cepIsValid) {
-        setValueInputStateCity(`${json.estado} - ${json.localidade}`);
-        RefInputStateCity.current.style.color = '#bbb';
-        RefInputStateCity.current.style.caretColor = 'transparent';
-        setCannotTypeInputStateCity(true);
-
-        RefContainerAllNeighborhood.current.style.borderColor = 'rgb(0 0 0 / 43%)';
-        RefContainerAllStreet.current.style.borderColor = 'rgb(0 0 0 / 43%)';
-        setPlaceholderColorStreet('#222');
-        RefInputNeighborhood.current.value = json.bairro;
-        RefInputStreetAvenue.current.value = json.logradouro;
-
-        cepIsValidOurNot = true;
-
-        // RefInputStateCity.current.style.cursor = 'auto';
-        changeCepColorsSuccess();
-      } else {
-        changeCepColorsFail();
-      }
-    } else {
-      setInputCepIsLessThanEight(true);
-      changeCepColorsFail();
-    }
-
     let inputNameFull = RefInputNameFull.current;
     let inputNumberPhone = RefInputNumberPhone.current;
+    let inputCep = RefInputCep.current;
+    let inputStateCity = RefInputStateCity.current;
     let inputNeighborhood = RefInputNeighborhood.current;
     let inputStreetAvenue = RefInputStreetAvenue.current;
     let inputNumberHome = RefInputNumberHome.current;
+    let inputComplement = RefInputComplement.current;
 
     let valurInputNumberPhone = inputNumberPhone.value.replace('(', '').replace(')', '');
     valurInputNumberPhone = valurInputNumberPhone.replace(/\D/g, '');
@@ -343,7 +391,7 @@ const Addresses = () => {
       canSendToDbInner = true;
     }
 
-    if (cepIsValidOurNot) {
+    if (!cepIsInvalid) {
       canSendToDbInner = true;
     } else {
       canSendToDbInner = false;
@@ -352,29 +400,26 @@ const Addresses = () => {
     if (valurInputNumberPhone.length < 11) {
       canSendToDbInner = false;
 
-      RefContainerAllNamberPhone.current.style.borderColor = 'red';
-      setPlaceholderColorNamberPhone('red');
+      ContainerNumberPhonePutColor('red', 'red');
       setErrorCelPhone(true);
     } else {
       canSendToDbInner = true;
 
-      RefContainerAllNamberPhone.current.style.borderColor = 'rgb(0 0 0 / 43%)';
-      setPlaceholderColorNamberPhone('#222');
+      ContainerNumberPhonePutColor('rgb(0 0 0 / 43%', '#222');
       setErrorCelPhone(false);
     }
 
     if (inputNeighborhood.value.length <= 1) {
       canSendToDbInner = false;
-      RefContainerAllNeighborhood.current.style.borderColor = 'red';
-      setPlaceholderColorNeighborhood('red');
+      ContainerNeighborhoodPutColor('red', 'red');
     } else {
       canSendToDbInner = true;
-      RefContainerAllNeighborhood.current.style.borderColor = 'rgb(0 0 0 / 43%)';
-      setPlaceholderColorNeighborhood('#222');
+      ContainerNeighborhoodPutColor('rgb(0 0 0 / 43%)', '#222');
     }
 
     if (inputStreetAvenue.value.length <= 1) {
       canSendToDbInner = false;
+
       RefContainerAllStreet.current.style.borderColor = 'red';
       setPlaceholderColorStreet('red');
     } else {
@@ -392,9 +437,46 @@ const Addresses = () => {
       RefContainerAllNumber.current.style.borderColor = 'rgb(0 0 0 / 43%)';
       setPlaceholderColorNumber('#222');
     }
-    // AMANHA ADICIONAR NO PROPRIO SHOPEE PARA VER COMO ELES MOSTRA DEPOIUS DE SALVAR AS INFORMAÇÃO DO "ADDRESS"
+
+    if (cepIsInvalid) {
+      canSendToDbInner = false;
+    }
+
+    verifyCepUser(inputCep.value);
+
     if (canSendToDbInner) {
-      console.log('pode mandar');
+      let objAddress = {
+        fullName: inputNameFull.value,
+        phoneNumber: inputNumberPhone.value,
+        cep: inputCep.value,
+        stateCity: inputStateCity.value,
+        neighborhood: inputNeighborhood.value,
+        street: inputStreetAvenue.value,
+        numberHome: inputNumberHome.value,
+        complement: inputComplement.value,
+        userId: userLogin.id,
+      };
+
+      console.log(objAddress);
+
+      const res = await fetch(`${Url}/public/address/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(objAddress),
+      });
+
+      if (res.status === 200) {
+        const json = await res.json();
+        let address: IAddresses = json.data;
+        setNewAddressModal(false);
+        console.log(json);
+      }
+
+      if (res.status === 400) {
+        const json = await res.json();
+      }
     } else {
       console.log('não pode mandar');
     }
@@ -455,6 +537,8 @@ const Addresses = () => {
     if (RefInputNumberPhone.current === null || userLogin === null) return;
 
     RefInputNumberPhone.current.value = userLogin.phone;
+    ContainerNumberPhonePutColor('rgb(0 0 0 / 43%', '#222');
+    setErrorCelPhone(false);
     setShowNumberOfTheUser(false);
   };
 
@@ -473,15 +557,7 @@ const Addresses = () => {
         <Styled.ContainerInsertAddressMain>
           <Styled.ContainerInsertAddress onClick={() => onClickInsertNewAddress()}>
             <Styled.ContainerSvgPlus>
-              <svg
-                enableBackground="new 0 0 10 10"
-                viewBox="0 0 10 10"
-                x="0"
-                y="0"
-                className="shopee-svg-icon icon-plus-sign"
-              >
-                <polygon points="10 4.5 5.5 4.5 5.5 0 4.5 0 4.5 4.5 0 4.5 0 5.5 4.5 5.5 4.5 10 5.5 10 5.5 5.5 10 5.5"></polygon>
-              </svg>
+              <SvgPlus></SvgPlus>
             </Styled.ContainerSvgPlus>
             <Styled.Span>Inserir novo endereço</Styled.Span>
           </Styled.ContainerInsertAddress>
