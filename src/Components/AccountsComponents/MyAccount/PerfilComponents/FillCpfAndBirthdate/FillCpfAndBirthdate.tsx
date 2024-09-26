@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { eachYearOfInterval, format, getDaysInMonth, getMonth, parse } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import Inputmask from 'inputmask';
-import { ObjUser } from '../../../../../Templates/Home/Home';
 import { Url } from '../../../../../Utils/Url';
+import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
 
 export interface UserUpdateData {
   birthDate: string;

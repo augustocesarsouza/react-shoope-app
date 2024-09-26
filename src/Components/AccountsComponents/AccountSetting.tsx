@@ -3,7 +3,7 @@ import SvgUserBody from '../HeaderComponents/AllSvgHeader/SvgUserBody/SvgUserBod
 import HeaderMain from '../HeaderComponents/HeaderMain/HeaderMain';
 import * as Styled from './styled';
 import { useEffect, useState } from 'react';
-import { ObjUser } from '../../Templates/Home/Home';
+import { ObjUser } from '../InterfaceAll/IObjUser/IObjUser';
 
 const AccountSetting = () => {
   const [userObjState, setUserObjState] = useState<ObjUser>();

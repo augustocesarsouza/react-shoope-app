@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as Styled from './styled';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Url } from '../../../../../Utils/Url';
-import { ObjUser } from '../../../../../Templates/Home/Home';
+import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
 
 interface DataObjConfirmCodeEmail {
   code: string;
