@@ -18,12 +18,25 @@ export const SpanForItensMyAccount = styled.span<SpanProps>`
 export const ContainerMain = styled.div``;
 
 export const ContainerAccountUserMain = styled.div`
-  display: flex;
+  /* display: flex;
   gap: 50px;
-  /* padding: 40px 100px; */
   margin-left: 226px;
   margin-right: 226px;
-  padding: 50px 0px;
+  padding: 50px 0px; */
+
+  display: flex;
+  justify-content: center;
+  margin-bottom: 21px;
+  margin-top: 55px;
+`;
+
+export const ContainerAccountUser = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 0px;
+  width: 1200px;
+  font-size: 13px;
+  font-weight: 300;
 `;
 
 export const containerAccountUser = styled.div`
@@ -103,6 +116,7 @@ export const ContainerItensMyAccount = styled.div`
   gap: 10px;
 
   font-size: 14px;
+  font-weight: 500;
   color: rgba(0, 0, 0, 0.65);
   padding-left: 27px;
   padding-top: 13px;

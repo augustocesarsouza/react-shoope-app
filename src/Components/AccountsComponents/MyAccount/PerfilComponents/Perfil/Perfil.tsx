@@ -1,10 +1,10 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import * as Styled from './styled';
 import { useEffect, useRef, useState } from 'react';
-import { ObjUser } from '../../../../../Templates/Home/Home';
 import { Url } from '../../../../../Utils/Url';
 import SvgOk from '../../../../Svg/SvgOk/SvgOk';
 import { UserUpdateData } from '../FillCpfAndBirthdate/FillCpfAndBirthdate';
+import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
 
 const Perfil = () => {
   const [userObj, setUserObj] = useState<ObjUser | null>(null);

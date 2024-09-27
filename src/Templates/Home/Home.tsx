@@ -2,20 +2,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect, createContext } from 'react';
 import HeaderMain from '../../Components/HeaderComponents/HeaderMain/HeaderMain';
 import * as Styled from './styled';
+import { ObjUser } from '../../Components/InterfaceAll/IObjUser/IObjUser';
 
 export interface ContextHomeProps {
   userObj: ObjUser | null;
   // setUserObj: React.Dispatch<React.SetStateAction<ObjUser | null>>;
-}
-
-export interface ObjUser {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  cpf: string;
-  birthDate: string;
-  gender: string;
 }
 
 export const ContextHome = createContext<ContextHomeProps | null>(null);

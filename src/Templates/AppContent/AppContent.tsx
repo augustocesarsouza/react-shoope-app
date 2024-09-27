@@ -12,6 +12,7 @@ import InsertEmail from '../../Components/AccountsComponents/MyAccount/PerfilCom
 import ChangeInformationEmail from '../../Components/AccountsComponents/MyAccount/PerfilComponents/ChangeInformationEmail/ChangeInformationEmail';
 import PhoneChange from '../../Components/AccountsComponents/MyAccount/PerfilComponents/PhoneChange/PhoneChange';
 import EmailConfirmCode from '../../Components/AccountsComponents/MyAccount/PerfilComponents/EmailConfirmCode/EmailConfirmCode';
+import Addresses from '../../Components/AccountsComponents/MyAccount/AddressesComponents/Addresses/Addresses';
 
 const AppContent = () => {
   document.body.style.overflowY = 'none';
@@ -29,6 +30,7 @@ const AppContent = () => {
           <Route index element={<Navigate to="profile" />}></Route>
           <Route path="profile" element={<Perfil />} />
           <Route path="payment" element={<CardsBankAccounts />} />
+          <Route path="address" element={<Addresses />} />
           <Route path="email" element={<InsertEmail />} />
           <Route path="change-email" element={<ChangeInformationEmail />} />
           <Route path="phone" element={<PhoneChange />} />
