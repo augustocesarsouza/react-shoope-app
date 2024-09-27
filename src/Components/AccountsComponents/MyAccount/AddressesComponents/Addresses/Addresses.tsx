@@ -7,6 +7,7 @@ import NewAddressModal from '../NewAddressModal/NewAddressModal';
 import { Url } from '../../../../../Utils/Url';
 import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
 import { IUserAddress } from '../../../../InterfaceAll/IUserAddress/IUserAddress';
+import ViewAddressUser from '../ViewAddressUser/ViewAddressUser';
 
 const Addresses = () => {
   const location = useLocation();
@@ -51,8 +52,8 @@ const Addresses = () => {
 
     if (res.status === 200) {
       const json = await res.json();
-      setUserAddress(json.data);
-      console.log(json);
+      let addressData: IUserAddress = json.data;
+      setUserAddress(addressData);
     }
   };
 
@@ -70,25 +71,7 @@ const Addresses = () => {
         </Styled.ContainerInsertAddressMain>
       </Styled.ContainerMainAddresses>
 
-      {userAddress && (
-        <Styled.ContainerAddressUserMain>
-          <Styled.Span>Endereço</Styled.Span>
-          <Styled.ContainerAddressUserDetails>
-            <Styled.ContainerNameAndPhoneNumberAndButtonEditDelete>
-              <Styled.ContainerNameAndPhoneNumber>
-                <Styled.Span>{userAddress.fullName}</Styled.Span>
-                <Styled.Container></Styled.Container>
-                <Styled.Span>{userAddress.phoneNumber}</Styled.Span>
-              </Styled.ContainerNameAndPhoneNumber>
-
-              <Styled.ContainerButton>
-                <Styled.Button>Editar</Styled.Button>
-                <Styled.Button>Excluir</Styled.Button>
-              </Styled.ContainerButton>
-            </Styled.ContainerNameAndPhoneNumberAndButtonEditDelete>
-          </Styled.ContainerAddressUserDetails>
-        </Styled.ContainerAddressUserMain>
-      )}
+      {userAddress && <ViewAddressUser userAddress={userAddress}></ViewAddressUser>}
 
       {userAddress === null && (
         <Styled.ContainerSvgThereIsNoAddresses>
@@ -96,7 +79,8 @@ const Addresses = () => {
           <Styled.Span>Você ainda não tem endereços.</Styled.Span>
         </Styled.ContainerSvgThereIsNoAddresses>
       )}
-      {newAddressModal && (
+
+      {newAddressModal && userLogin && (
         <NewAddressModal
           userLogin={userLogin}
           changeValueNewAddressModal={changeValueNewAddressModal}

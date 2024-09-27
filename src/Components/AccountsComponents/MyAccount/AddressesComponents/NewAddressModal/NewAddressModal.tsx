@@ -17,7 +17,7 @@ enum InputsNames {
 }
 
 interface NewAddressModalProps {
-  userLogin: ObjUser | null;
+  userLogin: ObjUser;
   changeValueNewAddressModal: (value: boolean) => void;
 }
 

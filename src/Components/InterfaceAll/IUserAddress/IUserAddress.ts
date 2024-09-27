@@ -6,4 +6,5 @@ export interface IUserAddress {
   phoneNumber: string;
   stateCity: string;
   street: string;
+  complement: string;
 }
