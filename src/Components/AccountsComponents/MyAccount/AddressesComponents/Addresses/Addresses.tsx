@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as Styled from './styled';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SvgAddresses from '../../SvgMyAccount/SvgAddresses/SvgAddresses';
 import SvgPlus from '../../../../Svg/SvgPlus/SvgPlus';
 import NewAddressModal from '../NewAddressModal/NewAddressModal';
