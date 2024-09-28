@@ -20,7 +20,17 @@ export const ContainerAddressUserMain = styled.div`
   }
 `;
 
-export const ContainerAddressUserDetails = styled.div`
+interface ContainerAddressUserDetailsProps {
+  $index: number;
+  $userAddressLength: number;
+}
+
+export const ContainerAddressUserDetails = styled.div<ContainerAddressUserDetailsProps>`
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  /* border-bottom: 1px solid red; */
+  border-bottom: ${props => props.$index < props.$userAddressLength && '1px solid #04040426'};
+  /* index */
 `;
 
 export const ContainerNameAndPhoneNumberAndButtonEditDelete = styled.div`
@@ -81,17 +91,25 @@ export const ContainerStreetNumberComplementNeighborhood = styled.div`
   gap: 2px;
 `;
 
-export const ContainerSetAsDefaultButton = styled.div`
+interface ContainerSetAsDefaultButtonProps {
+  $defaultAddress: number;
+}
+
+export const ContainerSetAsDefaultButton = styled.div<ContainerSetAsDefaultButtonProps>`
   display: flex; 
 
   >button {
-    border: 1px solid rgb(143 143 143 / 22%);
     padding: 0px 10px;
     height: 28px;
-    color: rgb(143 143 143 / 71%);
     border-radius: 4px;
-    cursor: not-allowed;
+
+    border: 1px solid ${props => props.$defaultAddress === 1 ? "rgb(143 143 143 / 22%)" : props => props.$defaultAddress === 0 && "rgb(143 143 143 / 47%)"};
     
+    color: ${props => props.$defaultAddress === 1 && "rgb(143 143 143 / 71%)"};
+    color: ${props => props.$defaultAddress === 0 && "#000000bd"};
+
+    cursor: ${props => props.$defaultAddress === 1 && "not-allowed"};
+    cursor: ${props => props.$defaultAddress === 0 && "pointer"};
   }
 `;
 
