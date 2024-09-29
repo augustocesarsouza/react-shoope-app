@@ -1,33 +1,28 @@
 import { useEffect, useState } from 'react';
 import { IUserAddress } from '../../../../InterfaceAll/IUserAddress/IUserAddress';
 import * as Styled from './styled';
+import { Url } from '../../../../../Utils/Url';
 
 interface ViewAddressUserProps {
   userAddress: IUserAddress[];
   wasClickedEditAddress: (address: IUserAddress) => void;
   wasClickedDeleteAddress: (address: IUserAddress) => Promise<void>;
+  updateNewUserAddressDefault: (userAddress: IUserAddress) => void;
+  changeValueNewAddressModal: (value: boolean) => void;
 }
 
 const ViewAddressUser = ({
   userAddress,
   wasClickedEditAddress,
   wasClickedDeleteAddress,
+  updateNewUserAddressDefault,
+  changeValueNewAddressModal,
 }: ViewAddressUserProps) => {
   const [cityStateCep, setCityStateCep] = useState('');
 
-  useEffect(() => {
-    // let stateCity = userAddress.stateCity;
-    // let cep = userAddress.cep.replace('-', '');
-    let stateCity = '';
-    let cep = '';
-
-    if (stateCity) {
-      let city = stateCity.split('-')[1].trim();
-      let state = stateCity.split('-')[0].trim();
-      let cityState = `${city}, ${state}, ${cep}`;
-      setCityStateCep(cityState);
-    }
-  }, [userAddress]);
+  // useEffect(() => {
+  //   console.log(userAddress);
+  // }, [userAddress]);
 
   const onClickEditAddress = (address: IUserAddress) => {
     wasClickedEditAddress(address);
@@ -37,8 +32,35 @@ const ViewAddressUser = ({
     wasClickedDeleteAddress(address);
   };
 
-  const onClickSetAsDefault = () => {
-    console.log('click');
+  const onClickSetAsDefault = async (address: IUserAddress) => {
+    let addressUpdateDefault = {
+      id: address.id,
+      defaultAddress: 1,
+    };
+
+    // updateNewUserAddressDefault(address);
+
+    const res = await fetch(`${Url}/public/address/update-only-default-address`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(addressUpdateDefault),
+    });
+
+    if (res.status === 200) {
+      const json = await res.json();
+      let address: IUserAddress = json.data;
+      console.log(address);
+
+      updateNewUserAddressDefault(address);
+      changeValueNewAddressModal(false);
+    }
+
+    if (res.status === 400) {
+      const json = await res.json();
+      console.log(json);
+    }
   };
 
   return (
@@ -69,13 +91,12 @@ const ViewAddressUser = ({
               <Styled.ContainerStreetNumberComplementNeighborhood>
                 {el.complement && (
                   <Styled.Span>
-                    {el.street}, {el.numberHome}, {el.phoneNumber}, {el.complement},{' '}
-                    {el.neighborhood}
+                    {el.street}, {el.numberHome}, {el.complement}, {el.neighborhood}
                   </Styled.Span>
                 )}
                 {!el.complement && (
                   <Styled.Span>
-                    {el.street}, {el.numberHome}, {el.phoneNumber}, {el.neighborhood}
+                    {el.street}, {el.numberHome}, {el.neighborhood}
                   </Styled.Span>
                 )}
                 <Styled.Span>
@@ -84,7 +105,9 @@ const ViewAddressUser = ({
                 </Styled.Span>
               </Styled.ContainerStreetNumberComplementNeighborhood>
               <Styled.ContainerSetAsDefaultButton $defaultAddress={el.defaultAddress}>
-                <Styled.Button onClick={el.defaultAddress === 0 ? onClickSetAsDefault : undefined}>
+                <Styled.Button
+                  onClick={el.defaultAddress === 0 ? () => onClickSetAsDefault(el) : undefined}
+                >
                   Definir como padrão
                 </Styled.Button>
               </Styled.ContainerSetAsDefaultButton>

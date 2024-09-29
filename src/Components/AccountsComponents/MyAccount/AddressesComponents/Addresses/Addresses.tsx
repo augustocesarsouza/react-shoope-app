@@ -55,7 +55,6 @@ const Addresses = () => {
     if (res.status === 200) {
       const json = await res.json();
       let addressData: IUserAddress[] = json.data;
-      console.log(addressData);
 
       if (addressData === undefined) {
         setUserAddress(null);
@@ -80,8 +79,37 @@ const Addresses = () => {
 
       return prev;
     });
+  };
 
-    //Fazer amanha o "Update" "Default" do Address
+  const updateNewUserAddressDefault = (userAddress: IUserAddress) => {
+    setUserAddress((prev) => {
+      if (prev !== null) {
+        let objPutFirst: IUserAddress | null = null;
+
+        let arrayNew = prev
+          .map((el) => {
+            if (el.defaultAddress === 1) {
+              return { ...el, defaultAddress: 0 };
+            }
+
+            if (el.id === userAddress.id) {
+              objPutFirst = { ...el, defaultAddress: 1 };
+              return null;
+            }
+            return el;
+          })
+          .filter((el) => el !== null);
+
+        if (objPutFirst) {
+          let firstObj = arrayNew[0];
+          arrayNew[0] = objPutFirst;
+          arrayNew.push(firstObj);
+        }
+
+        return arrayNew;
+      }
+      return prev;
+    });
   };
 
   const wasClickedDeleteAddress = async (address: IUserAddress) => {
@@ -123,6 +151,8 @@ const Addresses = () => {
           userAddress={userAddress}
           wasClickedEditAddress={wasClickedEditAddress}
           wasClickedDeleteAddress={wasClickedDeleteAddress}
+          updateNewUserAddressDefault={updateNewUserAddressDefault}
+          changeValueNewAddressModal={changeValueNewAddressModal}
         />
       )}
 
