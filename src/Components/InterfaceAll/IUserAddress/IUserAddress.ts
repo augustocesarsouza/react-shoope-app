@@ -1,4 +1,5 @@
 export interface IUserAddress {
+  id: string;
   cep: string;
   fullName: string;
   neighborhood: string;
@@ -7,4 +8,5 @@ export interface IUserAddress {
   stateCity: string;
   street: string;
   complement: string;
+  defaultAddress: number;
 }

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import * as Styled from './styled';
-import { IAddresses } from '../../Interface/IAddresses/IAddresses';
 import { Url } from '../../../../../Utils/Url';
 import Inputmask from 'inputmask';
 import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
+import { IUserAddress } from '../../../../InterfaceAll/IUserAddress/IUserAddress';
 
 enum InputsNames {
   FullName = 'fullName',
@@ -18,10 +18,17 @@ enum InputsNames {
 
 interface NewAddressModalProps {
   userLogin: ObjUser;
+  clickedEditAddress: IUserAddress | null;
   changeValueNewAddressModal: (value: boolean) => void;
+  createNewUserAddress: (userAddress: IUserAddress) => void;
 }
 
-const NewAddressModal = ({ userLogin, changeValueNewAddressModal }: NewAddressModalProps) => {
+const NewAddressModal = ({
+  userLogin,
+  clickedEditAddress,
+  changeValueNewAddressModal,
+  createNewUserAddress,
+}: NewAddressModalProps) => {
   const [whatWasClickSave, setWhatWasClickSave] = useState('');
 
   const RefContainerNameFull = useRef<HTMLDivElement | null>(null);
@@ -51,6 +58,45 @@ const NewAddressModal = ({ userLogin, changeValueNewAddressModal }: NewAddressMo
   const RefContainerAllNumber = useRef<HTMLDivElement | null>(null);
   const RefContainerAllComplement = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    if (
+      RefInputNameFull.current === null ||
+      RefInputNumberPhone.current === null ||
+      RefInputCep.current === null ||
+      RefInputStateCity.current === null ||
+      RefInputNeighborhood.current === null ||
+      RefInputStreetAvenue.current === null ||
+      RefInputNumberHome.current === null ||
+      RefInputComplement.current === null
+    )
+      return;
+
+    if (clickedEditAddress !== null) {
+      let inputNameFull = RefInputNameFull.current;
+      let inputNumberPhone = RefInputNumberPhone.current;
+      let inputCep = RefInputCep.current;
+      let inputStateCity = RefInputStateCity.current;
+      let inputNeighborhood = RefInputNeighborhood.current;
+      let inputStreetAvenue = RefInputStreetAvenue.current;
+      let inputNumberHome = RefInputNumberHome.current;
+      let inputComplement = RefInputComplement.current;
+
+      inputNameFull.value = clickedEditAddress.fullName;
+      inputNumberPhone.value = clickedEditAddress.phoneNumber;
+      inputCep.value = clickedEditAddress.cep;
+      inputStateCity.value = clickedEditAddress.stateCity;
+      inputNeighborhood.value = clickedEditAddress.neighborhood;
+      inputStreetAvenue.value = clickedEditAddress.street;
+      inputNumberHome.value = clickedEditAddress.numberHome;
+
+      if (clickedEditAddress.complement === undefined || clickedEditAddress.complement === null) {
+        inputComplement.value = '';
+      } else {
+        inputComplement.value = clickedEditAddress.complement;
+      }
+    }
+  }, [clickedEditAddress]);
+
   const setValueInputStyled = (
     input: EventTarget & HTMLInputElement,
     refContainerNameFull: React.MutableRefObject<HTMLDivElement | null>
@@ -79,12 +125,12 @@ const NewAddressModal = ({ userLogin, changeValueNewAddressModal }: NewAddressMo
   const [placeholderColorNamberPhone, setPlaceholderColorNamberPhone] =
     useState('rgb(0 0 0 / 43%)');
   const [placeholderColorCep, setPlaceholderColorCep] = useState('rgb(0 0 0 / 43%)');
-  const [placeholderColorStateCity, setPlaceholderColorStateCity] = useState('rgb(0 0 0 / 43%)');
+  const [placeholderColorStateCity] = useState('rgb(0 0 0 / 43%)');
   const [placeholderColorNeighborhood, setPlaceholderColorNeighborhood] =
     useState('rgb(0 0 0 / 43%)');
   const [placeholderColorStreet, setPlaceholderColorStreet] = useState('rgb(0 0 0 / 43%)');
   const [placeholderColorNumber, setPlaceholderColorNumber] = useState('rgb(0 0 0 / 43%)');
-  const [placeholderColorComplement, setPlaceholderColorComplement] = useState('rgb(0 0 0 / 43%)');
+  const [placeholderColorComplement] = useState('rgb(0 0 0 / 43%)');
 
   const [valueInputStateCity, setValueInputStateCity] = useState('');
   const [valueInputNumberHouse, setValueInputNumberHouse] = useState('');
@@ -416,35 +462,78 @@ const NewAddressModal = ({ userLogin, changeValueNewAddressModal }: NewAddressMo
     verifyCepUser(inputCep.value);
 
     if (canSendToDbInner) {
-      let objAddress = {
-        fullName: inputNameFull.value,
-        phoneNumber: inputNumberPhone.value,
-        cep: inputCep.value,
-        stateCity: inputStateCity.value,
-        neighborhood: inputNeighborhood.value,
-        street: inputStreetAvenue.value,
-        numberHome: inputNumberHome.value,
-        complement: inputComplement.value,
-        userId: userLogin.id,
-      };
+      if (clickedEditAddress) {
+        if (inputComplement === null) return;
 
-      const res = await fetch(`${Url}/public/address/create`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(objAddress),
-      });
+        let objAddress = {
+          id: clickedEditAddress.id,
+          fullName: inputNameFull.value ? inputNameFull.value : clickedEditAddress.fullName,
+          phoneNumber: inputNumberPhone.value
+            ? inputNumberPhone.value
+            : clickedEditAddress.phoneNumber,
+          cep: inputCep.value ? inputCep.value : clickedEditAddress.cep,
+          stateCity: inputStateCity.value ? inputStateCity.value : clickedEditAddress.stateCity,
+          neighborhood: inputNeighborhood.value
+            ? inputNeighborhood.value
+            : clickedEditAddress.neighborhood,
+          street: inputStreetAvenue.value ? inputStreetAvenue.value : clickedEditAddress.street,
+          numberHome: inputNumberHome.value ? inputNumberHome.value : clickedEditAddress.numberHome,
+          complement: inputComplement.value ? inputComplement.value : clickedEditAddress.complement,
+        };
 
-      if (res.status === 200) {
-        const json = await res.json();
-        let address: IAddresses = json.data;
-        changeValueNewAddressModal(false);
-      }
+        const res = await fetch(`${Url}/public/address/update`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(objAddress),
+        });
 
-      if (res.status === 400) {
-        const json = await res.json();
-        console.log(json);
+        if (res.status === 200) {
+          const json = await res.json();
+          let address: IUserAddress = json.data;
+          console.log(address);
+
+          createNewUserAddress(address);
+          changeValueNewAddressModal(false);
+        }
+
+        if (res.status === 400) {
+          const json = await res.json();
+          console.log(json);
+        }
+      } else {
+        let objAddress = {
+          fullName: inputNameFull.value,
+          phoneNumber: inputNumberPhone.value,
+          cep: inputCep.value,
+          stateCity: inputStateCity.value,
+          neighborhood: inputNeighborhood.value,
+          street: inputStreetAvenue.value,
+          numberHome: inputNumberHome.value,
+          complement: inputComplement.value,
+          userId: userLogin.id,
+        };
+
+        const res = await fetch(`${Url}/public/address/create`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(objAddress),
+        });
+
+        if (res.status === 200) {
+          const json = await res.json();
+          let address: IUserAddress = json.data;
+          createNewUserAddress(address);
+          changeValueNewAddressModal(false);
+        }
+
+        if (res.status === 400) {
+          const json = await res.json();
+          console.log(json);
+        }
       }
     } else {
       console.log('não pode mandar');
@@ -522,7 +611,9 @@ const NewAddressModal = ({ userLogin, changeValueNewAddressModal }: NewAddressMo
   return (
     <Styled.ContainerModalNewAddress>
       <Styled.ContainerModalInner>
-        <Styled.Span>Novo Endereço</Styled.Span>
+        {!clickedEditAddress && <Styled.Span>Novo Endereço</Styled.Span>}
+        {clickedEditAddress && <Styled.Span>Editar endereço</Styled.Span>}
+
         <Styled.ContainerAllInputs>
           <Styled.ContainerCpfAndErrors>
             <Styled.ContainerInputAll $width="100%" ref={RefContainerAllNameFull}>
