@@ -19,7 +19,6 @@ enum InputsNames {
 interface NewAddressModalProps {
   userLogin: ObjUser;
   clickedEditAddress: IUserAddress | null;
-  userAddress: IUserAddress[] | null;
   changeValueNewAddressModal: (value: boolean) => void;
   createNewUserAddress: (userAddress: IUserAddress) => void;
 }
@@ -27,7 +26,6 @@ interface NewAddressModalProps {
 const NewAddressModal = ({
   userLogin,
   clickedEditAddress,
-  userAddress,
   changeValueNewAddressModal,
   createNewUserAddress,
 }: NewAddressModalProps) => {
@@ -62,7 +60,6 @@ const NewAddressModal = ({
 
   useEffect(() => {
     if (
-      userAddress === null ||
       RefInputNameFull.current === null ||
       RefInputNumberPhone.current === null ||
       RefInputCep.current === null ||

@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { IUserAddress } from '../../../../InterfaceAll/IUserAddress/IUserAddress';
 import * as Styled from './styled';
 import { Url } from '../../../../../Utils/Url';
@@ -18,12 +17,6 @@ const ViewAddressUser = ({
   updateNewUserAddressDefault,
   changeValueNewAddressModal,
 }: ViewAddressUserProps) => {
-  const [cityStateCep, setCityStateCep] = useState('');
-
-  // useEffect(() => {
-  //   console.log(userAddress);
-  // }, [userAddress]);
-
   const onClickEditAddress = (address: IUserAddress) => {
     wasClickedEditAddress(address);
   };

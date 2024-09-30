@@ -1,13 +1,13 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as Styled from './styled';
 import { useEffect, useState } from 'react';
-import SvgAddresses from '../../SvgMyAccount/SvgAddresses/SvgAddresses';
-import SvgPlus from '../../../../Svg/SvgPlus/SvgPlus';
 import NewAddressModal from '../NewAddressModal/NewAddressModal';
 import { Url } from '../../../../../Utils/Url';
 import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
 import { IUserAddress } from '../../../../InterfaceAll/IUserAddress/IUserAddress';
 import ViewAddressUser from '../ViewAddressUser/ViewAddressUser';
+import HeaderAddress from '../HeaderAddress/HeaderAddress';
+import DontHaveAnyAddresses from '../DontHaveAnyAddresses/DontHaveAnyAddresses';
 
 const Addresses = () => {
   const location = useLocation();
@@ -134,17 +134,7 @@ const Addresses = () => {
 
   return (
     <Styled.ContainerMain>
-      <Styled.ContainerMainAddresses>
-        <Styled.H1>Meus endereços</Styled.H1>
-        <Styled.ContainerInsertAddressMain>
-          <Styled.ContainerInsertAddress onClick={onClickInsertNewAddress}>
-            <Styled.ContainerSvgPlus>
-              <SvgPlus></SvgPlus>
-            </Styled.ContainerSvgPlus>
-            <Styled.Span>Inserir novo endereço</Styled.Span>
-          </Styled.ContainerInsertAddress>
-        </Styled.ContainerInsertAddressMain>
-      </Styled.ContainerMainAddresses>
+      <HeaderAddress onClickInsertNewAddress={onClickInsertNewAddress} />
 
       {userAddress && (
         <ViewAddressUser
@@ -156,17 +146,11 @@ const Addresses = () => {
         />
       )}
 
-      {userAddress && userAddress.length <= 0 && (
-        <Styled.ContainerSvgThereIsNoAddresses>
-          <SvgAddresses></SvgAddresses>
-          <Styled.Span>Você ainda não tem endereços.</Styled.Span>
-        </Styled.ContainerSvgThereIsNoAddresses>
-      )}
+      {userAddress && userAddress.length <= 0 && <DontHaveAnyAddresses />}
 
       {newAddressModal && userLogin && (
         <NewAddressModal
           userLogin={userLogin}
-          userAddress={userAddress}
           clickedEditAddress={clickedEditAddress}
           changeValueNewAddressModal={changeValueNewAddressModal}
           createNewUserAddress={createNewUserAddress}
