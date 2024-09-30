@@ -120,8 +120,6 @@ const Addresses = () => {
     });
 
     if (res.status === 200) {
-      const json = await res.json();
-
       setUserAddress((prev) => {
         if (prev) {
           return prev.filter((item) => item.id !== address.id);

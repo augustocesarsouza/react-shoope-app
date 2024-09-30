@@ -125,12 +125,12 @@ const NewAddressModal = ({
   const [placeholderColorNamberPhone, setPlaceholderColorNamberPhone] =
     useState('rgb(0 0 0 / 43%)');
   const [placeholderColorCep, setPlaceholderColorCep] = useState('rgb(0 0 0 / 43%)');
-  const [placeholderColorStateCity, setPlaceholderColorStateCity] = useState('rgb(0 0 0 / 43%)');
+  const [placeholderColorStateCity] = useState('rgb(0 0 0 / 43%)');
   const [placeholderColorNeighborhood, setPlaceholderColorNeighborhood] =
     useState('rgb(0 0 0 / 43%)');
   const [placeholderColorStreet, setPlaceholderColorStreet] = useState('rgb(0 0 0 / 43%)');
   const [placeholderColorNumber, setPlaceholderColorNumber] = useState('rgb(0 0 0 / 43%)');
-  const [placeholderColorComplement, setPlaceholderColorComplement] = useState('rgb(0 0 0 / 43%)');
+  const [placeholderColorComplement] = useState('rgb(0 0 0 / 43%)');
 
   const [valueInputStateCity, setValueInputStateCity] = useState('');
   const [valueInputNumberHouse, setValueInputNumberHouse] = useState('');
