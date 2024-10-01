@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import * as Styled from './styled';
-import { ContextHome, ObjUser } from '../../../Templates/Home/Home';
+import { ContextHome } from '../../../Templates/Home/Home';
 import SvgUserBody from '../AllSvgHeader/SvgUserBody/SvgUserBody';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSortUp } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { ObjUser } from '../../InterfaceAll/IObjUser/IObjUser';
 
 const HeaderFirst = () => {
   const [userObjState, setUserObjState] = useState<ObjUser>();
@@ -18,7 +19,7 @@ const HeaderFirst = () => {
     let userString = localStorage.getItem('user');
 
     if (userString === null) {
-      localStorage.clearItem('user');
+      // localStorage.clearItem('user');
       nav('/login');
       return;
     }

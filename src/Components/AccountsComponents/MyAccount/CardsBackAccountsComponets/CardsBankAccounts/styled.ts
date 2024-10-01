@@ -10,6 +10,7 @@ export const ContainerMain = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
+  width: 950px;
 `;
 
 export const ContainerFirst = styled.div``;

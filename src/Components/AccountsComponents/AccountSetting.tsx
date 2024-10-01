@@ -48,6 +48,11 @@ const AccountSetting = () => {
       // pode ser um switch
       nav('/user/account/address', { state: { user: userObjState } });
     }
+
+    if (number === '4') {
+      // nav('/user/account/password', { state: { user: userObjState } });
+      nav('/verify', { state: { user: userObjState } });
+    }
   };
 
   return (

@@ -13,6 +13,9 @@ import ChangeInformationEmail from '../../Components/AccountsComponents/MyAccoun
 import PhoneChange from '../../Components/AccountsComponents/MyAccount/PerfilComponents/PhoneChange/PhoneChange';
 import EmailConfirmCode from '../../Components/AccountsComponents/MyAccount/PerfilComponents/EmailConfirmCode/EmailConfirmCode';
 import Addresses from '../../Components/AccountsComponents/MyAccount/AddressesComponents/Addresses/Addresses';
+import ChangePassword from '../../Components/AccountsComponents/MyAccount/ChangePasswordComponents/ChangePassword/ChangePassword';
+import VerifyPassword from '../../Components/VerifyPasswordComponents/VerifyPassword/VerifyPassword';
+import VerifyPasswordStep2 from '../../Components/VerifyPasswordComponents/VerifyPasswordStep2/VerifyPasswordStep2';
 
 const AppContent = () => {
   document.body.style.overflowY = 'none';
@@ -26,6 +29,8 @@ const AppContent = () => {
     <Styled.ContainerMain>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/verify" element={<VerifyPassword />} />
+        <Route path="/verify/password" element={<VerifyPasswordStep2 />} />
         <Route path="/user/account" element={<AccountSetting />}>
           <Route index element={<Navigate to="profile" />}></Route>
           <Route path="profile" element={<Perfil />} />
@@ -35,6 +40,7 @@ const AppContent = () => {
           <Route path="change-email" element={<ChangeInformationEmail />} />
           <Route path="phone" element={<PhoneChange />} />
           <Route path="kyc" element={<FillCpfAndBirthdate />} />
+          <Route path="password" element={<ChangePassword />} />
         </Route>
         <Route path="/login" element={<LoginComponentMain />} />
         <Route path="/signup" element={<RegisterUserComponentMain />} />

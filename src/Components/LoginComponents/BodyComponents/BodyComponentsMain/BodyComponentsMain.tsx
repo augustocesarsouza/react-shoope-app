@@ -133,7 +133,7 @@ const BodyComponentsMain = () => {
               <input type="password" placeholder="Senha" ref={inputLoginPassword} />
             </Styled.ContainerInput>
             <Styled.ContainerButtonSpansOrWhiteLine>
-              <Styled.Button onClick={() => onClickLogin()} ref={linkEnter}>
+              <Styled.Button onClick={onClickLogin} ref={linkEnter}>
                 ENTRE
               </Styled.Button>
               <Styled.ContainerSpan>
