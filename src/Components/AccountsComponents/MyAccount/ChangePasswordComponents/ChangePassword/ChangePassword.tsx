@@ -275,11 +275,15 @@ const ChangePassword = () => {
                     <Styled.Input
                       type="password"
                       placeholder=""
+                      id="input-new-password"
                       maxLength={16}
                       ref={RefInputEyesNewPassword}
                       onChange={(e) => onChangeNewPasssword(e)}
                     />
-                    <Styled.ContainerSvgEyes onClick={onClickEyesNewPassword}>
+                    <Styled.ContainerSvgEyes
+                      onClick={onClickEyesNewPassword}
+                      className="container-svg-eyes-1"
+                    >
                       {!showEyesOpenNewPassword && <SvgEyes />}
                       {showEyesOpenNewPassword && <SvgEyesOpen />}
                     </Styled.ContainerSvgEyes>
@@ -303,10 +307,14 @@ const ChangePassword = () => {
                     <Styled.Input
                       type="password"
                       placeholder=""
+                      id="input-confirm-password"
                       ref={RefInputEyesConfirmPassword}
                       onChange={(e) => onChangeConfirmPassword(e)}
                     />
-                    <Styled.ContainerSvgEyes onClick={onClickEyesConfirmPassword}>
+                    <Styled.ContainerSvgEyes
+                      onClick={onClickEyesConfirmPassword}
+                      className="container-svg-eyes-2"
+                    >
                       {!showEyesOpenConfirmPassword && <SvgEyes />}
                       {showEyesOpenConfirmPassword && <SvgEyesOpen />}
                     </Styled.ContainerSvgEyes>

@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import HeaderToLoginAndRegisterComponent from '../HeaderToLoginAndRegisterComponent/HeaderToLoginAndRegisterComponent';
 import * as Styled from './styled';
 import { ObjUser } from '../../InterfaceAll/IObjUser/IObjUser';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SvgArrowLeft from '../Svg/SvgArrowLeft/SvgArrowLeft';
 import SvgEyes from '../Svg/SvgEyes/SvgEyes';
-import FooterChangePassword from '../FooterChangePassword/FooterChangePassword';
 import SvgEyesOpen from '../Svg/SvgEyesOpen/SvgEyesOpen';
 import { Url } from '../../../Utils/Url';
 import SvgErrorX from '../Svg/SvgErrorX/SvgErrorX';
+import HeaderToLoginAndRegisterComponent from '../HeaderToLoginAndRegisterComponent/HeaderToLoginAndRegisterComponent';
+import FooterChangePassword from '../FooterChangePassword/FooterChangePassword';
 
 const VerifyPasswordStep2 = () => {
   const [userObjState, setUserObjState] = useState<ObjUser>();
@@ -115,7 +115,7 @@ const VerifyPasswordStep2 = () => {
         <Styled.ContainerInsertPassword $showErrorPasswordWrong={showErrorPasswordWrong}>
           {showErrorPasswordWrong === false && (
             <Styled.ContainerTopInsertPassword>
-              <Styled.ContainerArrowLeft>
+              <Styled.ContainerArrowLeft className="container-arrow-left">
                 <SvgArrowLeft />
               </Styled.ContainerArrowLeft>
               <Styled.H1>Insira Sua Senha da Shopee</Styled.H1>
@@ -147,7 +147,7 @@ const VerifyPasswordStep2 = () => {
                     ref={RefInputEyes}
                     onChange={onChangeInputEye}
                   />
-                  <Styled.ContainerSvgEyes onClick={onClickEyes}>
+                  <Styled.ContainerSvgEyes onClick={onClickEyes} className="container-svg-eyes">
                     {!showEyesOpen && <SvgEyes />}
                     {showEyesOpen && <SvgEyesOpen />}
                   </Styled.ContainerSvgEyes>
