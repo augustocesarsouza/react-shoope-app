@@ -40,14 +40,14 @@ const VerifyPassword = () => {
       <HeaderLoginComponentsMain></HeaderLoginComponentsMain>
       <Styled.ContainerBodyVerifyPasswordMain>
         <Styled.ContainerBodyVerifyPassword>
-          <Styled.ContainerSvgShield>
+          <Styled.ContainerSvgShield className="container-svg-shield">
             <ShieldShopee></ShieldShopee>
           </Styled.ContainerSvgShield>
           <Styled.H1>
             Para sua segurança, por favor verifique sua identidade com um dos métodos abaixo
           </Styled.H1>
           <Styled.ContainerButtonVerify onClick={onClickInputVerifyWithPassword}>
-            <Styled.ContainerSvgLock>
+            <Styled.ContainerSvgLock className="container-svg-lock">
               <LockShopee />
             </Styled.ContainerSvgLock>
             <Styled.Span>Verificar com Senha</Styled.Span>

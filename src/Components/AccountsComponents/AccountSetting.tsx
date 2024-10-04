@@ -28,6 +28,24 @@ const AccountSetting = () => {
 
     let userJson = JSON.parse(userLocalStorage);
     setUserObjState(userJson);
+
+    const currentPath = window.location.pathname; // Retorna o caminho da URL, por exemplo, '/user/account/password'
+
+    if (currentPath === '/user/account/profile') {
+      setWhichWasClicked('1');
+    }
+
+    if (currentPath === '/user/account/payment') {
+      setWhichWasClicked('2');
+    }
+
+    if (currentPath === '/user/account/address') {
+      setWhichWasClicked('3');
+    }
+
+    if (currentPath === '/user/account/password') {
+      setWhichWasClicked('4');
+    }
   }, [whichWasClicked]);
 
   const onClickMyAccountItens = (number: string) => {
