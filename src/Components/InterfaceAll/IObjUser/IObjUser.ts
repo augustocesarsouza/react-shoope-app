@@ -6,4 +6,5 @@ export interface ObjUser {
   cpf: string;
   birthDate: string;
   gender: string;
+  token: string;
 }

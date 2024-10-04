@@ -69,6 +69,11 @@ const HeaderFirst = () => {
     setShowOptionsUserLogin(false);
   };
 
+  const onClickExitAccount = () => {
+    localStorage.removeItem('user');
+    nav('/');
+  };
+
   return (
     <Styled.HeaderNavFirstMain>
       <Styled.HeaderNavFirst>
@@ -140,7 +145,7 @@ const HeaderFirst = () => {
                 <FontAwesomeIcon icon={faSortUp} />
                 <Styled.span onClick={() => onClickMyAccount()}>Minha Conta</Styled.span>
                 <Styled.span>Minha Compras</Styled.span>
-                <Styled.span>Sair</Styled.span>
+                <Styled.span onClick={onClickExitAccount}>Sair</Styled.span>
               </Styled.ContainerAccountOption>
             )}
           </Styled.ContainerUserMain>

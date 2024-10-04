@@ -74,8 +74,17 @@ const VerifyPasswordStep2 = () => {
 
     if (inputEyes.value.length > 0) {
       let valueInputEyes = inputEyes.value;
+
       const res = await fetch(
-        `${Url}/public/user/verify-password/${userObjState.phone}/${valueInputEyes}`
+        `${Url}/user/verify-password/${userObjState.phone}/${valueInputEyes}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${userObjState.token}`,
+            uid: userObjState.id,
+            'Content-Type': 'application/json',
+          },
+        }
       );
 
       if (res.status === 200) {
@@ -89,6 +98,11 @@ const VerifyPasswordStep2 = () => {
         const json = await res.json();
         let data = json.data;
         setShowErroSistem(data.passwordIsCorrect);
+      }
+
+      if (res.status === 403 || res.status === 401) {
+        localStorage.removeItem('user');
+        nav('/login');
       }
       // verificar se o login foi feito com sucesso
     }
