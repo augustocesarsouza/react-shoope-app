@@ -326,9 +326,11 @@ const FillCpfAndBirthdate = () => {
       BirthDate: birthDateString,
     };
 
-    const res = await fetch(`${Url}/public/user/update-user`, {
+    const res = await fetch(`${Url}/user/update-user`, {
       method: 'PUT',
       headers: {
+        Authorization: `Bearer ${userObj.token}`,
+        uid: userObj.id,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userUpdate),
@@ -340,6 +342,15 @@ const FillCpfAndBirthdate = () => {
       let userUpdate: UserUpdateData = json.data;
 
       nav('/user/account/profile', { state: { user: userObj, userUpdate: userUpdate } });
+    }
+
+    if (res.status === 400) {
+      //ERROR
+    }
+
+    if (res.status === 403 || res.status === 401) {
+      localStorage.removeItem('user');
+      nav('/login');
     }
   };
 

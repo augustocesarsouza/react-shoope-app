@@ -50,7 +50,14 @@ const Addresses = () => {
   };
 
   const getValueAddresses = async (user: ObjUser) => {
-    const res = await fetch(`${Url}/public/address/get-address-by-user-id/${user.id}`);
+    const res = await fetch(`${Url}/address/get-address-by-user-id/${user.id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        uid: user.id,
+        'Content-Type': 'application/json',
+      },
+    });
 
     if (res.status === 200) {
       const json = await res.json();
@@ -61,6 +68,15 @@ const Addresses = () => {
       } else {
         setUserAddress(addressData);
       }
+    }
+
+    if (res.status === 400) {
+      //ERROR
+    }
+
+    if (res.status === 403 || res.status === 401) {
+      localStorage.removeItem('user');
+      nav('/login');
     }
   };
 
@@ -113,10 +129,15 @@ const Addresses = () => {
   };
 
   const wasClickedDeleteAddress = async (address: IUserAddress) => {
-    if (address === null) return;
+    if (address === null || userLogin === null) return;
 
-    const res = await fetch(`${Url}/public/address/delete/${address.id}`, {
+    const res = await fetch(`${Url}/address/delete/${address.id}`, {
       method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${userLogin.token}`,
+        uid: userLogin.id,
+        'Content-Type': 'application/json',
+      },
     });
 
     if (res.status === 200) {
@@ -128,6 +149,15 @@ const Addresses = () => {
         return prev;
       });
     }
+
+    if (res.status === 400) {
+      //ERROR
+    }
+
+    if (res.status === 403 || res.status === 401) {
+      localStorage.removeItem('user');
+      nav('/login');
+    }
   };
 
   return (
@@ -136,6 +166,7 @@ const Addresses = () => {
 
       {userAddress && (
         <ViewAddressUser
+          userLogin={userLogin}
           userAddress={userAddress}
           wasClickedEditAddress={wasClickedEditAddress}
           wasClickedDeleteAddress={wasClickedDeleteAddress}

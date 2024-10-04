@@ -10,6 +10,7 @@ const Perfil = () => {
   const [userObj, setUserObj] = useState<ObjUser | null>(null);
   const [valueInput, setValueInput] = useState('');
   const [emailUser, setEmailUser] = useState('');
+  const [genderUser, setGenderUser] = useState('');
 
   const [showInsertEmail, setShowInsertEmail] = useState(false);
   const [showChangeEmail, setShowChangeEmail] = useState(false);
@@ -18,7 +19,6 @@ const Perfil = () => {
   const [birthdate, setBirthdate] = useState<string | null>(null);
   const [cpf, setCpf] = useState<string | null>(null);
   const RefInputNameUser = useRef<HTMLInputElement | null>(null);
-  const [genderUser, setGenderUser] = useState('');
 
   const nav = useNavigate();
   const location = useLocation();
@@ -46,19 +46,32 @@ const Perfil = () => {
 
   const getInfoUser = async (userObj: ObjUser) => {
     let userId = userObj?.id;
-    const res = await fetch(`${Url}/public/user/get-user-by-id/${userId}`);
+    const res = await fetch(`${Url}/user/get-user-by-id/${userId}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${userObj.token}`,
+        uid: userObj.id,
+        'Content-Type': 'application/json',
+      },
+    });
 
     if (res.status === 200) {
       const json = await res.json();
       let data: ObjUser = json.data;
-      localStorage.setItem('user', JSON.stringify(data));
 
       setGenderUser(data.gender);
       emailToShowToUserMyPerfil(data.email);
 
       setUserObj(data);
-    } else if (res.status === 400) {
-      const json = await res.json();
+    }
+
+    if (res.status === 400) {
+      //ERROR
+    }
+
+    if (res.status === 403 || res.status === 401) {
+      // const json = await res.json();
+
       localStorage.removeItem('user');
       nav('/login');
     }
@@ -246,9 +259,11 @@ const Perfil = () => {
       BirthDate: '',
     };
 
-    const res = await fetch(`${Url}/public/user/update-user-all`, {
+    const res = await fetch(`${Url}/user/update-user-all`, {
       method: 'PUT',
       headers: {
+        Authorization: `Bearer ${userObj.token}`,
+        uid: userObj.id,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userUpdate),
@@ -256,16 +271,32 @@ const Perfil = () => {
 
     if (res.status === 200) {
       const json = await res.json();
-      let user = json.data;
+      let user: ObjUser = json.data;
       setShowUpdateSuccessfully(true);
 
       document.body.style.overflow = 'hidden';
 
-      localStorage.setItem('user', JSON.stringify(user));
+      let usser = localStorage.getItem('user');
+
+      if (usser === null) return;
+
+      let userLocalStoage: ObjUser = JSON.parse(usser);
+
+      userLocalStoage.email = user.email;
+      userLocalStoage.id = user.id;
+      userLocalStoage.name = user.name;
+      userLocalStoage.phone = user.phone;
+
+      localStorage.setItem('user', JSON.stringify(userLocalStoage));
     }
 
     if (res.status === 400) {
-      const json = await res.json();
+      //ERROR
+    }
+
+    if (res.status === 403 || res.status === 401) {
+      localStorage.removeItem('user');
+      nav('/login');
     }
   };
 

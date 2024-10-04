@@ -1,8 +1,11 @@
 import { IUserAddress } from '../../../../InterfaceAll/IUserAddress/IUserAddress';
 import * as Styled from './styled';
 import { Url } from '../../../../../Utils/Url';
+import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
+import { useNavigate } from 'react-router-dom';
 
 interface ViewAddressUserProps {
+  userLogin: ObjUser | null;
   userAddress: IUserAddress[];
   wasClickedEditAddress: (address: IUserAddress) => void;
   wasClickedDeleteAddress: (address: IUserAddress) => Promise<void>;
@@ -11,12 +14,15 @@ interface ViewAddressUserProps {
 }
 
 const ViewAddressUser = ({
+  userLogin,
   userAddress,
   wasClickedEditAddress,
   wasClickedDeleteAddress,
   updateNewUserAddressDefault,
   changeValueNewAddressModal,
 }: ViewAddressUserProps) => {
+  const nav = useNavigate();
+
   const onClickEditAddress = (address: IUserAddress) => {
     wasClickedEditAddress(address);
   };
@@ -26,6 +32,8 @@ const ViewAddressUser = ({
   };
 
   const onClickSetAsDefault = async (address: IUserAddress) => {
+    if (userLogin === null) return;
+
     let addressUpdateDefault = {
       id: address.id,
       defaultAddress: 1,
@@ -33,9 +41,11 @@ const ViewAddressUser = ({
 
     // updateNewUserAddressDefault(address);
 
-    const res = await fetch(`${Url}/public/address/update-only-default-address`, {
+    const res = await fetch(`${Url}/address/update-only-default-address`, {
       method: 'PUT',
       headers: {
+        Authorization: `Bearer ${userLogin.token}`,
+        uid: userLogin.id,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(addressUpdateDefault),
@@ -51,8 +61,12 @@ const ViewAddressUser = ({
     }
 
     if (res.status === 400) {
-      const json = await res.json();
-      console.log(json);
+      //ERROR
+    }
+
+    if (res.status === 403 || res.status === 401) {
+      localStorage.removeItem('user');
+      nav('/login');
     }
   };
 

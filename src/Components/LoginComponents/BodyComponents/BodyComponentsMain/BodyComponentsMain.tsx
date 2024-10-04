@@ -3,10 +3,11 @@ import * as Styled from './styled';
 import { Url } from '../../../../Utils/Url';
 import { useRef, useState } from 'react';
 import SvgFailAuthentication from '../../AllSvgLogin/SvgFailAuthentication/SvgFailAuthentication';
+import { ObjUser } from '../../../InterfaceAll/IObjUser/IObjUser';
 
 interface UserLogin {
   passwordIsCorrect: boolean;
-  userDTO: UserDTO;
+  userDTO: ObjUser;
 }
 
 export interface UserDTO {
@@ -133,7 +134,7 @@ const BodyComponentsMain = () => {
               <input type="password" placeholder="Senha" ref={inputLoginPassword} />
             </Styled.ContainerInput>
             <Styled.ContainerButtonSpansOrWhiteLine>
-              <Styled.Button onClick={() => onClickLogin()} ref={linkEnter}>
+              <Styled.Button onClick={onClickLogin} ref={linkEnter}>
                 ENTRE
               </Styled.Button>
               <Styled.ContainerSpan>
