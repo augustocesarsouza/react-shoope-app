@@ -4,6 +4,7 @@ import { Url } from '../../../../../Utils/Url';
 import Inputmask from 'inputmask';
 import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
 import { IUserAddress } from '../../../../InterfaceAll/IUserAddress/IUserAddress';
+import { useNavigate } from 'react-router-dom';
 
 enum InputsNames {
   FullName = 'fullName',
@@ -57,6 +58,7 @@ const NewAddressModal = ({
   const RefContainerAllStreet = useRef<HTMLDivElement | null>(null);
   const RefContainerAllNumber = useRef<HTMLDivElement | null>(null);
   const RefContainerAllComplement = useRef<HTMLDivElement | null>(null);
+  const nav = useNavigate();
 
   useEffect(() => {
     if (
@@ -481,9 +483,11 @@ const NewAddressModal = ({
           complement: inputComplement.value ? inputComplement.value : clickedEditAddress.complement,
         };
 
-        const res = await fetch(`${Url}/public/address/update`, {
+        const res = await fetch(`${Url}/address/update`, {
           method: 'PUT',
           headers: {
+            Authorization: `Bearer ${userLogin.token}`,
+            uid: userLogin.id,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(objAddress),
@@ -499,8 +503,12 @@ const NewAddressModal = ({
         }
 
         if (res.status === 400) {
-          const json = await res.json();
-          console.log(json);
+          //ERROR
+        }
+
+        if (res.status === 403 || res.status === 401) {
+          localStorage.removeItem('user');
+          nav('/login');
         }
       } else {
         let objAddress = {
@@ -515,9 +523,11 @@ const NewAddressModal = ({
           userId: userLogin.id,
         };
 
-        const res = await fetch(`${Url}/public/address/create`, {
+        const res = await fetch(`${Url}/address/create`, {
           method: 'POST',
           headers: {
+            Authorization: `Bearer ${userLogin.token}`,
+            uid: userLogin.id,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(objAddress),
@@ -531,8 +541,12 @@ const NewAddressModal = ({
         }
 
         if (res.status === 400) {
-          const json = await res.json();
-          console.log(json);
+          //ERROR
+        }
+
+        if (res.status === 403 || res.status === 401) {
+          localStorage.removeItem('user');
+          nav('/login');
         }
       }
     } else {

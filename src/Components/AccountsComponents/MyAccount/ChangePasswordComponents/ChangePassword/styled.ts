@@ -155,3 +155,30 @@ export const ContainerButtonConfirm = styled.div`
     border-radius: 2px;
   }
 `;
+
+export const ContainerModalPasswordChangeSuccessfully = styled.div`
+  position: absolute;
+  left: 600px;
+  top: 450px;
+  width: 210px;
+  height: 90px;
+  background-color: #00000082;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  padding: 15px 0px;
+
+  >svg {
+    width: 20px;
+    height: 20px;
+    color: #4caf50;
+  }
+
+  >span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+  }
+`;

@@ -51,6 +51,8 @@ const InsertEmail = () => {
   const [emailAlreadyExist, setEmailAlreadyExist] = useState(false);
 
   const onClickSendCodeEmail = async () => {
+    if (userObj === null) return;
+
     if (
       RefInputEmail.current === null ||
       RefInputEmail.current.value.length <= 0 ||
@@ -67,9 +69,11 @@ const InsertEmail = () => {
       Email: email,
     };
 
-    const resp = await fetch(`${Url}/public/user/confirm-email-send-code`, {
+    const resp = await fetch(`${Url}/user/confirm-email-send-code`, {
       method: 'POST',
       headers: {
+        Authorization: `Bearer ${userObj.token}`,
+        uid: userObj.id,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(objSend),

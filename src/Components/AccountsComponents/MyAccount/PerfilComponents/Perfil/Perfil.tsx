@@ -46,7 +46,7 @@ const Perfil = () => {
 
   const getInfoUser = async (userObj: ObjUser) => {
     let userId = userObj?.id;
-    const res = await fetch(`${Url}/public/user/get-user-by-id/${userId}`, {
+    const res = await fetch(`${Url}/user/get-user-by-id/${userId}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${userObj.token}`,
@@ -65,7 +65,11 @@ const Perfil = () => {
       setUserObj(data);
     }
 
-    if (res.status === 400 || res.status === 403 || res.status === 401) {
+    if (res.status === 400) {
+      //ERROR
+    }
+
+    if (res.status === 403 || res.status === 401) {
       // const json = await res.json();
 
       localStorage.removeItem('user');
@@ -255,9 +259,11 @@ const Perfil = () => {
       BirthDate: '',
     };
 
-    const res = await fetch(`${Url}/public/user/update-user-all`, {
+    const res = await fetch(`${Url}/user/update-user-all`, {
       method: 'PUT',
       headers: {
+        Authorization: `Bearer ${userObj.token}`,
+        uid: userObj.id,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userUpdate),
@@ -285,7 +291,12 @@ const Perfil = () => {
     }
 
     if (res.status === 400) {
-      const json = await res.json();
+      //ERROR
+    }
+
+    if (res.status === 403 || res.status === 401) {
+      localStorage.removeItem('user');
+      nav('/login');
     }
   };
 

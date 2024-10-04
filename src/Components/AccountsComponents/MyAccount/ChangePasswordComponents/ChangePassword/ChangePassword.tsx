@@ -4,6 +4,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
 import SvgEyes from '../../../../VerifyPasswordComponents/Svg/SvgEyes/SvgEyes';
 import SvgEyesOpen from '../../../../VerifyPasswordComponents/Svg/SvgEyesOpen/SvgEyesOpen';
+import { Url } from '../../../../../Utils/Url';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+
+interface ChangePassword {
+  passwordUpdateSuccessfully: boolean;
+}
 
 const ChangePassword = () => {
   const nav = useNavigate();
@@ -40,6 +47,9 @@ const ChangePassword = () => {
     showErrorNewPasswordNotMatchWithConfirmPassword,
     setShowErrorNewPasswordNotMatchWithConfirmPassword,
   ] = useState<boolean | null>(null);
+  const [showPasswordChangeSuccessfully, setShowPasswordChangeSuccessfully] = useState(false);
+
+  const refSetTimeShowPasswordChangeSuccessfully = useRef();
 
   const onClickEyesNewPassword = () => {
     if (RefInputEyesNewPassword.current === null) return;
@@ -179,13 +189,70 @@ const ChangePassword = () => {
     }
   };
 
-  const onClickButtonConfirm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onClickButtonConfirm = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    let inputConfirmPassword = RefInputEyesConfirmPassword.current;
+
+    if (
+      showErrorNewPasswordNotMatchWithConfirmPassword === null ||
+      inputConfirmPassword === null ||
+      userObjState === null ||
+      userObjState === undefined
+    )
+      return;
 
     if (!showErrorNewPasswordNotMatchWithConfirmPassword && !showErrorPasswordError) {
       // Testar amanha mudar password se de com sucesso tem que aparecer algo parao usuario eu já gravei oque a shoppee fez
+
+      let objChangePassword = {
+        Phone: userObjState.phone,
+        ConfirmPassword: inputConfirmPassword.value,
+      };
+
+      let res = await fetch(`${Url}/user/change-password`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${userObjState.token}`,
+          uid: userObjState.id,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(objChangePassword),
+      });
+
+      if (res.status === 200) {
+        const json = await res.json();
+        let data: ChangePassword = json.data;
+        setShowPasswordChangeSuccessfully(data.passwordUpdateSuccessfully);
+      }
+
+      if (res.status === 400) {
+        //ERROR
+      }
+
+      if (res.status === 403 || res.status === 401) {
+        localStorage.removeItem('user');
+        nav('/login');
+      }
     }
   };
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout | null = null;
+
+    if (showPasswordChangeSuccessfully) {
+      timer = setTimeout(() => {
+        setShowPasswordChangeSuccessfully(false);
+        nav('/user/account/profile', { state: { user: userObjState } });
+      }, 2000);
+    }
+
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+    };
+  }, [showPasswordChangeSuccessfully]);
 
   return (
     <Styled.ContainerMain>
@@ -270,6 +337,12 @@ const ChangePassword = () => {
           </Styled.Tbody>
         </Styled.Table>
       </Styled.Form>
+      {showPasswordChangeSuccessfully && (
+        <Styled.ContainerModalPasswordChangeSuccessfully>
+          <FontAwesomeIcon icon={faCheck} />
+          <Styled.Span>Senha alterada com sucesso</Styled.Span>
+        </Styled.ContainerModalPasswordChangeSuccessfully>
+      )}
     </Styled.ContainerMain>
   );
 };
