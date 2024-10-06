@@ -1,8 +1,10 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as Styled from './styled';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SvgArrowBottom from '../../../../Svg/SvgArrowBottom/SvgArrowBottom';
 import SvgArrowTop from '../../../../Svg/SvgArrowTop/SvgArrowTop';
+import SvgGoogle from '../../../../Svg/SvgGoogle/SvgGoogle';
+import SvgTiktok from '../../../../Svg/SvgTiktok/SvgTiktok';
 
 const Cokie = () => {
   const location = useLocation();
@@ -144,7 +146,12 @@ const Cokie = () => {
             onClick={(e) => onClickContainerCheckout(e, 2)}
             className="container-checkout"
           ></Styled.Container>
-          <Styled.Span onClick={(e) => onClickSpanAcceptAllCookies(e, 2)}>Aceitar</Styled.Span>
+          <Styled.Span
+            onClick={(e) => onClickSpanAcceptAllCookies(e, 2)}
+            className="span-accept-cookie"
+          >
+            Aceitar
+          </Styled.Span>
         </Styled.ContainerCheckout>
       </Styled.ContainerCoockieAfterCoockiesEssentialThree>
 
@@ -162,7 +169,12 @@ const Cokie = () => {
             onClick={(e) => onClickContainerCheckout(e, 3)}
             className="container-checkout"
           ></Styled.Container>
-          <Styled.Span onClick={(e) => onClickSpanAcceptAllCookies(e, 3)}>Aceitar</Styled.Span>
+          <Styled.Span
+            onClick={(e) => onClickSpanAcceptAllCookies(e, 3)}
+            className="span-accept-cookie"
+          >
+            Aceitar
+          </Styled.Span>
         </Styled.ContainerCheckout>
       </Styled.ContainerCoockieAfterCoockiesEssentialThree>
 
@@ -180,7 +192,12 @@ const Cokie = () => {
             onClick={(e) => onClickContainerCheckout(e, 4)}
             className="container-checkout"
           ></Styled.Container>
-          <Styled.Span onClick={(e) => onClickSpanAcceptAllCookies(e, 4)}>Aceitar</Styled.Span>
+          <Styled.Span
+            onClick={(e) => onClickSpanAcceptAllCookies(e, 4)}
+            className="span-accept-cookie"
+          >
+            Aceitar
+          </Styled.Span>
         </Styled.ContainerCheckout>
       </Styled.ContainerCoockieAfterCoockiesEssentialThree>
 
@@ -188,8 +205,8 @@ const Cokie = () => {
         <Styled.ContainerCoockieAfterCoockiesEssentialThreeInner>
           <Styled.H1>Cookies terceirizados</Styled.H1>
           <Styled.Span>
-            Recolhe informações sobre a sua atividade no site ou atividade de navegação para
-            apresentar conteúdos mais relevantes para você e para os seus interesses.
+            Esses cookies podem ser fornecidos por provedores de análise de terceiros ou para fins
+            de publicidade, mas são usados apenas para fins relacionados aos nossos serviços.
           </Styled.Span>
         </Styled.ContainerCoockieAfterCoockiesEssentialThreeInner>
 
@@ -198,15 +215,49 @@ const Cokie = () => {
             onClick={(e) => onClickContainerCheckout(e, 5)}
             className="container-checkout"
           ></Styled.Container>
-          <Styled.Span onClick={(e) => onClickSpanAcceptAllCookies(e, 5)}>Aceitar</Styled.Span>
+          <Styled.Span
+            onClick={(e) => onClickSpanAcceptAllCookies(e, 5)}
+            className="span-accept-cookie"
+          >
+            Aceitar
+          </Styled.Span>
         </Styled.ContainerCheckout>
       </Styled.ContainerCoockieAfterCoockiesEssentialThree>
 
-      <Styled.ContainerSeeMore onClick={onClickContainerSeeMore}>
-        <Styled.Span>Ver mais</Styled.Span>
-        {!showArrowTop && <SvgArrowBottom />}
-        {showArrowTop && <SvgArrowTop />}
-      </Styled.ContainerSeeMore>
+      <Styled.ContainerSeeMoreMain>
+        <Styled.ContainerSeeMoreInner onClick={onClickContainerSeeMore}>
+          <Styled.Span>Ver mais</Styled.Span>
+          {!showArrowTop && <SvgArrowBottom />}
+          {showArrowTop && <SvgArrowTop />}
+        </Styled.ContainerSeeMoreInner>
+      </Styled.ContainerSeeMoreMain>
+
+      {showArrowTop && (
+        <Styled.ContainerSeeMoreGoogleAndTiktok $showArrowTop={showArrowTop}>
+          <Styled.ContainerGoogleAndTiktokAccept $containerGoogleAndTiktok={1}>
+            <Styled.ContainerGoogleTiktokInner>
+              <SvgGoogle />
+              <Styled.Span>Google</Styled.Span>
+            </Styled.ContainerGoogleTiktokInner>
+
+            <Styled.ContainerCheckout $whatContainerCheckout={2}>
+              <Styled.Container onClick={(e) => onClickContainerCheckout(e, 6)}></Styled.Container>
+              <Styled.Span onClick={(e) => onClickSpanAcceptAllCookies(e, 6)}>Aceitar</Styled.Span>
+            </Styled.ContainerCheckout>
+          </Styled.ContainerGoogleAndTiktokAccept>
+          <Styled.ContainerGoogleAndTiktokAccept $containerGoogleAndTiktok={2}>
+            <Styled.ContainerGoogleTiktokInner>
+              <SvgTiktok />
+              <Styled.Span>Tiktok</Styled.Span>
+            </Styled.ContainerGoogleTiktokInner>
+
+            <Styled.ContainerCheckout $whatContainerCheckout={2}>
+              <Styled.Container onClick={(e) => onClickContainerCheckout(e, 6)}></Styled.Container>
+              <Styled.Span onClick={(e) => onClickSpanAcceptAllCookies(e, 6)}>Aceitar</Styled.Span>
+            </Styled.ContainerCheckout>
+          </Styled.ContainerGoogleAndTiktokAccept>
+        </Styled.ContainerSeeMoreGoogleAndTiktok>
+      )}
 
       <Styled.ContainerButtonConfirm>
         <Styled.Button>Confirmar</Styled.Button>

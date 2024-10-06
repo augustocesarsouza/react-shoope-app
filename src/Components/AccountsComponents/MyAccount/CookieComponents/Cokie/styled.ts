@@ -1,3 +1,4 @@
+import { eachMinuteOfIntervalWithOptions } from 'date-fns/fp';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -142,7 +143,14 @@ export const ContainerCoockieAfterCoockiesEssentialThreeInner = styled.div`
   }
 `;
 
-export const ContainerSeeMore = styled.div`
+export const ContainerSeeMoreMain = styled.div`
+  display: flex;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgb(0 0 0 / 20%);
+`;
+
+export const ContainerSeeMoreInner = styled.div`
   display: flex;
   gap: 5px;
   cursor: pointer;
@@ -159,16 +167,60 @@ export const ContainerSeeMore = styled.div`
   }
 `;
 
+interface ContainerSeeMoreGoogleAndTiktokProps {
+  $showArrowTop: boolean;
+}
+
+export const ContainerSeeMoreGoogleAndTiktok = styled.div<ContainerSeeMoreGoogleAndTiktokProps>`
+  /* display: ${props => props.$showArrowTop ? "flex" : "none"}; */
+  display: flex;
+  flex-direction: column;
+  height: ${props => props.$showArrowTop ? '70px' : '0px'};
+  transition: height 0.3s linear;
+  overflow: hidden;
+  user-select: none;
+`;
+
+interface ContainerGoogleAndTiktokAcceptProps {
+  $containerGoogleAndTiktok: number;
+}
+
+export const ContainerGoogleAndTiktokAccept = styled.div<ContainerGoogleAndTiktokAcceptProps>`
+  display: flex;
+  justify-content: space-between;
+
+  border-bottom: ${props => props.$containerGoogleAndTiktok === 1 && "1px solid rgb(0 0 0 / 20%)"};
+  padding-bottom: ${props => props.$containerGoogleAndTiktok === 1 && "10px"};
+  margin-bottom: ${props => props.$containerGoogleAndTiktok === 1 && "10px"};
+`;
+
+export const ContainerGoogleTiktokInner = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  >svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  >span {
+    font-size: 14px;
+    font-weight: 400;
+  }
+`;
+
 export const ContainerButtonConfirm = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 15px;
 
   >button {
-    background-color: #ee4d2d;
+    background-color: #ee4d2d;  
     color: #fff;
     border: none;
     width: 140px;
     height: 40px;
+    opacity: 0.7;
   }
 `;
