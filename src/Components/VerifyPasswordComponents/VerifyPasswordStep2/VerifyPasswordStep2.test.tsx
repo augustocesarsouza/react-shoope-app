@@ -5,7 +5,7 @@ import VerifyPasswordStep2 from './VerifyPasswordStep2';
 
 describe('VerifyPasswordStep2', () => {
   test('should render itens VerifyPasswordStep2', () => {
-    const { container, debug } = render(
+    const { container } = render(
       <MemoryRouter>
         <VerifyPasswordStep2 />
       </MemoryRouter>

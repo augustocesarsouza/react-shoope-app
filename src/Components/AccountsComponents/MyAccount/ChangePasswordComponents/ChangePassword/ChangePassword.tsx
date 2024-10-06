@@ -49,8 +49,6 @@ const ChangePassword = () => {
   ] = useState<boolean | null>(null);
   const [showPasswordChangeSuccessfully, setShowPasswordChangeSuccessfully] = useState(false);
 
-  const refSetTimeShowPasswordChangeSuccessfully = useRef();
-
   const onClickEyesNewPassword = () => {
     if (RefInputEyesNewPassword.current === null) return;
 
@@ -253,6 +251,8 @@ const ChangePassword = () => {
       }
     };
   }, [showPasswordChangeSuccessfully]);
+
+  // AMANHAR FAZER 'Cookie Preferences', DEPOIS DE FAZER ESSE "Cookie Preferences" fazer o teste do backend OU amanha você que sabe
 
   return (
     <Styled.ContainerMain>

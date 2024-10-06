@@ -4,6 +4,7 @@ import HeaderMain from '../HeaderComponents/HeaderMain/HeaderMain';
 import * as Styled from './styled';
 import { useEffect, useState } from 'react';
 import { ObjUser } from '../InterfaceAll/IObjUser/IObjUser';
+import FooterShopee from '../FooterShopeeComponents/FooterShopee/FooterShopee';
 
 const AccountSetting = () => {
   const [userObjState, setUserObjState] = useState<ObjUser>();
@@ -46,6 +47,23 @@ const AccountSetting = () => {
     if (currentPath === '/user/account/password') {
       setWhichWasClicked('4');
     }
+
+    if (currentPath === '/user/account/cookie') {
+      setWhichWasClicked('5');
+    }
+
+    let timer: NodeJS.Timeout | null = null;
+
+    timer = setTimeout(() => {
+      document.body.style.overflowY = 'auto';
+    }, 50);
+
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+    };
   }, [whichWasClicked]);
 
   const onClickMyAccountItens = (number: string) => {
@@ -70,6 +88,11 @@ const AccountSetting = () => {
     if (number === '4') {
       // nav('/user/account/password', { state: { user: userObjState } });
       nav('/verify', { state: { user: userObjState } });
+    }
+
+    if (number === '5') {
+      // nav('/user/account/password', { state: { user: userObjState } });
+      nav('/user/account/cookie', { state: { user: userObjState } });
     }
   };
 
@@ -181,6 +204,7 @@ const AccountSetting = () => {
           <Outlet />
         </Styled.ContainerAccountUser>
       </Styled.ContainerAccountUserMain>
+      <FooterShopee></FooterShopee>
     </Styled.ContainerMain>
   );
 };
