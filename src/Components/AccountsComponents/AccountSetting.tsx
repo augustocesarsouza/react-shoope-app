@@ -52,6 +52,10 @@ const AccountSetting = () => {
       setWhichWasClicked('5');
     }
 
+    if (currentPath === '/user/setting/privacy') {
+      setWhichWasClicked('6');
+    }
+
     let timer: NodeJS.Timeout | null = null;
 
     timer = setTimeout(() => {
@@ -93,6 +97,11 @@ const AccountSetting = () => {
     if (number === '5') {
       // nav('/user/account/password', { state: { user: userObjState } });
       nav('/user/account/cookie', { state: { user: userObjState } });
+    }
+
+    if (number === '6') {
+      // nav('/user/account/password', { state: { user: userObjState } });
+      nav('/user/setting/privacy', { state: { user: userObjState } });
     }
   };
 
