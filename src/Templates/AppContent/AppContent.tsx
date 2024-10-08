@@ -16,6 +16,7 @@ import Addresses from '../../Components/AccountsComponents/MyAccount/AddressesCo
 import ChangePassword from '../../Components/AccountsComponents/MyAccount/ChangePasswordComponents/ChangePassword/ChangePassword';
 import VerifyPassword from '../../Components/VerifyPasswordComponents/VerifyPassword/VerifyPassword';
 import VerifyPasswordStep2 from '../../Components/VerifyPasswordComponents/VerifyPasswordStep2/VerifyPasswordStep2';
+import Cokie from '../../Components/AccountsComponents/MyAccount/CookieComponents/Cokie/Cokie';
 
 const AppContent = () => {
   document.body.style.overflowY = 'none';
@@ -41,6 +42,7 @@ const AppContent = () => {
           <Route path="phone" element={<PhoneChange />} />
           <Route path="kyc" element={<FillCpfAndBirthdate />} />
           <Route path="password" element={<ChangePassword />} />
+          <Route path="cookie" element={<Cokie />} />
         </Route>
         <Route path="/login" element={<LoginComponentMain />} />
         <Route path="/signup" element={<RegisterUserComponentMain />} />
