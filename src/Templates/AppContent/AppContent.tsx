@@ -17,6 +17,8 @@ import ChangePassword from '../../Components/AccountsComponents/MyAccount/Change
 import VerifyPassword from '../../Components/VerifyPasswordComponents/VerifyPassword/VerifyPassword';
 import VerifyPasswordStep2 from '../../Components/VerifyPasswordComponents/VerifyPasswordStep2/VerifyPasswordStep2';
 import Cokie from '../../Components/AccountsComponents/MyAccount/CookieComponents/Cokie/Cokie';
+import SettingPrivacy from '../../Components/AccountsComponents/MyAccount/SettingPrivacyComponents/SettingPrivacy/SettingPrivacy';
+import AccountDelete from '../../Components/AccountsComponents/MyAccount/AccountDeleteComponents/AccountDelete/AccountDelete';
 
 const AppContent = () => {
   document.body.style.overflowY = 'none';
@@ -43,6 +45,10 @@ const AppContent = () => {
           <Route path="kyc" element={<FillCpfAndBirthdate />} />
           <Route path="password" element={<ChangePassword />} />
           <Route path="cookie" element={<Cokie />} />
+          <Route path="delete" element={<AccountDelete />} />
+        </Route>
+        <Route path="/user/setting" element={<AccountSetting />}>
+          <Route path="privacy" element={<SettingPrivacy />} />
         </Route>
         <Route path="/login" element={<LoginComponentMain />} />
         <Route path="/signup" element={<RegisterUserComponentMain />} />

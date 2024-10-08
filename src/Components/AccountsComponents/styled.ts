@@ -97,6 +97,8 @@ export const ContainerMyAccount = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
+  cursor: pointer;
+  user-select: none;
 
   >img {
     width: 20px;
@@ -108,10 +110,21 @@ export const ContainerMyAccount = styled.div`
     font-size: 14px;
     font-weight: 500;
   }
+
+  &:hover {
+    >span {
+      color: rgb(238, 77, 45);
+    }
+  }
 `;
 
-export const ContainerItensMyAccount = styled.div`
-  display: flex;
+interface ContainerItensMyAccountProps {
+  $accountDelete: boolean;
+}
+
+export const ContainerItensMyAccount = styled.div<ContainerItensMyAccountProps>`
+  /* display: flex; */
+  display: ${props => props.$accountDelete ? "none" : "flex"};
   flex-direction: column;
   gap: 10px;
 

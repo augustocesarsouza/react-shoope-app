@@ -11,6 +11,7 @@ const AccountSetting = () => {
   const [whichWasClicked, setWhichWasClicked] = useState('1');
   const location = useLocation();
   const nav = useNavigate();
+  const [accountDelete, setAccountDelete] = useState(false);
 
   useEffect(() => {
     let userLocalStorage = localStorage.getItem('user');
@@ -51,6 +52,16 @@ const AccountSetting = () => {
     if (currentPath === '/user/account/cookie') {
       setWhichWasClicked('5');
     }
+
+    if (currentPath === '/user/setting/privacy') {
+      setWhichWasClicked('6');
+    }
+
+    if (currentPath === '/user/account/delete') {
+      setAccountDelete(true);
+    }
+
+    console.log(currentPath);
 
     let timer: NodeJS.Timeout | null = null;
 
@@ -94,7 +105,25 @@ const AccountSetting = () => {
       // nav('/user/account/password', { state: { user: userObjState } });
       nav('/user/account/cookie', { state: { user: userObjState } });
     }
+
+    if (number === '6') {
+      // nav('/user/account/password', { state: { user: userObjState } });
+      nav('/user/setting/privacy', { state: { user: userObjState } });
+    }
   };
+
+  const onClickMyAccount = () => {
+    // setAccountDelete((prev) => !prev);
+
+    const containerItensMyAccount = document.querySelector(
+      '#container-itens-my-account'
+    ) as HTMLElement;
+    containerItensMyAccount.style.display = 'flex';
+  };
+
+  useEffect(() => {
+    // console.log(accountDelete);
+  }, [accountDelete]);
 
   return (
     <Styled.ContainerMain>
@@ -113,14 +142,17 @@ const AccountSetting = () => {
             </Styled.ContainerUserNameImg>
             <Styled.ContainerInfoProfileUser>
               <Styled.ContainerMyAccountMain>
-                <Styled.ContainerMyAccount>
+                <Styled.ContainerMyAccount onClick={onClickMyAccount}>
                   <img
                     src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1725970368/img-shopee/ba61750a46794d8847c3f463c5e71cc4_o0oy1n.png"
                     alt="img-user"
                   />
                   <Styled.Span>Minha Conta</Styled.Span>
                 </Styled.ContainerMyAccount>
-                <Styled.ContainerItensMyAccount>
+                <Styled.ContainerItensMyAccount
+                  $accountDelete={accountDelete}
+                  id="container-itens-my-account"
+                >
                   <Styled.SpanForItensMyAccount
                     onClick={() => onClickMyAccountItens('1')}
                     $spanNumber="1"

@@ -1,4 +1,3 @@
-import { eachMinuteOfIntervalWithOptions } from 'date-fns/fp';
 import styled from 'styled-components';
 
 export const Container = styled.div`
