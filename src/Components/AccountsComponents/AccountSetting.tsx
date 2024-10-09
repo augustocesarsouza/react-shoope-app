@@ -5,6 +5,7 @@ import * as Styled from './styled';
 import { useEffect, useState } from 'react';
 import { ObjUser } from '../InterfaceAll/IObjUser/IObjUser';
 import FooterShopee from '../FooterShopeeComponents/FooterShopee/FooterShopee';
+import { EnumAccountSetting } from './MyAccount/Interface/EnumAccountSetting/EnumAccountSetting';
 
 const AccountSetting = () => {
   const [userObjState, setUserObjState] = useState<ObjUser>();
@@ -12,6 +13,8 @@ const AccountSetting = () => {
   const location = useLocation();
   const nav = useNavigate();
   const [accountDelete, setAccountDelete] = useState(false);
+
+  const [whichWasClickedFirstLayer, setWhichWasClickedFirstLayer] = useState('1');
 
   useEffect(() => {
     let userLocalStorage = localStorage.getItem('user');
@@ -113,13 +116,31 @@ const AccountSetting = () => {
   const onClickMyAccount = () => {
     // setAccountDelete((prev) => !prev);
 
+    changeDisplayContainerItensMyAccount('flex');
+    setWhichWasClickedFirstLayer(EnumAccountSetting.MyAccount);
+
+    if (userObjState) {
+      nav('/user/account/profile', { state: { user: userObjState } });
+    }
+  };
+
+  const onClickMyPurchases = () => {
+    changeDisplayContainerItensMyAccount('none');
+    setWhichWasClickedFirstLayer(EnumAccountSetting.MyPurchases);
+
+    nav('/user/purchase', { state: { user: userObjState } });
+  };
+
+  const changeDisplayContainerItensMyAccount = (display: string) => {
     const containerItensMyAccount = document.querySelector(
       '#container-itens-my-account'
     ) as HTMLElement;
-    containerItensMyAccount.style.display = 'flex';
+    containerItensMyAccount.style.display = display;
   };
 
-  const onClickMyPurchases = () => {};
+  const onClickNotifications = () => {
+    setWhichWasClickedFirstLayer(EnumAccountSetting.Notifications);
+  };
 
   return (
     <Styled.ContainerMain>
@@ -138,7 +159,10 @@ const AccountSetting = () => {
             </Styled.ContainerUserNameImg>
             <Styled.ContainerInfoProfileUser>
               <Styled.ContainerMyAccountMain>
-                <Styled.ContainerMyAccount onClick={onClickMyAccount}>
+                <Styled.ContainerMyAccount
+                  onClick={onClickMyAccount}
+                  $whichWasClickedFirstLayer={whichWasClickedFirstLayer === '1' ? '1' : ''}
+                >
                   <img
                     src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1725970368/img-shopee/ba61750a46794d8847c3f463c5e71cc4_o0oy1n.png"
                     alt="img-user"
@@ -199,28 +223,38 @@ const AccountSetting = () => {
                   </Styled.SpanForItensMyAccount>
                 </Styled.ContainerItensMyAccount>
               </Styled.ContainerMyAccountMain>
-              <Styled.ContainerMyAccount onClick={onClickMyPurchases}>
+              <Styled.ContainerMyAccount
+                onClick={onClickMyPurchases}
+                $whichWasClickedFirstLayer={whichWasClickedFirstLayer === '2' ? '2' : ''}
+              >
                 <img
                   src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1725977015/img-shopee/f0049e9df4e536bc3e7f140d071e9078_cn64xw.png"
                   alt="img-my-purchases"
                 />
                 <Styled.Span>Minhas Compras</Styled.Span>
               </Styled.ContainerMyAccount>
-              <Styled.ContainerMyAccount>
+              <Styled.ContainerMyAccount
+                onClick={onClickNotifications}
+                $whichWasClickedFirstLayer={whichWasClickedFirstLayer === '3' ? '3' : ''}
+              >
                 <img
                   src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1725977158/img-shopee/e10a43b53ec8605f4829da5618e0717c_q1x07z.png"
                   alt="img-notifications"
                 />
                 <Styled.Span>Notificações</Styled.Span>
               </Styled.ContainerMyAccount>
-              <Styled.ContainerMyAccount>
+              <Styled.ContainerMyAccount
+                $whichWasClickedFirstLayer={whichWasClickedFirstLayer === '4' ? '4' : ''}
+              >
                 <img
                   src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1725977225/img-shopee/84feaa363ce325071c0a66d3c9a88748_zet2uo.png"
                   alt="img-my-coupons"
                 />
                 <Styled.Span>Meus Cupons</Styled.Span>
               </Styled.ContainerMyAccount>
-              <Styled.ContainerMyAccount>
+              <Styled.ContainerMyAccount
+                $whichWasClickedFirstLayer={whichWasClickedFirstLayer === '5' ? '5' : ''}
+              >
                 <img
                   src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1725977292/img-shopee/a0ef4bd8e16e481b4253bd0eb563f784_tbrttv.png"
                   alt="img-my-couns-shopee"

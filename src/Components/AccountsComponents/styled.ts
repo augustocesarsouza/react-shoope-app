@@ -90,15 +90,19 @@ export const ContainerInfoProfileUser = styled.div`
 `;
 
 export const ContainerMyAccountMain = styled.div`
-
 `;
 
-export const ContainerMyAccount = styled.div`
+interface ContainerMyAccountProps {
+  $whichWasClickedFirstLayer: string;
+}
+
+export const ContainerMyAccount = styled.div<ContainerMyAccountProps>`
   display: flex;
   align-items: center;
   gap: 5px;
   cursor: pointer;
   user-select: none;
+  /* background-color: ${props => props.$whichWasClickedFirstLayer === '1' && "red"}; */
 
   >img {
     width: 20px;
@@ -109,6 +113,11 @@ export const ContainerMyAccount = styled.div`
   >span {
     font-size: 14px;
     font-weight: 500;
+
+    color: ${props => props.$whichWasClickedFirstLayer === '2' && "#ee4d2d"};
+    color: ${props => props.$whichWasClickedFirstLayer === '3' && "#ee4d2d"};
+    color: ${props => props.$whichWasClickedFirstLayer === '4' && "#ee4d2d"};
+    color: ${props => props.$whichWasClickedFirstLayer === '5' && "#ee4d2d"};
   }
 
   &:hover {
