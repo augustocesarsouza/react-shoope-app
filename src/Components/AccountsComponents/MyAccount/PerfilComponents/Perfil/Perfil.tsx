@@ -327,7 +327,7 @@ const Perfil = () => {
   const onClickContainerUpdateMain = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
 
-    document.body.style.overflow = 'scroll';
+    document.body.style.overflowY = 'scroll';
     setShowUpdateSuccessfully(false);
   };
 

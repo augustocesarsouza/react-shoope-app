@@ -19,6 +19,7 @@ import VerifyPasswordStep2 from '../../Components/VerifyPasswordComponents/Verif
 import Cokie from '../../Components/AccountsComponents/MyAccount/CookieComponents/Cokie/Cokie';
 import SettingPrivacy from '../../Components/AccountsComponents/MyAccount/SettingPrivacyComponents/SettingPrivacy/SettingPrivacy';
 import AccountDelete from '../../Components/AccountsComponents/MyAccount/AccountDeleteComponents/AccountDelete/AccountDelete';
+import Purchase from '../../Components/AccountsComponents/MyPurchases/PurchaseComponents/Purchase/Purchase';
 
 const AppContent = () => {
   document.body.style.overflowY = 'none';
@@ -46,10 +47,18 @@ const AppContent = () => {
           <Route path="password" element={<ChangePassword />} />
           <Route path="cookie" element={<Cokie />} />
           <Route path="delete" element={<AccountDelete />} />
+          {/* <Route path="purchase" element={<Purchase />} /> */}
+        </Route>
+        <Route path="/user" element={<AccountSetting />}>
+          <Route index element={<Navigate to="purchase" />}></Route>
+          <Route path="purchase" element={<Purchase />} />
         </Route>
         <Route path="/user/setting" element={<AccountSetting />}>
           <Route path="privacy" element={<SettingPrivacy />} />
         </Route>
+        {/* <Route path="/user">
+          <Route path="purchase" element={<Purchase />} />
+        </Route> */}
         <Route path="/login" element={<LoginComponentMain />} />
         <Route path="/signup" element={<RegisterUserComponentMain />} />
         <Route path="/confirm-code-email" element={<EmailConfirmCode />} />
