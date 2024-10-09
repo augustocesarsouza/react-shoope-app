@@ -61,8 +61,6 @@ const AccountSetting = () => {
       setAccountDelete(true);
     }
 
-    console.log(currentPath);
-
     let timer: NodeJS.Timeout | null = null;
 
     timer = setTimeout(() => {
@@ -121,9 +119,7 @@ const AccountSetting = () => {
     containerItensMyAccount.style.display = 'flex';
   };
 
-  useEffect(() => {
-    // console.log(accountDelete);
-  }, [accountDelete]);
+  const onClickMyPurchases = () => {};
 
   return (
     <Styled.ContainerMain>
@@ -203,7 +199,7 @@ const AccountSetting = () => {
                   </Styled.SpanForItensMyAccount>
                 </Styled.ContainerItensMyAccount>
               </Styled.ContainerMyAccountMain>
-              <Styled.ContainerMyAccount>
+              <Styled.ContainerMyAccount onClick={onClickMyPurchases}>
                 <img
                   src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1725977015/img-shopee/f0049e9df4e536bc3e7f140d071e9078_cn64xw.png"
                   alt="img-my-purchases"
