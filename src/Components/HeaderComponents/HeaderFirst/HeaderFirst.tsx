@@ -129,18 +129,15 @@ const HeaderFirst = () => {
               ></path>
             </svg>
           </Styled.ContainerAllSvgSecondNav>
-          <Styled.ContainerUserMain
-            onMouseEnter={() => userMouseEnter()}
-            onMouseLeave={() => userMouseLeave()}
-          >
+          <Styled.ContainerUserMain onMouseEnter={userMouseEnter} onMouseLeave={userMouseLeave}>
             <Styled.ContainerImgUser>
               <SvgUserBody></SvgUserBody>
             </Styled.ContainerImgUser>
             <Styled.Link $borderRight={false}>{userObjState?.name}</Styled.Link>
             {showOptionsUserLogin && (
               <Styled.ContainerAccountOption
-                onMouseEnter={() => onMouseEnterContainerAccountUser()}
-                onMouseLeave={() => onMouseLeaveContainerAccountUser()}
+                onMouseEnter={onMouseEnterContainerAccountUser}
+                onMouseLeave={onMouseLeaveContainerAccountUser}
               >
                 <FontAwesomeIcon icon={faSortUp} />
                 <Styled.span onClick={() => onClickMyAccount()}>Minha Conta</Styled.span>

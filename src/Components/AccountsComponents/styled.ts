@@ -143,6 +143,7 @@ export const ContainerItensMyAccount = styled.div<ContainerItensMyAccountProps>`
   padding-left: 27px;
   padding-top: 13px;
   padding-bottom: 7px;
+  width: 150px;
 
   >span {
     cursor: pointer;
