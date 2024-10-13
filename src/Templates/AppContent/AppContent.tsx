@@ -20,6 +20,8 @@ import Cokie from '../../Components/AccountsComponents/MyAccount/CookieComponent
 import SettingPrivacy from '../../Components/AccountsComponents/MyAccount/SettingPrivacyComponents/SettingPrivacy/SettingPrivacy';
 import AccountDelete from '../../Components/AccountsComponents/MyAccount/AccountDeleteComponents/AccountDelete/AccountDelete';
 import Purchase from '../../Components/AccountsComponents/MyPurchases/PurchaseComponents/Purchase/Purchase';
+import OrderUpdates from '../../Components/AccountsComponents/Notification/OrderUpdates/OrderUpdates';
+import Promotion from '../../Components/AccountsComponents/Notification/Promotion/Promotion';
 
 const AppContent = () => {
   document.body.style.overflowY = 'none';
@@ -56,9 +58,10 @@ const AppContent = () => {
         <Route path="/user/setting" element={<AccountSetting />}>
           <Route path="privacy" element={<SettingPrivacy />} />
         </Route>
-        {/* <Route path="/user">
-          <Route path="purchase" element={<Purchase />} />
-        </Route> */}
+        <Route path="/user/notifications" element={<AccountSetting />}>
+          <Route path="order" element={<OrderUpdates />} />
+          <Route path="promotion" element={<Promotion />} />
+        </Route>
         <Route path="/login" element={<LoginComponentMain />} />
         <Route path="/signup" element={<RegisterUserComponentMain />} />
         <Route path="/confirm-code-email" element={<EmailConfirmCode />} />

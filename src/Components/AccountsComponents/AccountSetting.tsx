@@ -12,7 +12,9 @@ const AccountSetting = () => {
   const [whichWasClicked, setWhichWasClicked] = useState('1');
   const location = useLocation();
   const nav = useNavigate();
+
   const [accountDelete, setAccountDelete] = useState(false);
+  const [showContainerNotification, setShowContainerNotification] = useState(true);
 
   const [whichWasClickedFirstLayer, setWhichWasClickedFirstLayer] = useState('1');
 
@@ -60,7 +62,11 @@ const AccountSetting = () => {
       setWhichWasClicked('6');
     }
 
-    if (currentPath === '/user/account/delete') {
+    if (currentPath === '/user/setting/privacy') {
+      setWhichWasClicked('6');
+    }
+
+    if (currentPath === '/user/notifications/order') {
       setAccountDelete(true);
     }
 
@@ -76,7 +82,7 @@ const AccountSetting = () => {
         timer = null;
       }
     };
-  }, [whichWasClicked]);
+  }, [whichWasClickedFirstLayer]);
 
   const onClickMyAccountItens = (number: string) => {
     setWhichWasClicked(number);
@@ -111,13 +117,24 @@ const AccountSetting = () => {
       // nav('/user/account/password', { state: { user: userObjState } });
       nav('/user/setting/privacy', { state: { user: userObjState } });
     }
+
+    if (number === '7') {
+      nav('/user/notifications/order', { state: { user: userObjState } });
+    }
+
+    if (number === '8') {
+      nav('/user/notifications/promotion', { state: { user: userObjState } });
+    }
   };
 
   const onClickMyAccount = () => {
     // setAccountDelete((prev) => !prev);
 
     changeDisplayContainerItensMyAccount('flex');
+    changeDisplayContainerItensNotifications('none');
     setWhichWasClickedFirstLayer(EnumAccountSetting.MyAccount);
+
+    setWhichWasClicked('1');
 
     if (userObjState) {
       nav('/user/account/profile', { state: { user: userObjState } });
@@ -126,6 +143,7 @@ const AccountSetting = () => {
 
   const onClickMyPurchases = () => {
     changeDisplayContainerItensMyAccount('none');
+    changeDisplayContainerItensNotifications('none');
     setWhichWasClickedFirstLayer(EnumAccountSetting.MyPurchases);
 
     nav('/user/purchase', { state: { user: userObjState } });
@@ -138,9 +156,27 @@ const AccountSetting = () => {
     containerItensMyAccount.style.display = display;
   };
 
-  const onClickNotifications = () => {
-    setWhichWasClickedFirstLayer(EnumAccountSetting.Notifications);
+  const changeDisplayContainerItensNotifications = (display: string) => {
+    const containerItensMyAccount = document.querySelector(
+      '#container-itens-notifications'
+    ) as HTMLElement;
+    containerItensMyAccount.style.display = display;
   };
+
+  const onClickNotifications = () => {
+    changeDisplayContainerItensNotifications('flex');
+    changeDisplayContainerItensMyAccount('none');
+
+    setWhichWasClicked('7');
+
+    if (userObjState !== null || userObjState !== undefined) {
+      nav('/user/notifications/order', { state: { user: userObjState } });
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log(whichWasClicked);
+  // }, [whichWasClicked]);
 
   return (
     <Styled.ContainerMain>
@@ -233,16 +269,58 @@ const AccountSetting = () => {
                 />
                 <Styled.Span>Minhas Compras</Styled.Span>
               </Styled.ContainerMyAccount>
-              <Styled.ContainerMyAccount
-                onClick={onClickNotifications}
-                $whichWasClickedFirstLayer={whichWasClickedFirstLayer === '3' ? '3' : ''}
-              >
-                <img
-                  src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1725977158/img-shopee/e10a43b53ec8605f4829da5618e0717c_q1x07z.png"
-                  alt="img-notifications"
-                />
-                <Styled.Span>Notificações</Styled.Span>
-              </Styled.ContainerMyAccount>
+
+              <Styled.ContainerMyAccountMain>
+                <Styled.ContainerMyAccount
+                  onClick={onClickNotifications}
+                  $whichWasClickedFirstLayer={whichWasClickedFirstLayer === '3' ? '3' : ''}
+                >
+                  <img
+                    src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1725977158/img-shopee/e10a43b53ec8605f4829da5618e0717c_q1x07z.png"
+                    alt="img-notifications"
+                  />
+                  <Styled.Span>Notificações</Styled.Span>
+                </Styled.ContainerMyAccount>
+
+                <Styled.ContainerItensMyAccount
+                  // $accountDelete={showContainerNotification}
+                  $accountDelete={true}
+                  id="container-itens-notifications"
+                >
+                  <Styled.SpanForItensMyAccount
+                    onClick={() => onClickMyAccountItens('7')}
+                    $spanNumber="7"
+                    $whichWasClicked={whichWasClicked}
+                    className="span-my-account"
+                  >
+                    atualizações de pedidos
+                  </Styled.SpanForItensMyAccount>
+                  <Styled.SpanForItensMyAccount
+                    onClick={() => onClickMyAccountItens('8')}
+                    $spanNumber="8"
+                    $whichWasClicked={whichWasClicked}
+                    className="span-my-account"
+                  >
+                    promoções
+                  </Styled.SpanForItensMyAccount>
+                  <Styled.SpanForItensMyAccount
+                    onClick={() => onClickMyAccountItens('9')}
+                    $spanNumber="9"
+                    $whichWasClicked={whichWasClicked}
+                    className="span-my-account"
+                  >
+                    atualizações de carteira
+                  </Styled.SpanForItensMyAccount>
+                  <Styled.SpanForItensMyAccount
+                    onClick={() => onClickMyAccountItens('10')}
+                    $spanNumber="10"
+                    $whichWasClicked={whichWasClicked}
+                    className="span-my-account"
+                  >
+                    Atualizações da Shopee
+                  </Styled.SpanForItensMyAccount>
+                </Styled.ContainerItensMyAccount>
+              </Styled.ContainerMyAccountMain>
               <Styled.ContainerMyAccount
                 $whichWasClickedFirstLayer={whichWasClickedFirstLayer === '4' ? '4' : ''}
               >
