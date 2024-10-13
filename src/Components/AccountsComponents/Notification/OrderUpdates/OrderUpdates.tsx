@@ -5,7 +5,7 @@ const OrderUpdates = () => {
     <Styled.ContainerMain>
       <Styled.ContainerImgNoOrderUpdate>
         <Styled.Img
-          src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728557470/img-shopee/4e653cf704e352fd_tgtols.png"
+          src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728819618/img-shopee/4e653cf704e352fd_bdm30f.png"
           alt="no-order-update"
         />
       </Styled.ContainerImgNoOrderUpdate>

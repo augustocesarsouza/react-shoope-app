@@ -13,7 +13,7 @@ describe('OrderUpdates', () => {
     expect(img3).toBeInTheDocument();
     expect(img3).toHaveAttribute(
       'src',
-      'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728557470/img-shopee/4e653cf704e352fd_tgtols.png'
+      'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728819618/img-shopee/4e653cf704e352fd_bdm30f.png'
     );
 
     expect.assertions(3);

@@ -2,16 +2,15 @@ import { useEffect, useState } from 'react';
 import FirstPromotion from '../FirstPromotion/FirstPromotion';
 import * as Styled from './styled';
 import SecondPromotion from '../SecondPromotion/SecondPromotion';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Url } from '../../../../Utils/Url';
 
-export interface FirstPromotionProps {
-  whatIsThePromotion: number;
-  title: string;
-  description: string;
-  date: string;
-  img: string;
+export interface PromotionProps {
+  id: string;
+  promotionDTO: PromotionDTO;
 }
 
-export interface SecondPromotionProps {
+export interface PromotionDTO {
   whatIsThePromotion: number;
   title: string;
   description: string;
@@ -26,58 +25,41 @@ export interface SecondPromotionProps {
 }
 
 const Promotion = () => {
-  const [firstPromotion, setFirstPromotion] = useState<FirstPromotionProps | null>(null);
-  const [secondPromotion, setSecondPromotion] = useState<SecondPromotionProps | null>(null);
-  const [thirdPromotion, setThirdPromotion] = useState<SecondPromotionProps | null>(null);
+  const [allPromotionDTO, setAllPromotionDTO] = useState<PromotionProps[] | null>(null);
+
+  const location = useLocation();
+  const nav = useNavigate();
 
   useEffect(() => {
-    const obj = {
-      whatIsThePromotion: 1,
-      title: 'Frete Grátis exclusivo para você ���',
-      description:
-        'Aproveite já seu cupom de FRETE GRÁTIS sem valor mínimo na sua 1ª compra. Confira já! 👉',
-      date: '09/10/2024 06:15',
-      img: 'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728558538/img-shopee/sg-11134004-7rd5v-lv0kjt4bs1kt71_tn_mbtsoj.jpg',
-    };
+    if (location.state) {
+      const objState = location.state;
+      let userLocalStorage = localStorage.getItem('user');
 
-    const obj1 = {
-      whatIsThePromotion: 2,
-      title: 'Descontos acima de 40%',
-      description: 'Oi, h1u7o8o4qf! Compre já Escova Secadora Alisad... com desconto!',
-      date: '08/10/2024 13:00',
-      img: 'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728560170/img-shopee/sg-11134004-7rd5v-lv0kjt4bs1kt71_tn_qst4gp.jpg',
-      imgInnerFirst:
-        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728560448/img-shopee/sg-11134004-7rd5v-lv0kjt4bs1kt71_tn_goi4i1.jpg',
-      altImgInnerFirst: 'hairdryer',
-      imgInnerSecond:
-        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728560475/img-shopee/sg-11134004-7rd5v-lv0kjt4bs1kt71_tn_unvjch.jpg',
-      altImgInnerSecond: 'wardrobe',
-      imgInnerThird:
-        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728560504/img-shopee/sg-11134004-7rd5v-lv0kjt4bs1kt71_tn_eheweq.jpg',
-      altImgInnerThird: 'watch',
-    };
+      if (userLocalStorage === null) {
+        nav('/login');
 
-    const obj2 = {
-      whatIsThePromotion: 2,
-      title: 'Menos de R$30,00',
-      description: 'Oi, h1u7o8o4qf! Compre já Kit 10 prato fundo com... com desconto!',
-      date: '07/10/2024 12:02',
-      img: 'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728560170/img-shopee/sg-11134004-7rd5v-lv0kjt4bs1kt71_tn_qst4gp.jpg',
-      imgInnerFirst:
-        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728566924/img-shopee/br-11134207-7qukw-lh9n45zmoho5f7_ra6shy.jpg',
-      altImgInnerFirst: 'plate',
-      imgInnerSecond:
-        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728566958/img-shopee/br-11134207-7qukw-lh9n45zmoho5f7_ah0rg1.jpg',
-      altImgInnerSecond: 'Bad',
-      imgInnerThird:
-        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728566987/img-shopee/br-11134207-7qukw-lh9n45zmoho5f7_povprf.jpg',
-      altImgInnerThird: 'device-massager-feet',
-    };
+        return;
+      }
 
-    setFirstPromotion(obj);
-    setSecondPromotion(obj1);
-    setThirdPromotion(obj2);
+      if (objState.user === null || objState.user === undefined) {
+        localStorage.removeItem('user');
+
+        nav('/login');
+        return;
+      }
+
+      getPromotionUser(objState.user.id);
+    }
   }, []);
+
+  const getPromotionUser = async (userId: string) => {
+    const res = await fetch(`${Url}/promotion-user/get-by-user-id-all/${userId}`);
+
+    if (res.status === 200) {
+      const json = await res.json();
+      setAllPromotionDTO(json.data);
+    }
+  };
 
   return (
     <Styled.ContainerMain>
@@ -86,16 +68,14 @@ const Promotion = () => {
       </Styled.ContainerHeader>
 
       <Styled.ContainerBody>
-        {firstPromotion !== null && firstPromotion.whatIsThePromotion === 1 && (
-          <FirstPromotion firstPromotion={firstPromotion} />
-        )}
+        {allPromotionDTO &&
+          allPromotionDTO.map((el: PromotionProps) => (
+            <div key={el.id}>
+              {el.promotionDTO.whatIsThePromotion === 1 && <FirstPromotion firstPromotion={el} />}
 
-        {secondPromotion !== null && secondPromotion.whatIsThePromotion === 2 && (
-          <SecondPromotion secondPromotion={secondPromotion} />
-        )}
-        {thirdPromotion !== null && thirdPromotion.whatIsThePromotion === 2 && (
-          <SecondPromotion secondPromotion={thirdPromotion} />
-        )}
+              {el.promotionDTO.whatIsThePromotion === 2 && <SecondPromotion secondPromotion={el} />}
+            </div>
+          ))}
       </Styled.ContainerBody>
     </Styled.ContainerMain>
   );
