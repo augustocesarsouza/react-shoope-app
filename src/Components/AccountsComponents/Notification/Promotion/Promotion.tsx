@@ -4,6 +4,7 @@ import * as Styled from './styled';
 import SecondPromotion from '../SecondPromotion/SecondPromotion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Url } from '../../../../Utils/Url';
+import { ObjUser } from '../../../InterfaceAll/IObjUser/IObjUser';
 
 export interface PromotionProps {
   id: string;
@@ -48,16 +49,32 @@ const Promotion = () => {
         return;
       }
 
-      getPromotionUser(objState.user.id);
+      getPromotionUser(objState.user);
     }
   }, []);
 
-  const getPromotionUser = async (userId: string) => {
-    const res = await fetch(`${Url}/promotion-user/get-by-user-id-all/${userId}`);
+  const getPromotionUser = async (user: ObjUser) => {
+    const res = await fetch(`${Url}/promotion-user/get-by-user-id-all/${user.id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        uid: user.id,
+        'Content-Type': 'application/json',
+      },
+    });
 
     if (res.status === 200) {
       const json = await res.json();
       setAllPromotionDTO(json.data);
+    }
+
+    if (res.status === 400) {
+      //ERROR
+    }
+
+    if (res.status === 403 || res.status === 401) {
+      localStorage.removeItem('user');
+      nav('/login');
     }
   };
 
