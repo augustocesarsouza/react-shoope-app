@@ -125,6 +125,10 @@ const AccountSetting = () => {
     if (number === '8') {
       nav('/user/notifications/promotion', { state: { user: userObjState } });
     }
+
+    if (number === '9') {
+      nav('/user/notifications/wallet', { state: { user: userObjState } });
+    }
   };
 
   const onClickMyAccount = () => {

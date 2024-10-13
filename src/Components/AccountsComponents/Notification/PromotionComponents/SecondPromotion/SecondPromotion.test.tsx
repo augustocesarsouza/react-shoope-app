@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { screen } from '@testing-library/dom';
 import SecondPromotion from './SecondPromotion';
-import { PromotionProps } from '../Promotion/Promotion';
+import { PromotionProps } from '../PromotionComponents/Promotion/Promotion';
 import { FormatDataPromotion } from '../FirstPromotion/FormatDataPromotion';
 
 describe('SecondPromotion', () => {

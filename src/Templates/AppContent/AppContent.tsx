@@ -21,7 +21,8 @@ import SettingPrivacy from '../../Components/AccountsComponents/MyAccount/Settin
 import AccountDelete from '../../Components/AccountsComponents/MyAccount/AccountDeleteComponents/AccountDelete/AccountDelete';
 import Purchase from '../../Components/AccountsComponents/MyPurchases/PurchaseComponents/Purchase/Purchase';
 import OrderUpdates from '../../Components/AccountsComponents/Notification/OrderUpdates/OrderUpdates';
-import Promotion from '../../Components/AccountsComponents/Notification/Promotion/Promotion';
+import Promotion from '../../Components/AccountsComponents/Notification/PromotionComponents/Promotion/Promotion';
+import Wallet from '../../Components/AccountsComponents/Notification/PromotionComponents/WalletComponents/Wallet/Wallet';
 
 const AppContent = () => {
   document.body.style.overflowY = 'none';
@@ -61,6 +62,7 @@ const AppContent = () => {
         <Route path="/user/notifications" element={<AccountSetting />}>
           <Route path="order" element={<OrderUpdates />} />
           <Route path="promotion" element={<Promotion />} />
+          <Route path="wallet" element={<Wallet />} />
         </Route>
         <Route path="/login" element={<LoginComponentMain />} />
         <Route path="/signup" element={<RegisterUserComponentMain />} />

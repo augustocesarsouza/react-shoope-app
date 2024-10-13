@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { PromotionProps } from '../Promotion/Promotion';
+import { PromotionProps } from '../PromotionComponents/Promotion/Promotion';
 import * as Styled from './styled';
 import { FormatDataPromotion } from '../FirstPromotion/FormatDataPromotion';
 

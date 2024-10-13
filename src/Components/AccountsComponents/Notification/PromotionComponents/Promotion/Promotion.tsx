@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import FirstPromotion from '../FirstPromotion/FirstPromotion';
 import * as Styled from './styled';
-import SecondPromotion from '../SecondPromotion/SecondPromotion';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Url } from '../../../../Utils/Url';
-import { ObjUser } from '../../../InterfaceAll/IObjUser/IObjUser';
+import { Url } from '../../../../../Utils/Url';
+import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
+import SecondPromotion from '../SecondPromotion/SecondPromotion';
+import FirstPromotion from '../FirstPromotion/FirstPromotion';
 
 export interface PromotionProps {
   id: string;
