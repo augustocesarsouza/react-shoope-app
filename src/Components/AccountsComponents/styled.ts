@@ -32,7 +32,7 @@ export const ContainerAccountUserMain = styled.div`
 
 export const ContainerAccountUser = styled.div`
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   margin: 0px 0px;
   width: 1200px;
   font-size: 13px;
@@ -44,6 +44,7 @@ export const containerAccountUser = styled.div`
   flex-direction: column;
   gap: 5px;
   width: 180px;
+  margin-right: 20px;
 `;
 
 export const ContainerUserNameImg = styled.div`

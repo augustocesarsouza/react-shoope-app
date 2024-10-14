@@ -23,6 +23,7 @@ import Purchase from '../../Components/AccountsComponents/MyPurchases/PurchaseCo
 import OrderUpdates from '../../Components/AccountsComponents/Notification/OrderUpdates/OrderUpdates';
 import Promotion from '../../Components/AccountsComponents/Notification/PromotionComponents/Promotion/Promotion';
 import Wallet from '../../Components/AccountsComponents/Notification/PromotionComponents/WalletComponents/Wallet/Wallet';
+import UpdateShopee from '../../Components/AccountsComponents/Notification/PromotionComponents/UpdateShopeeComponents/UpdateShopee/UpdateShopee';
 
 const AppContent = () => {
   document.body.style.overflowY = 'none';
@@ -63,6 +64,7 @@ const AppContent = () => {
           <Route path="order" element={<OrderUpdates />} />
           <Route path="promotion" element={<Promotion />} />
           <Route path="wallet" element={<Wallet />} />
+          <Route path="shopee" element={<UpdateShopee />} />
         </Route>
         <Route path="/login" element={<LoginComponentMain />} />
         <Route path="/signup" element={<RegisterUserComponentMain />} />
