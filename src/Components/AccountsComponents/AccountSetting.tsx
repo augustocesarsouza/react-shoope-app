@@ -129,6 +129,10 @@ const AccountSetting = () => {
     if (number === '9') {
       nav('/user/notifications/wallet', { state: { user: userObjState } });
     }
+
+    if (number === '10') {
+      nav('/user/notifications/shopee', { state: { user: userObjState } });
+    }
   };
 
   const onClickMyAccount = () => {
