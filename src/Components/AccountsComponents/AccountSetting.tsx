@@ -14,6 +14,7 @@ const AccountSetting = () => {
   const nav = useNavigate();
 
   const [accountDelete, setAccountDelete] = useState(false);
+  const [notification, setNotification] = useState(true);
   const [showContainerNotification, setShowContainerNotification] = useState(true);
 
   const [whichWasClickedFirstLayer, setWhichWasClickedFirstLayer] = useState('1');
@@ -176,15 +177,30 @@ const AccountSetting = () => {
     changeDisplayContainerItensMyAccount('none');
 
     setWhichWasClicked('7');
+    setWhichWasClickedFirstLayer('');
 
     if (userObjState !== null || userObjState !== undefined) {
       nav('/user/notifications/order', { state: { user: userObjState } });
     }
   };
 
-  // useEffect(() => {
-  //   console.log(whichWasClicked);
-  // }, [whichWasClicked]);
+  const onClickMyCupons = () => {
+    const containerNotifications = document.querySelector(
+      '#container-itens-notifications'
+    ) as HTMLElement;
+
+    const containerMyAccount = document.querySelector('#container-itens-my-account') as HTMLElement;
+
+    containerNotifications.style.display = 'none';
+    containerMyAccount.style.display = 'none';
+
+    setWhichWasClickedFirstLayer(EnumAccountSetting.MyCoupons);
+
+    if (userObjState !== null || userObjState !== undefined) {
+      nav('/user/voucher-wallet', { state: { user: userObjState } });
+    }
+    // setNotification(true);
+  };
 
   return (
     <Styled.ContainerMain>
@@ -330,6 +346,7 @@ const AccountSetting = () => {
                 </Styled.ContainerItensMyAccount>
               </Styled.ContainerMyAccountMain>
               <Styled.ContainerMyAccount
+                onClick={onClickMyCupons}
                 $whichWasClickedFirstLayer={whichWasClickedFirstLayer === '4' ? '4' : ''}
               >
                 <img

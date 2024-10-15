@@ -24,6 +24,7 @@ import OrderUpdates from '../../Components/AccountsComponents/Notification/Order
 import Promotion from '../../Components/AccountsComponents/Notification/PromotionComponents/Promotion/Promotion';
 import Wallet from '../../Components/AccountsComponents/Notification/PromotionComponents/WalletComponents/Wallet/Wallet';
 import UpdateShopee from '../../Components/AccountsComponents/Notification/PromotionComponents/UpdateShopeeComponents/UpdateShopee/UpdateShopee';
+import MyCupons from '../../Components/AccountsComponents/MyCupons/MyCuponsComponents/MyCupons/MyCupons';
 
 const AppContent = () => {
   document.body.style.overflowY = 'none';
@@ -56,6 +57,7 @@ const AppContent = () => {
         <Route path="/user" element={<AccountSetting />}>
           <Route index element={<Navigate to="purchase" />}></Route>
           <Route path="purchase" element={<Purchase />} />
+          <Route path="voucher-wallet" element={<MyCupons />} />
         </Route>
         <Route path="/user/setting" element={<AccountSetting />}>
           <Route path="privacy" element={<SettingPrivacy />} />
@@ -75,5 +77,5 @@ const AppContent = () => {
     </Styled.ContainerMain>
   );
 };
-
+// MyCupons
 export default AppContent;
