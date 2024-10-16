@@ -1,161 +1,238 @@
-import { useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Styled from './styled';
-import SvgExit from '../../../../Svg/SvgExit/SvgExit';
-import SvgExitRed from '../../../../Svg/SvgExitRed/SvgExitRed';
+import CuponEach from '../CuponEach/CuponEach';
+import ContainerTopicCupons from '../ContainerTopicCupons/ContainerTopicCupons';
+import HeaderMyCupons from '../HeaderMyCupons/HeaderMyCupons';
+import AddCupomInput from '../AddCupomInput/AddCupomInput';
+import NoneCopunFound from '../NoneCopunFound/NoneCopunFound';
+
+export interface CuponsProps {
+  id: string;
+  spanOne: string;
+  headerOne: string;
+  spanTwo: string;
+  spanThree: string;
+  quantityCupons: number;
+  whatCuponNumber: number;
+  secondImg: string;
+  secondImgAlt: string;
+}
+
+export interface ObjQuantityCupons {
+  id: string;
+  whichCupon: number;
+  quantityCupons: number;
+  nameTopCupon: string;
+}
 
 const MyCupons = () => {
-  const refButtonRescue = useRef<HTMLButtonElement | null>(null);
-  const refInputInsertCode = useRef<HTMLInputElement | null>(null);
-  const [isValidClickRescueButton, setIsValidClickRescueButton] = useState(false);
-  const [topicClicked, setTopicClicked] = useState(1);
+  const [allObjCupon, setAllObjCupon] = useState<CuponsProps[] | null>(null);
+  const [objQuantityCupons, setObjQuantityCupons] = useState<ObjQuantityCupons[] | null>(null);
 
-  const onChangeInputInsertCode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (refButtonRescue.current === null) return;
+  useEffect(() => {
+    const obj1 = {
+      id: 'e3a9bb90-6c7f-4bb5-bfd2-367e62184d7e',
+      spanOne: 'Para você',
+      headerOne: 'Frete Grátis',
+      spanTwo: 'Sem valor mínimo',
+      spanThree: 'Termina em: 1 dia',
+      quantityCupons: 1,
+      whatCuponNumber: 2,
+      secondImg:
+        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728989982/img-shopee/sg-11134004-23010-lk448laa7gmv1e_v9lfyz.png',
+      secondImgAlt: 'second-img-1',
+    };
 
-    if (e.target.value.length > 0) {
-      changeBackgroundAndCursorButtonRescue('#ee4d2d', 'pointer');
-      setIsValidClickRescueButton(true);
-    } else {
-      changeBackgroundAndCursorButtonRescue('rgba(0,0,0,.1)', 'auto');
-      setIsValidClickRescueButton(false);
-    }
-  };
+    const obj2 = {
+      id: '0fed561e-fa48-49c5-afee-939726463fd2',
+      spanOne: 'Pontos',
+      headerOne: 'Cupom de pontos Shopee',
+      spanTwo: '100 pontos',
+      spanThree: 'Termina em: 2 dia',
+      quantityCupons: 2,
+      whatCuponNumber: 2,
+      secondImg:
+        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728989982/img-shopee/sg-11134004-23010-lk448laa7gmv1e_v9lfyz.png',
+      secondImgAlt: 'second-img-2',
+    };
 
-  const onClickRescue = () => {
-    if (!isValidClickRescueButton) return;
-    console.log('button rescue');
-  };
+    const obj3 = {
+      id: '05807704-581e-41d3-96eb-c4d39247ab7f',
+      spanOne: 'PRODUTOS COM SELO',
+      headerOne: 'Cupom de Frete Grátis',
+      spanTwo: 'Compras acima de R$19',
+      spanThree: 'Válido até: 31/10/2024',
+      quantityCupons: 5,
+      whatCuponNumber: 3,
+      secondImg:
+        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1729004270/img-shopee/br-11134004-7r98o-lzp5gg598n51ca_okvwcz.png',
+      secondImgAlt: 'second-img-3',
+    };
 
-  const onClickContainerSvgExit = () => {
-    if (refInputInsertCode.current === null) return;
+    const obj4 = {
+      id: 'adddc87e-710c-4b05-ad4e-879052992f4b',
+      spanOne: 'PRODUTOS COM SELO',
+      headerOne: 'Cupom de Frete Grátis',
+      spanTwo: 'Compras acima de R$19',
+      spanThree: 'Válido até: 31/10/2024',
+      quantityCupons: 5,
+      whatCuponNumber: 3,
+      secondImg:
+        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1729004270/img-shopee/br-11134004-7r98o-lzp5gg598n51ca_okvwcz.png',
+      secondImgAlt: 'second-img-3',
+    };
 
-    let inputInsertCode = refInputInsertCode.current;
-    inputInsertCode.value = '';
-    setIsValidClickRescueButton(false);
-    changeBackgroundAndCursorButtonRescue('rgba(0,0,0,.1)', 'auto');
-  };
+    const obj5 = {
+      id: '5d8d6fc5-99b2-424f-9b3a-6750ff504ff9',
+      spanOne: 'TODAS AS LOJAS',
+      headerOne: '50% OFF no Frete',
+      spanTwo: 'Confira condições',
+      spanThree: 'Válido até: 15/05/2024',
+      quantityCupons: 2,
+      whatCuponNumber: 4,
+      secondImg:
+        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1729004270/img-shopee/br-11134004-7r98o-lzp5gg598n51ca_okvwcz.png',
+      secondImgAlt: 'second-img-3',
+    };
 
-  const changeBackgroundAndCursorButtonRescue = (backgroundColor: string, cursor: string) => {
-    if (refButtonRescue.current === null) return;
+    const allObjCupon = [obj1, obj2, obj3, obj4, obj5];
 
-    let buttonRescue = refButtonRescue.current;
+    let quantityTotalCupons = 0;
+    let quantityCuponShopee = 0;
+    let quantityCuponShop = 0;
+    let quantityCuponDigitalPurchase = 0;
+    let quantityPartner = 0;
+    let quantityFinancialProducts = 0;
 
-    buttonRescue.style.backgroundColor = backgroundColor;
-    buttonRescue.style.cursor = cursor;
-  };
+    allObjCupon.forEach((el) => {
+      if (el.whatCuponNumber === 2) {
+        quantityCuponShopee += el.quantityCupons;
+      }
 
-  const onClickShopee = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    topicClicked: number
-  ) => {
-    const allSpans = document.querySelectorAll(
-      '.span-topics-my-cupons'
-    ) as NodeListOf<HTMLSpanElement>;
+      if (el.whatCuponNumber === 3) {
+        quantityCuponShop += el.quantityCupons;
+      }
 
-    allSpans.forEach((span: HTMLSpanElement) => {
-      span.style.borderBottom = 'none';
-      span.style.color = 'rgb(85, 85, 85)';
+      if (el.whatCuponNumber === 4) {
+        quantityCuponDigitalPurchase += el.quantityCupons;
+      }
+
+      if (el.whatCuponNumber === 5) {
+        quantityPartner += el.quantityCupons;
+      }
+
+      if (el.whatCuponNumber === 6) {
+        quantityFinancialProducts += el.quantityCupons;
+      }
     });
 
-    let spanShopee = e.target as HTMLSpanElement;
-    spanShopee.style.borderBottom = '2px solid rgb(238, 77, 45)';
-    spanShopee.style.color = 'rgb(238, 77, 45)';
-    setTopicClicked(topicClicked);
+    const objCuponTotal = {
+      id: 'f9200fe0-e2be-47ef-84ed-a47430844b7c',
+      whichCupon: 1,
+      quantityCupons: quantityTotalCupons,
+      nameTopCupon: 'Todos',
+    };
+
+    const objCuponShopee = {
+      id: 'e9591fd8-c01e-4f72-ad9c-420ae558b513',
+      whichCupon: 2,
+      quantityCupons: quantityCuponShopee,
+      nameTopCupon: 'Shopee',
+    };
+
+    const objCuponShop = {
+      id: '0a33522e-8ba5-4fdd-8039-829b4f5cec8b',
+      whichCupon: 3,
+      quantityCupons: quantityCuponShop,
+      nameTopCupon: 'Loja',
+    };
+
+    const objCuponDigitalPurchase = {
+      id: '78abbca1-bd14-4f4c-8b9b-2bdd10e7d2f9',
+      whichCupon: 4,
+      quantityCupons: quantityCuponDigitalPurchase,
+      nameTopCupon: 'Compra Digital',
+    };
+
+    const objCuponDigital5 = {
+      id: '78abgca1-bd14-4f4c-8b9b-2bdd10e7d2f9',
+      whichCupon: 5,
+      quantityCupons: quantityPartner,
+      nameTopCupon: 'Parceiro',
+    };
+
+    const objCuponDigital6 = {
+      id: '78abgca1-by14-4f4c-8b9b-2bdd10e7d2f9',
+      whichCupon: 6,
+      quantityCupons: quantityFinancialProducts,
+      nameTopCupon: 'Produtos financeiros',
+    };
+
+    let quantityCupons =
+      quantityCuponShopee +
+      quantityCuponShop +
+      quantityCuponDigitalPurchase +
+      quantityPartner +
+      quantityFinancialProducts;
+
+    objCuponTotal.quantityCupons = quantityCupons;
+
+    const allWhechCupon = [
+      objCuponTotal,
+      objCuponShopee,
+      objCuponShop,
+      objCuponDigitalPurchase,
+      objCuponDigital5,
+      objCuponDigital6,
+    ];
+
+    setObjQuantityCupons(allWhechCupon);
+    setAllObjCupon(allObjCupon);
+  }, []);
+
+  const [allObjCuponsFilters, setAllObjCuponsFilters] = useState<CuponsProps[]>([]);
+  const [whichWasClickedCupon, setWhichWasClickedCupon] = useState(1);
+
+  const whatTopicClicked = (numberClicked: number) => {
+    if (objQuantityCupons === null || allObjCupon === null) return;
+    const allObjCuponsFilters = allObjCupon.filter((el) => el.whatCuponNumber === numberClicked);
+    setAllObjCuponsFilters(allObjCuponsFilters);
+    setWhichWasClickedCupon(numberClicked);
   };
 
   return (
     <Styled.ContainerMain>
-      <Styled.ContainerHeader>
-        <Styled.H1>Meus cupons</Styled.H1>
-
-        <Styled.ContainerSecondSpans>
-          <Styled.Span>Pegue mais cupons</Styled.Span>
-          <Styled.Span>Ver histórico de cupons</Styled.Span>
-          <Styled.Span>Veja mais</Styled.Span>
-        </Styled.ContainerSecondSpans>
-      </Styled.ContainerHeader>
-
-      <Styled.ContainerInputAddCupon>
-        <Styled.Span>Adicionar Cupom</Styled.Span>
-        <Styled.ContainerInputInsertCodeCupon>
-          <Styled.Input
-            placeholder="Insira o código do cupom aqui"
-            onChange={(e) => onChangeInputInsertCode(e)}
-            ref={refInputInsertCode}
-          />
-          {isValidClickRescueButton && (
-            <Styled.ContainerSvgExit onClick={onClickContainerSvgExit}>
-              <SvgExit />
-            </Styled.ContainerSvgExit>
-          )}
-        </Styled.ContainerInputInsertCodeCupon>
-        <Styled.ContainerButtonRescue>
-          <Styled.Button ref={refButtonRescue} onClick={onClickRescue}>
-            Resgatar
-          </Styled.Button>
-        </Styled.ContainerButtonRescue>
-      </Styled.ContainerInputAddCupon>
+      <HeaderMyCupons />
+      <AddCupomInput />
 
       <Styled.ContainerTopicsMyCupons>
-        <Styled.Span onClick={(e) => onClickShopee(e, 1)} className="span-topics-my-cupons">
-          Todos (12)
-        </Styled.Span>
-        <Styled.Span onClick={(e) => onClickShopee(e, 2)} className="span-topics-my-cupons">
-          Shopee (12)
-        </Styled.Span>
-        <Styled.Span onClick={(e) => onClickShopee(e, 3)} className="span-topics-my-cupons">
-          Loja (0)
-        </Styled.Span>
-        <Styled.Span onClick={(e) => onClickShopee(e, 4)} className="span-topics-my-cupons">
-          Compra Digital (0)
-        </Styled.Span>
-        <Styled.Span onClick={(e) => onClickShopee(e, 5)} className="span-topics-my-cupons">
-          Parceiro (0)
-        </Styled.Span>
-        <Styled.Span onClick={(e) => onClickShopee(e, 6)} className="span-topics-my-cupons">
-          Produtos financeiros (0)
-        </Styled.Span>
+        {objQuantityCupons &&
+          objQuantityCupons.map((el) => (
+            <Styled.ContainerTopicCupons $whichCupon={el.whichCupon} key={el.id}>
+              <ContainerTopicCupons el={el} whatTopicClicked={whatTopicClicked} />
+            </Styled.ContainerTopicCupons>
+          ))}
       </Styled.ContainerTopicsMyCupons>
 
       <Styled.ContainerCuponsFooter>
-        <Styled.ContainerCuponMain>
-          <Styled.ContainerQuantityCupons>
-            <Styled.ContainerSvgQuantityX>
-              <SvgExitRed fill={'#EE4D2D'} />
-              <Styled.Span>1</Styled.Span>
-            </Styled.ContainerSvgQuantityX>
-          </Styled.ContainerQuantityCupons>
-          <Styled.ContainerCuponHeader>
-            <Styled.ContainerImgHeader>
-              <Styled.Img
-                src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728988707/img-shopee/br-11134004-7r98o-lsikizwd3q4ta6_phkhk8.png"
-                alt="img-cupon"
-              />
-              <Styled.ContainerImgExclusive>
-                <Styled.Img
-                  src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728989982/img-shopee/sg-11134004-23010-lk448laa7gmv1e_v9lfyz.png"
-                  alt="img-exclusive"
-                />
-              </Styled.ContainerImgExclusive>
-            </Styled.ContainerImgHeader>
-            <Styled.ContainerTitleDescriptionCupon>
-              <Styled.Span>Para você</Styled.Span>
-              <Styled.H1>Frete Grátis</Styled.H1>
-              <Styled.Span>Sem valor mínimo</Styled.Span>
-            </Styled.ContainerTitleDescriptionCupon>
-          </Styled.ContainerCuponHeader>
-          <Styled.ContainerBorder></Styled.ContainerBorder>
-          <Styled.ContainerCuponFooter>
-            <Styled.ContainerCuponBottomFirst>
-              <Styled.Span>Termina em: 1 dia</Styled.Span>
-              <Styled.Span>Condições</Styled.Span>
-            </Styled.ContainerCuponBottomFirst>
+        {allObjCuponsFilters &&
+          allObjCuponsFilters.length > 0 &&
+          allObjCuponsFilters.map((obj) => (
+            <Styled.Container key={obj.id}>
+              <CuponEach objCupons={obj} />
+            </Styled.Container>
+          ))}
 
-            <Styled.ContainerCuponBottomSecond>
-              <Styled.Button>Usar</Styled.Button>
-            </Styled.ContainerCuponBottomSecond>
-          </Styled.ContainerCuponFooter>
-        </Styled.ContainerCuponMain>
+        {allObjCuponsFilters.length <= 0 &&
+          whichWasClickedCupon === 1 &&
+          allObjCupon &&
+          allObjCupon.map((obj) => (
+            <Styled.Container key={obj.id}>
+              <CuponEach objCupons={obj} />
+            </Styled.Container>
+          ))}
+
+        {allObjCuponsFilters.length <= 0 && whichWasClickedCupon > 1 && <NoneCopunFound />}
       </Styled.ContainerCuponsFooter>
     </Styled.ContainerMain>
   );

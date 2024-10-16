@@ -44,7 +44,7 @@ export const containerAccountUser = styled.div`
   flex-direction: column;
   gap: 5px;
   width: 180px;
-  margin-right: 20px;
+  margin-right: 70px;
 `;
 
 export const ContainerUserNameImg = styled.div`
@@ -103,6 +103,7 @@ export const ContainerMyAccount = styled.div<ContainerMyAccountProps>`
   gap: 5px;
   cursor: pointer;
   user-select: none;
+  width: 90%;
   /* background-color: ${props => props.$whichWasClickedFirstLayer === '1' && "red"}; */
 
   >img {
