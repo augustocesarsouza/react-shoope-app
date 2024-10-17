@@ -170,7 +170,7 @@ const Perfil = () => {
 
   useEffect(() => {
     if (userUpdateCpfBirthdate) {
-      console.log(userUpdateCpfBirthdate);
+      // console.log(userUpdateCpfBirthdate);
     }
 
     if (userObj) {

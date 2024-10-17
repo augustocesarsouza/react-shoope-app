@@ -5,6 +5,9 @@ import ContainerTopicCupons from '../ContainerTopicCupons/ContainerTopicCupons';
 import HeaderMyCupons from '../HeaderMyCupons/HeaderMyCupons';
 import AddCupomInput from '../AddCupomInput/AddCupomInput';
 import NoneCopunFound from '../NoneCopunFound/NoneCopunFound';
+import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Url } from '../../../../../Utils/Url';
 
 export interface CuponsProps {
   id: string;
@@ -14,8 +17,8 @@ export interface CuponsProps {
   spanThree: string;
   quantityCupons: number;
   whatCuponNumber: number;
-  secondImg: string;
-  secondImgAlt: string;
+  secondImg: string | null;
+  secondImgAlt: string | null;
 }
 
 export interface ObjQuantityCupons {
@@ -25,77 +28,50 @@ export interface ObjQuantityCupons {
   nameTopCupon: string;
 }
 
+export interface DataCuposProps {
+  cuponDTO: CuponDTOProps;
+}
+
+interface CuponDTOProps {
+  dateValidateCupon: string;
+  firstText: string;
+  id: string;
+  quantityCupons: number;
+  secondImg: string;
+  secondImgAlt: string;
+  secondText: string;
+  thirdText: string;
+  whatCuponNumber: number;
+}
+
 const MyCupons = () => {
-  const [allObjCupon, setAllObjCupon] = useState<CuponsProps[] | null>(null);
+  const [allObjCupon, setAllObjCupon] = useState<DataCuposProps[] | null>(null);
   const [objQuantityCupons, setObjQuantityCupons] = useState<ObjQuantityCupons[] | null>(null);
+  const [userObj, setUserObj] = useState<ObjUser | null>(null);
+
+  const nav = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const obj1 = {
-      id: 'e3a9bb90-6c7f-4bb5-bfd2-367e62184d7e',
-      spanOne: 'Para você',
-      headerOne: 'Frete Grátis',
-      spanTwo: 'Sem valor mínimo',
-      spanThree: 'Termina em: 1 dia',
-      quantityCupons: 1,
-      whatCuponNumber: 2,
-      secondImg:
-        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728989982/img-shopee/sg-11134004-23010-lk448laa7gmv1e_v9lfyz.png',
-      secondImgAlt: 'second-img-1',
-    };
+    if (location.state) {
+      const objState: ObjUser = location.state.user;
+      setUserObj(objState);
+      getCuponsByUserId(objState);
+    }
+  }, []);
 
-    const obj2 = {
-      id: '0fed561e-fa48-49c5-afee-939726463fd2',
-      spanOne: 'Pontos',
-      headerOne: 'Cupom de pontos Shopee',
-      spanTwo: '100 pontos',
-      spanThree: 'Termina em: 2 dia',
-      quantityCupons: 2,
-      whatCuponNumber: 2,
-      secondImg:
-        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1728989982/img-shopee/sg-11134004-23010-lk448laa7gmv1e_v9lfyz.png',
-      secondImgAlt: 'second-img-2',
-    };
+  const getCuponsByUserId = async (objUser: ObjUser) => {
+    if (objUser === null) return;
 
-    const obj3 = {
-      id: '05807704-581e-41d3-96eb-c4d39247ab7f',
-      spanOne: 'PRODUTOS COM SELO',
-      headerOne: 'Cupom de Frete Grátis',
-      spanTwo: 'Compras acima de R$19',
-      spanThree: 'Válido até: 31/10/2024',
-      quantityCupons: 5,
-      whatCuponNumber: 3,
-      secondImg:
-        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1729004270/img-shopee/br-11134004-7r98o-lzp5gg598n51ca_okvwcz.png',
-      secondImgAlt: 'second-img-3',
-    };
+    const res = await fetch(`${Url}/get-all-cupon-by-user-id/${objUser.id}`);
+    const json = await res.json();
 
-    const obj4 = {
-      id: 'adddc87e-710c-4b05-ad4e-879052992f4b',
-      spanOne: 'PRODUTOS COM SELO',
-      headerOne: 'Cupom de Frete Grátis',
-      spanTwo: 'Compras acima de R$19',
-      spanThree: 'Válido até: 31/10/2024',
-      quantityCupons: 5,
-      whatCuponNumber: 3,
-      secondImg:
-        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1729004270/img-shopee/br-11134004-7r98o-lzp5gg598n51ca_okvwcz.png',
-      secondImgAlt: 'second-img-3',
-    };
+    const dataCupos: DataCuposProps[] = json.data;
+    // dataCupos.forEach((el) => {
+    //   console.log(el.cuponDTO);
+    // });
 
-    const obj5 = {
-      id: '5d8d6fc5-99b2-424f-9b3a-6750ff504ff9',
-      spanOne: 'TODAS AS LOJAS',
-      headerOne: '50% OFF no Frete',
-      spanTwo: 'Confira condições',
-      spanThree: 'Válido até: 15/05/2024',
-      quantityCupons: 2,
-      whatCuponNumber: 4,
-      secondImg:
-        'https://res.cloudinary.com/dyqsqg7pk/image/upload/v1729004270/img-shopee/br-11134004-7r98o-lzp5gg598n51ca_okvwcz.png',
-      secondImgAlt: 'second-img-3',
-    };
-
-    const allObjCupon = [obj1, obj2, obj3, obj4, obj5];
+    const allObjCupon = dataCupos;
 
     let quantityTotalCupons = 0;
     let quantityCuponShopee = 0;
@@ -105,24 +81,24 @@ const MyCupons = () => {
     let quantityFinancialProducts = 0;
 
     allObjCupon.forEach((el) => {
-      if (el.whatCuponNumber === 2) {
-        quantityCuponShopee += el.quantityCupons;
+      if (el.cuponDTO.whatCuponNumber === 2) {
+        quantityCuponShopee += el.cuponDTO.quantityCupons;
       }
 
-      if (el.whatCuponNumber === 3) {
-        quantityCuponShop += el.quantityCupons;
+      if (el.cuponDTO.whatCuponNumber === 3) {
+        quantityCuponShop += el.cuponDTO.quantityCupons;
       }
 
-      if (el.whatCuponNumber === 4) {
-        quantityCuponDigitalPurchase += el.quantityCupons;
+      if (el.cuponDTO.whatCuponNumber === 4) {
+        quantityCuponDigitalPurchase += el.cuponDTO.quantityCupons;
       }
 
-      if (el.whatCuponNumber === 5) {
-        quantityPartner += el.quantityCupons;
+      if (el.cuponDTO.whatCuponNumber === 5) {
+        quantityPartner += el.cuponDTO.quantityCupons;
       }
 
-      if (el.whatCuponNumber === 6) {
-        quantityFinancialProducts += el.quantityCupons;
+      if (el.cuponDTO.whatCuponNumber === 6) {
+        quantityFinancialProducts += el.cuponDTO.quantityCupons;
       }
     });
 
@@ -188,14 +164,16 @@ const MyCupons = () => {
 
     setObjQuantityCupons(allWhechCupon);
     setAllObjCupon(allObjCupon);
-  }, []);
+  };
 
-  const [allObjCuponsFilters, setAllObjCuponsFilters] = useState<CuponsProps[]>([]);
+  const [allObjCuponsFilters, setAllObjCuponsFilters] = useState<DataCuposProps[]>([]);
   const [whichWasClickedCupon, setWhichWasClickedCupon] = useState(1);
 
   const whatTopicClicked = (numberClicked: number) => {
     if (objQuantityCupons === null || allObjCupon === null) return;
-    const allObjCuponsFilters = allObjCupon.filter((el) => el.whatCuponNumber === numberClicked);
+    const allObjCuponsFilters = allObjCupon.filter(
+      (el) => el.cuponDTO.whatCuponNumber === numberClicked
+    );
     setAllObjCuponsFilters(allObjCuponsFilters);
     setWhichWasClickedCupon(numberClicked);
   };
@@ -218,7 +196,7 @@ const MyCupons = () => {
         {allObjCuponsFilters &&
           allObjCuponsFilters.length > 0 &&
           allObjCuponsFilters.map((obj) => (
-            <Styled.Container key={obj.id}>
+            <Styled.Container key={obj.cuponDTO.id}>
               <CuponEach objCupons={obj} />
             </Styled.Container>
           ))}
@@ -227,7 +205,7 @@ const MyCupons = () => {
           whichWasClickedCupon === 1 &&
           allObjCupon &&
           allObjCupon.map((obj) => (
-            <Styled.Container key={obj.id}>
+            <Styled.Container key={obj.cuponDTO.id}>
               <CuponEach objCupons={obj} />
             </Styled.Container>
           ))}
