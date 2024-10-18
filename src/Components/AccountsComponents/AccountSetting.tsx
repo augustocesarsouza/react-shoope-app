@@ -199,7 +199,23 @@ const AccountSetting = () => {
     if (userObjState !== null || userObjState !== undefined) {
       nav('/user/voucher-wallet', { state: { user: userObjState } });
     }
-    // setNotification(true);
+  };
+
+  const onClickMyCoins = () => {
+    // const containerNotifications = document.querySelector(
+    //   '#container-itens-notifications'
+    // ) as HTMLElement;
+
+    // const containerMyAccount = document.querySelector('#container-itens-my-account') as HTMLElement;
+
+    // containerNotifications.style.display = 'none';
+    // containerMyAccount.style.display = 'none';
+
+    setWhichWasClickedFirstLayer(EnumAccountSetting.MyCoinsShopee);
+
+    if (userObjState !== null || userObjState !== undefined) {
+      nav('/user/coin', { state: { user: userObjState } });
+    }
   };
 
   return (
@@ -356,6 +372,7 @@ const AccountSetting = () => {
                 <Styled.Span>Meus Cupons</Styled.Span>
               </Styled.ContainerMyAccount>
               <Styled.ContainerMyAccount
+                onClick={onClickMyCoins}
                 $whichWasClickedFirstLayer={whichWasClickedFirstLayer === '5' ? '5' : ''}
               >
                 <img
