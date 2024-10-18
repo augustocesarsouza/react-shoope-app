@@ -8,18 +8,7 @@ import NoneCopunFound from '../NoneCopunFound/NoneCopunFound';
 import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Url } from '../../../../../Utils/Url';
-
-export interface CuponsProps {
-  id: string;
-  spanOne: string;
-  headerOne: string;
-  spanTwo: string;
-  spanThree: string;
-  quantityCupons: number;
-  whatCuponNumber: number;
-  secondImg: string | null;
-  secondImgAlt: string | null;
-}
+import CuponRecommended from '../CuponRecommended/CuponRecommended';
 
 export interface ObjQuantityCupons {
   id: string;
@@ -32,7 +21,7 @@ export interface DataCuposProps {
   cuponDTO: CuponDTOProps;
 }
 
-interface CuponDTOProps {
+export interface CuponDTOProps {
   dateValidateCupon: string;
   firstText: string;
   id: string;
@@ -44,10 +33,25 @@ interface CuponDTOProps {
   whatCuponNumber: number;
 }
 
+export interface CuponRecommendedProps {
+  id: string;
+  titleCupon: string;
+  valueCupon: number;
+  offPrice: string;
+  showImgHeighlight: boolean;
+  offDescription: string;
+  imgCupon: string;
+  imgAltCupon: string;
+}
+
 const MyCupons = () => {
   const [allObjCupon, setAllObjCupon] = useState<DataCuposProps[] | null>(null);
   const [objQuantityCupons, setObjQuantityCupons] = useState<ObjQuantityCupons[] | null>(null);
   const [userObj, setUserObj] = useState<ObjUser | null>(null);
+
+  const [objCuponRecommendedAll, setObjCuponRecommendedAll] = useState<
+    CuponRecommendedProps[] | null
+  >(null);
 
   const nav = useNavigate();
   const location = useLocation();
@@ -67,9 +71,6 @@ const MyCupons = () => {
     const json = await res.json();
 
     const dataCupos: DataCuposProps[] = json.data;
-    // dataCupos.forEach((el) => {
-    //   console.log(el.cuponDTO);
-    // });
 
     const allObjCupon = dataCupos;
 
@@ -164,6 +165,33 @@ const MyCupons = () => {
 
     setObjQuantityCupons(allWhechCupon);
     setAllObjCupon(allObjCupon);
+
+    const objCuponRecommended1 = {
+      id: '147a44b0-7ecd-40e2-9204-d41bc9b9eaf2',
+      titleCupon:
+        'Kit 5 Suporte Tutor Para Plantas Cercas Artesanatos Vasos de Bambu de 45cm ACM5UT45',
+      valueCupon: 12.72,
+      offPrice: '5% OFF',
+      showImgHeighlight: false,
+      offDescription: 'Nas compras acima de R$60',
+      imgCupon: 'https://down-br.img.susercontent.com/file/br-11134207-7r98o-loiy1pd722mk3c',
+      imgAltCupon: 'img-pan',
+    };
+
+    const objCuponRecommended2 = {
+      id: '8041d9db-98ec-41bd-904d-7b7c8edaa2c1',
+      titleCupon: 'Fertilizante Big Bud Advanced Nutrients',
+      valueCupon: 42.9,
+      offPrice: '2% OFF',
+      showImgHeighlight: true,
+      offDescription: 'Nas compras acima de R$50',
+      imgCupon: 'https://down-br.img.susercontent.com/file/br-11134207-7r98o-lx7uns529xa72d',
+      imgAltCupon: 'img-big-bud',
+    };
+
+    const allObjCuponRecommended1 = [objCuponRecommended1, objCuponRecommended2];
+
+    setObjCuponRecommendedAll(allObjCuponRecommended1);
   };
 
   const [allObjCuponsFilters, setAllObjCuponsFilters] = useState<DataCuposProps[]>([]);
@@ -197,7 +225,7 @@ const MyCupons = () => {
           allObjCuponsFilters.length > 0 &&
           allObjCuponsFilters.map((obj) => (
             <Styled.Container key={obj.cuponDTO.id}>
-              <CuponEach objCupons={obj} />
+              <CuponEach objCupons={obj.cuponDTO} />
             </Styled.Container>
           ))}
 
@@ -206,12 +234,22 @@ const MyCupons = () => {
           allObjCupon &&
           allObjCupon.map((obj) => (
             <Styled.Container key={obj.cuponDTO.id}>
-              <CuponEach objCupons={obj} />
+              <CuponEach objCupons={obj.cuponDTO} />
             </Styled.Container>
           ))}
 
         {allObjCuponsFilters.length <= 0 && whichWasClickedCupon > 1 && <NoneCopunFound />}
       </Styled.ContainerCuponsFooter>
+
+      <Styled.ContainerCuponsRecommended>
+        <Styled.H1>Cupons Recomendados</Styled.H1>
+
+        <Styled.ContainerCuponsRecommendedItem>
+          {objCuponRecommendedAll &&
+            objCuponRecommendedAll.length > 0 &&
+            objCuponRecommendedAll.map((obj) => <CuponRecommended obj={obj} />)}
+        </Styled.ContainerCuponsRecommendedItem>
+      </Styled.ContainerCuponsRecommended>
     </Styled.ContainerMain>
   );
 };

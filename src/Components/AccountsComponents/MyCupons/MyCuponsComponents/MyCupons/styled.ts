@@ -44,6 +44,7 @@ export const ContainerCuponsFooter = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  margin-bottom: 50px;
 `;
 
 interface ContainerTopicCuponsProps {
@@ -55,4 +56,21 @@ export const ContainerTopicCupons = styled.div<ContainerTopicCuponsProps>`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const ContainerCuponsRecommended = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  >h1 {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.87);
+    margin-bottom: 50px;
+  }
+`;
+
+export const ContainerCuponsRecommendedItem = styled.div`
+  display: flex;
+  gap: 10px;
 `;

@@ -6,10 +6,10 @@ describe('CuponEach', () => {
   it('should render CuponEach Component', async () => {
     const obj1 = {
       id: 'e3a9bb90-6c7f-4bb5-bfd2-367e62184d7e',
-      spanOne: 'Para você',
-      headerOne: 'Frete Grátis',
-      spanTwo: 'Sem valor mínimo',
-      spanThree: 'Termina em: 1 dia',
+      firstText: 'Para você',
+      secondText: 'Frete Grátis',
+      thirdText: 'Sem valor mínimo',
+      dateValidateCupon: 'Termina em: 1 dia',
       quantityCupons: 1,
       whatCuponNumber: 2,
       secondImg:
@@ -26,16 +26,16 @@ describe('CuponEach', () => {
     expect(img1).toBeInTheDocument();
     expect(img1).toHaveAttribute('src', obj1.secondImg);
 
-    const span2 = screen.getByText(obj1.spanOne);
+    const span2 = screen.getByText(obj1.firstText);
     expect(span2).toBeInTheDocument();
 
-    const header1 = screen.getByRole('heading', { name: obj1.headerOne });
+    const header1 = screen.getByRole('heading', { name: obj1.secondText });
     expect(header1).toBeInTheDocument();
 
-    const span3 = screen.getByText(obj1.spanTwo);
+    const span3 = screen.getByText(obj1.thirdText);
     expect(span3).toBeInTheDocument();
 
-    const span4 = screen.getByText(obj1.spanThree);
+    const span4 = screen.getByText(obj1.thirdText);
     expect(span4).toBeInTheDocument();
 
     const span5 = screen.getByText('Condições');
