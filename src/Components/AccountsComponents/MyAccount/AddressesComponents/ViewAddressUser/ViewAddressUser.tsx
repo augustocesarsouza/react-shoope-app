@@ -54,7 +54,6 @@ const ViewAddressUser = ({
     if (res.status === 200) {
       const json = await res.json();
       let address: IUserAddress = json.data;
-      console.log(address);
 
       updateNewUserAddressDefault(address);
       changeValueNewAddressModal(false);
