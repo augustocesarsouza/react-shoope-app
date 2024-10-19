@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { ObjUser } from '../InterfaceAll/IObjUser/IObjUser';
 import FooterShopee from '../FooterShopeeComponents/FooterShopee/FooterShopee';
 import { EnumAccountSetting } from './MyAccount/Interface/EnumAccountSetting/EnumAccountSetting';
+import SvgPincel from '../Svg/SvgPincel/SvgPincel';
 
 const AccountSetting = () => {
   const [userObjState, setUserObjState] = useState<ObjUser>();
@@ -226,8 +227,11 @@ const AccountSetting = () => {
                 <SvgUserBody></SvgUserBody>
               </Styled.ContainerImgUser>
               <Styled.ContainerUserName>
-                <Styled.Span>{userObjState?.name}</Styled.Span>
-                <Styled.Span>Editar perfil</Styled.Span>
+                <Styled.H1>{userObjState?.name}</Styled.H1>
+                <Styled.ContainerEditPerfilAndSvg>
+                  <SvgPincel />
+                  <Styled.Span>Editar Perfil</Styled.Span>
+                </Styled.ContainerEditPerfilAndSvg>
               </Styled.ContainerUserName>
             </Styled.ContainerUserNameImg>
             <Styled.ContainerInfoProfileUser>
