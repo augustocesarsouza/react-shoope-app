@@ -18,4 +18,8 @@ export const ContainerMain = styled.div`
   width: 100%;
   /* height: 580px; */
   gap: 15px;
+
+  border-left: 1px solid #0000001a;
+  border-bottom: 2px solid #00000026;
+  padding-left: 25px;
 `;

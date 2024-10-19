@@ -1,9 +1,12 @@
+import BodyMainCoinsShopee from '../BodyMainCoinsShopee/BodyMainCoinsShopee';
+import HeaderMainCoinsShopee from '../HeaderMainCoinsShopee/HeaderMainCoinsShopee';
 import * as Styled from './styled';
 
 const MyCoinsShopee = () => {
   return (
     <Styled.ContainerMain>
-      <Styled.H1>Moedas Disponiveis</Styled.H1>
+      <HeaderMainCoinsShopee />
+      <BodyMainCoinsShopee />
     </Styled.ContainerMain>
   );
 };

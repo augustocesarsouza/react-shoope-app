@@ -44,7 +44,7 @@ export const containerAccountUser = styled.div`
   flex-direction: column;
   gap: 5px;
   width: 180px;
-  margin-right: 70px;
+  margin-right: 55px;
 `;
 
 export const ContainerUserNameImg = styled.div`
