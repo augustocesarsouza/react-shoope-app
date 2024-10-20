@@ -44,26 +44,29 @@ export const containerAccountUser = styled.div`
   flex-direction: column;
   gap: 5px;
   width: 180px;
-  margin-right: 70px;
+  margin-right: 55px;
 `;
 
 export const ContainerUserNameImg = styled.div`
   display: flex;
   gap: 5px;
   margin-bottom: 30px;
+
+  user-select: none;
+
 `;
 
 export const ContainerImgUser = styled.div`
-  width: 20px;
-  height: 20px;
   background-color: #fff;
   border-radius: 50%;
   position: relative;
   margin-right: 5px;
+  border: 1px solid #00000030;
+  padding: 20px;
+  cursor: pointer;
 
-  svg {
-    width: 15px;
-    height: 15px;
+  >svg {
+    width: 20px;
     fill: #fff;
 
     stroke: #c6c6c6;
@@ -81,7 +84,33 @@ export const ContainerImgUser = styled.div`
 export const ContainerUserName = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 7px;
+   
+
+  >h1 {
+    font-size: 14px;
+    font-weight: 600;
+  }
+`;
+
+export const ContainerEditPerfilAndSvg = styled.div`
+  display: flex;
   gap: 5px;
+  line-height: 1;
+  padding-left: 5px;
+  cursor: pointer;
+
+  >svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  >span {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgb(136, 136, 136);
+    
+  }
 `;
 
 export const ContainerInfoProfileUser = styled.div`

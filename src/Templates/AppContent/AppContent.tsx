@@ -25,6 +25,7 @@ import Promotion from '../../Components/AccountsComponents/Notification/Promotio
 import Wallet from '../../Components/AccountsComponents/Notification/PromotionComponents/WalletComponents/Wallet/Wallet';
 import UpdateShopee from '../../Components/AccountsComponents/Notification/PromotionComponents/UpdateShopeeComponents/UpdateShopee/UpdateShopee';
 import MyCupons from '../../Components/AccountsComponents/MyCupons/MyCuponsComponents/MyCupons/MyCupons';
+import MyCoinsShopee from '../../Components/AccountsComponents/MyCoinsShopee/MyCoinsShopeeComponents/MyCoinsShopee/MyCoinsShopee';
 
 const AppContent = () => {
   document.body.style.overflowY = 'none';
@@ -58,6 +59,7 @@ const AppContent = () => {
           <Route index element={<Navigate to="purchase" />}></Route>
           <Route path="purchase" element={<Purchase />} />
           <Route path="voucher-wallet" element={<MyCupons />} />
+          <Route path="coin" element={<MyCoinsShopee />} />
         </Route>
         <Route path="/user/setting" element={<AccountSetting />}>
           <Route path="privacy" element={<SettingPrivacy />} />

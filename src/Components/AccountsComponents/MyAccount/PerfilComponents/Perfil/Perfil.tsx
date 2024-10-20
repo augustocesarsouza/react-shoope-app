@@ -5,6 +5,7 @@ import { Url } from '../../../../../Utils/Url';
 import SvgOk from '../../../../Svg/SvgOk/SvgOk';
 import { UserUpdateData } from '../FillCpfAndBirthdate/FillCpfAndBirthdate';
 import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
+import SvgUserBody from '../../../../HeaderComponents/AllSvgHeader/SvgUserBody/SvgUserBody';
 
 const Perfil = () => {
   const [userObj, setUserObj] = useState<ObjUser | null>(null);
@@ -110,6 +111,19 @@ const Perfil = () => {
     // location.state.user = userJson;
     emailToShowToUserMyPerfil(userJson.email);
     setValueInput(userJson.name);
+
+    let timer: NodeJS.Timeout | null = null;
+
+    timer = setTimeout(() => {
+      document.body.style.overflowY = 'scroll';
+    }, 100);
+
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+    };
   }, []);
 
   const onChangeInputNameUser = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -331,165 +345,200 @@ const Perfil = () => {
     setShowUpdateSuccessfully(false);
   };
 
+  const onClickButtonSelectionImage = () => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+
+    fileInput.addEventListener('change', (e: Event) => {
+      const target = e.target as HTMLInputElement;
+
+      if (target.files === null || target.files.length <= 0) return;
+
+      const file = target.files[0];
+    });
+
+    fileInput.click();
+  };
+
   return (
     <>
       <Styled.ContainerMainMain>
         {showMyPerfil && (
-          <Styled.ContainerPerfilMain>
-            <Styled.ContainerOnlyPerfil>
-              <Styled.H1>Meu perfil</Styled.H1>
-              <Styled.Span>Gerenciar e proteger sua conta</Styled.Span>
-            </Styled.ContainerOnlyPerfil>
-            <Styled.ContainerMyPerfilInfo>
-              <Styled.Form>
-                <Styled.Table>
-                  <Styled.Tbody>
-                    <Styled.Tr>
-                      <Styled.Td>
-                        <Styled.Label className="label">Nome de usuário</Styled.Label>
-                      </Styled.Td>
-                      <Styled.TdSecond>
-                        <Styled.ContainerOnlyInputNameUser>
-                          {userObj && (
-                            <Styled.Input
-                              type="text"
-                              placeholder="Nome de usuário"
-                              value={valueInput}
-                              ref={RefInputNameUser}
-                              onChange={(e) => onChangeInputNameUser(e)}
-                            />
-                          )}
-                          <Styled.Span>
-                            Nome do usuário pode ser alterado apenas uma vez.
-                          </Styled.Span>
-                        </Styled.ContainerOnlyInputNameUser>
-                      </Styled.TdSecond>
-                    </Styled.Tr>
-                    <Styled.Tr>
-                      <Styled.TdNome>
-                        <Styled.Label className="label">Nome</Styled.Label>
-                      </Styled.TdNome>
-                      <Styled.TdSecond>
-                        <Styled.ContainerOnlyInputNameUser>
-                          <Styled.ContainerOnlyInputName>
-                            <Styled.Input type="text" placeholder="Nome" />
-                          </Styled.ContainerOnlyInputName>
-                        </Styled.ContainerOnlyInputNameUser>
-                      </Styled.TdSecond>
-                    </Styled.Tr>
-                    <Styled.Tr>
-                      <Styled.TdNome>
-                        <Styled.Label className="label">Email</Styled.Label>
-                      </Styled.TdNome>
-                      <Styled.TdSecond>
-                        <Styled.ContainerLinkInsert>
-                          {showChangeEmailLink && <Styled.Span>{emailUser}</Styled.Span>}
-                          {!showChangeEmailLink && (
-                            <Styled.Link onClick={() => onClickInsertEmail()}>Inserir</Styled.Link>
-                          )}
-                          {showChangeEmailLink && (
-                            <Styled.Link onClick={() => onClickChangeEmail()}>Trocar</Styled.Link>
-                          )}
-                        </Styled.ContainerLinkInsert>
-                      </Styled.TdSecond>
-                    </Styled.Tr>
-                    <Styled.Tr>
-                      <Styled.TdNome>
-                        <Styled.Label className="label">Número de telefone</Styled.Label>
-                      </Styled.TdNome>
-                      <Styled.TdSecond>
-                        <Styled.ContainerCelPhone>
-                          {emailToShowUser.length > 0 && (
-                            <Styled.Container>{emailToShowUser}</Styled.Container>
-                          )}
-                          {emailToShowUser.length <= 0 && (
-                            <Styled.Container>***********23</Styled.Container>
-                          )}
+          <>
+            <Styled.ContainerPerfilMain>
+              <Styled.ContainerOnlyPerfil>
+                <Styled.H1>Meu perfil</Styled.H1>
+                <Styled.Span>Gerenciar e proteger sua conta</Styled.Span>
+              </Styled.ContainerOnlyPerfil>
+              <Styled.ContainerMyPerfilInfo>
+                <Styled.Form>
+                  <Styled.Table>
+                    <Styled.Tbody>
+                      <Styled.Tr>
+                        <Styled.Td>
+                          <Styled.Label className="label">Nome de usuário</Styled.Label>
+                        </Styled.Td>
+                        <Styled.TdSecond>
+                          <Styled.ContainerOnlyInputNameUser>
+                            {userObj && (
+                              <Styled.Input
+                                type="text"
+                                placeholder="Nome de usuário"
+                                value={valueInput}
+                                ref={RefInputNameUser}
+                                onChange={(e) => onChangeInputNameUser(e)}
+                              />
+                            )}
+                            <Styled.Span>
+                              Nome do usuário pode ser alterado apenas uma vez.
+                            </Styled.Span>
+                          </Styled.ContainerOnlyInputNameUser>
+                        </Styled.TdSecond>
+                      </Styled.Tr>
+                      <Styled.Tr>
+                        <Styled.TdNome>
+                          <Styled.Label className="label">Nome</Styled.Label>
+                        </Styled.TdNome>
+                        <Styled.TdSecond>
+                          <Styled.ContainerOnlyInputNameUser>
+                            <Styled.ContainerOnlyInputName>
+                              <Styled.Input type="text" placeholder="Nome" />
+                            </Styled.ContainerOnlyInputName>
+                          </Styled.ContainerOnlyInputNameUser>
+                        </Styled.TdSecond>
+                      </Styled.Tr>
+                      <Styled.Tr>
+                        <Styled.TdNome>
+                          <Styled.Label className="label">Email</Styled.Label>
+                        </Styled.TdNome>
+                        <Styled.TdSecond>
+                          <Styled.ContainerLinkInsert>
+                            {showChangeEmailLink && <Styled.Span>{emailUser}</Styled.Span>}
+                            {!showChangeEmailLink && (
+                              <Styled.Link onClick={() => onClickInsertEmail()}>
+                                Inserir
+                              </Styled.Link>
+                            )}
+                            {showChangeEmailLink && (
+                              <Styled.Link onClick={() => onClickChangeEmail()}>Trocar</Styled.Link>
+                            )}
+                          </Styled.ContainerLinkInsert>
+                        </Styled.TdSecond>
+                      </Styled.Tr>
+                      <Styled.Tr>
+                        <Styled.TdNome>
+                          <Styled.Label className="label">Número de telefone</Styled.Label>
+                        </Styled.TdNome>
+                        <Styled.TdSecond>
+                          <Styled.ContainerCelPhone>
+                            {emailToShowUser.length > 0 && (
+                              <Styled.Container>{emailToShowUser}</Styled.Container>
+                            )}
+                            {emailToShowUser.length <= 0 && (
+                              <Styled.Container>***********23</Styled.Container>
+                            )}
 
-                          {emailToShowUser.length > 0 && (
-                            <Styled.Link onClick={() => onClickChangePhone()}>Trocar</Styled.Link>
-                          )}
-                          {emailToShowUser.length <= 0 && <Styled.Link>Inserir</Styled.Link>}
-                        </Styled.ContainerCelPhone>
-                      </Styled.TdSecond>
-                    </Styled.Tr>
-                    <Styled.Tr>
-                      <Styled.TdNome>
-                        <Styled.Label className="label">Sexo</Styled.Label>
-                      </Styled.TdNome>
-                      <Styled.TdSecond>
-                        <Styled.ContainerMainInputs>
-                          <Styled.ContainerInputs onClick={() => onClickChoseGender('m')}>
-                            <Styled.InputCheckbox $showCheckbox={showCheckboxM}>
-                              <Styled.CheckBox
-                                className="checkbox-gender"
-                                $showCheckbox={showCheckboxM}
-                              ></Styled.CheckBox>
-                            </Styled.InputCheckbox>
-                            <Styled.Span>masculino</Styled.Span>
-                          </Styled.ContainerInputs>
-                          <Styled.ContainerInputs onClick={() => onClickChoseGender('f')}>
-                            <Styled.InputCheckbox $showCheckbox={showCheckboxF}>
-                              <Styled.CheckBox
-                                className="checkbox-gender"
-                                $showCheckbox={showCheckboxF}
-                              ></Styled.CheckBox>
-                            </Styled.InputCheckbox>
-                            <Styled.Span>feminino</Styled.Span>
-                          </Styled.ContainerInputs>
-                          <Styled.ContainerInputs onClick={() => onClickChoseGender('o')}>
-                            <Styled.InputCheckbox $showCheckbox={showCheckboxO}>
-                              <Styled.CheckBox
-                                className="checkbox-gender"
-                                $showCheckbox={showCheckboxO}
-                              ></Styled.CheckBox>
-                            </Styled.InputCheckbox>
-                            <Styled.Span>Outros</Styled.Span>
-                          </Styled.ContainerInputs>
-                        </Styled.ContainerMainInputs>
-                      </Styled.TdSecond>
-                    </Styled.Tr>
-                    <Styled.Tr>
-                      <Styled.TdNome>
-                        <Styled.Label className="label">CPF/Data de nascimento</Styled.Label>
-                      </Styled.TdNome>
-                      <Styled.TdSecond>
-                        <Styled.ContainerCelPhone>
-                          {cpf !== null && birthdate !== null && (
-                            <>
-                              <Styled.Span>{cpf}</Styled.Span>
-                              <Styled.Span>/</Styled.Span>
-                              <Styled.Span>{birthdate}</Styled.Span>
-                            </>
-                          )}
+                            {emailToShowUser.length > 0 && (
+                              <Styled.Link onClick={() => onClickChangePhone()}>Trocar</Styled.Link>
+                            )}
+                            {emailToShowUser.length <= 0 && <Styled.Link>Inserir</Styled.Link>}
+                          </Styled.ContainerCelPhone>
+                        </Styled.TdSecond>
+                      </Styled.Tr>
+                      <Styled.Tr>
+                        <Styled.TdNome>
+                          <Styled.Label className="label">Sexo</Styled.Label>
+                        </Styled.TdNome>
+                        <Styled.TdSecond>
+                          <Styled.ContainerMainInputs>
+                            <Styled.ContainerInputs onClick={() => onClickChoseGender('m')}>
+                              <Styled.InputCheckbox $showCheckbox={showCheckboxM}>
+                                <Styled.CheckBox
+                                  className="checkbox-gender"
+                                  $showCheckbox={showCheckboxM}
+                                ></Styled.CheckBox>
+                              </Styled.InputCheckbox>
+                              <Styled.Span>masculino</Styled.Span>
+                            </Styled.ContainerInputs>
+                            <Styled.ContainerInputs onClick={() => onClickChoseGender('f')}>
+                              <Styled.InputCheckbox $showCheckbox={showCheckboxF}>
+                                <Styled.CheckBox
+                                  className="checkbox-gender"
+                                  $showCheckbox={showCheckboxF}
+                                ></Styled.CheckBox>
+                              </Styled.InputCheckbox>
+                              <Styled.Span>feminino</Styled.Span>
+                            </Styled.ContainerInputs>
+                            <Styled.ContainerInputs onClick={() => onClickChoseGender('o')}>
+                              <Styled.InputCheckbox $showCheckbox={showCheckboxO}>
+                                <Styled.CheckBox
+                                  className="checkbox-gender"
+                                  $showCheckbox={showCheckboxO}
+                                ></Styled.CheckBox>
+                              </Styled.InputCheckbox>
+                              <Styled.Span>Outros</Styled.Span>
+                            </Styled.ContainerInputs>
+                          </Styled.ContainerMainInputs>
+                        </Styled.TdSecond>
+                      </Styled.Tr>
+                      <Styled.Tr>
+                        <Styled.TdNome>
+                          <Styled.Label className="label">CPF/Data de nascimento</Styled.Label>
+                        </Styled.TdNome>
+                        <Styled.TdSecond>
+                          <Styled.ContainerCelPhone>
+                            {cpf !== null && birthdate !== null && (
+                              <>
+                                <Styled.Span>{cpf}</Styled.Span>
+                                <Styled.Span>/</Styled.Span>
+                                <Styled.Span>{birthdate}</Styled.Span>
+                              </>
+                            )}
 
-                          {cpf === null && birthdate === null && (
-                            <Styled.Link onClick={() => onClickFillCpfBirthdate()}>
-                              Preencher agora
-                            </Styled.Link>
-                          )}
+                            {cpf === null && birthdate === null && (
+                              <Styled.Link onClick={() => onClickFillCpfBirthdate()}>
+                                Preencher agora
+                              </Styled.Link>
+                            )}
 
-                          {cpf !== null && birthdate !== null && (
-                            <Styled.Link onClick={() => onClickFillCpfBirthdate()}>
-                              Alterar
-                            </Styled.Link>
-                          )}
-                        </Styled.ContainerCelPhone>
-                      </Styled.TdSecond>
-                    </Styled.Tr>
-                    <Styled.Tr>
-                      <Styled.TdNome></Styled.TdNome>
-                      <Styled.TdSecond>
-                        <Styled.ContainerButtonSave>
-                          <Styled.Button onClick={(e) => onClickSavePefil(e)}>Gravar</Styled.Button>
-                        </Styled.ContainerButtonSave>
-                      </Styled.TdSecond>
-                    </Styled.Tr>
-                  </Styled.Tbody>
-                </Styled.Table>
-              </Styled.Form>
-            </Styled.ContainerMyPerfilInfo>
-          </Styled.ContainerPerfilMain>
+                            {cpf !== null && birthdate !== null && (
+                              <Styled.Link onClick={() => onClickFillCpfBirthdate()}>
+                                Alterar
+                              </Styled.Link>
+                            )}
+                          </Styled.ContainerCelPhone>
+                        </Styled.TdSecond>
+                      </Styled.Tr>
+                      <Styled.Tr>
+                        <Styled.TdNome></Styled.TdNome>
+                        <Styled.TdSecond>
+                          <Styled.ContainerButtonSave>
+                            <Styled.Button onClick={(e) => onClickSavePefil(e)}>
+                              Gravar
+                            </Styled.Button>
+                          </Styled.ContainerButtonSave>
+                        </Styled.TdSecond>
+                      </Styled.Tr>
+                    </Styled.Tbody>
+                  </Styled.Table>
+                </Styled.Form>
+              </Styled.ContainerMyPerfilInfo>
+            </Styled.ContainerPerfilMain>
+
+            <Styled.ContainerSelectImage>
+              <Styled.ContainerImgUser>
+                <SvgUserBody />
+              </Styled.ContainerImgUser>
+              <Styled.Button onClick={onClickButtonSelectionImage}>
+                Selecionar a Imagem
+              </Styled.Button>
+              <Styled.ContainerSpanInfoAboutSelectImage>
+                <Styled.Span>Tamanho do arquivo: no máximo 1 MB</Styled.Span>
+                <Styled.Span>Extensão de arquivo: .JPEG, .PNG</Styled.Span>
+              </Styled.ContainerSpanInfoAboutSelectImage>
+            </Styled.ContainerSelectImage>
+          </>
         )}
       </Styled.ContainerMainMain>
 

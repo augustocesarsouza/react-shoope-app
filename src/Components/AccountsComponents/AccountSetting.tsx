@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { ObjUser } from '../InterfaceAll/IObjUser/IObjUser';
 import FooterShopee from '../FooterShopeeComponents/FooterShopee/FooterShopee';
 import { EnumAccountSetting } from './MyAccount/Interface/EnumAccountSetting/EnumAccountSetting';
+import SvgPincel from '../Svg/SvgPincel/SvgPincel';
 
 const AccountSetting = () => {
   const [userObjState, setUserObjState] = useState<ObjUser>();
@@ -185,21 +186,34 @@ const AccountSetting = () => {
   };
 
   const onClickMyCupons = () => {
-    const containerNotifications = document.querySelector(
-      '#container-itens-notifications'
-    ) as HTMLElement;
-
-    const containerMyAccount = document.querySelector('#container-itens-my-account') as HTMLElement;
-
-    containerNotifications.style.display = 'none';
-    containerMyAccount.style.display = 'none';
+    changeDisplayContainerNotificationsMyAccount('none');
 
     setWhichWasClickedFirstLayer(EnumAccountSetting.MyCoupons);
 
     if (userObjState !== null || userObjState !== undefined) {
       nav('/user/voucher-wallet', { state: { user: userObjState } });
     }
-    // setNotification(true);
+  };
+
+  const onClickMyCoins = () => {
+    changeDisplayContainerNotificationsMyAccount('none');
+
+    setWhichWasClickedFirstLayer(EnumAccountSetting.MyCoinsShopee);
+
+    if (userObjState !== null || userObjState !== undefined) {
+      nav('/user/coin', { state: { user: userObjState } });
+    }
+  };
+
+  const changeDisplayContainerNotificationsMyAccount = (display: string) => {
+    const containerNotifications = document.querySelector(
+      '#container-itens-notifications'
+    ) as HTMLElement;
+
+    const containerMyAccount = document.querySelector('#container-itens-my-account') as HTMLElement;
+
+    containerNotifications.style.display = display;
+    containerMyAccount.style.display = display;
   };
 
   return (
@@ -210,11 +224,14 @@ const AccountSetting = () => {
           <Styled.containerAccountUser>
             <Styled.ContainerUserNameImg>
               <Styled.ContainerImgUser>
-                <SvgUserBody></SvgUserBody>
+                <SvgUserBody />
               </Styled.ContainerImgUser>
               <Styled.ContainerUserName>
-                <Styled.Span>{userObjState?.name}</Styled.Span>
-                <Styled.Span>Editar perfil</Styled.Span>
+                <Styled.H1>{userObjState?.name}</Styled.H1>
+                <Styled.ContainerEditPerfilAndSvg>
+                  <SvgPincel />
+                  <Styled.Span>Editar Perfil</Styled.Span>
+                </Styled.ContainerEditPerfilAndSvg>
               </Styled.ContainerUserName>
             </Styled.ContainerUserNameImg>
             <Styled.ContainerInfoProfileUser>
@@ -356,6 +373,7 @@ const AccountSetting = () => {
                 <Styled.Span>Meus Cupons</Styled.Span>
               </Styled.ContainerMyAccount>
               <Styled.ContainerMyAccount
+                onClick={onClickMyCoins}
                 $whichWasClickedFirstLayer={whichWasClickedFirstLayer === '5' ? '5' : ''}
               >
                 <img

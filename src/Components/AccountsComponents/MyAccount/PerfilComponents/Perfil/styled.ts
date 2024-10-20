@@ -12,7 +12,6 @@ export const Container = styled.div``;
 
 export const ContainerMainMain = styled.div`
   display: flex;
-  flex-direction: column;
   width: 950px;
 
 `;
@@ -20,7 +19,7 @@ export const ContainerMainMain = styled.div`
 export const ContainerPerfilMain = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 70%;
 `;
 
 export const ContainerOnlyPerfil = styled.div`
@@ -343,18 +342,6 @@ export const ContainerCheckboxToEmail = styled.div<ContainerCheckboxToEmailProps
       width: 9px;
     }
   `}
-
-  /* &::before {
-    position: absolute;
-    border-bottom: 2px solid #fff;
-    border-left: 2px solid #fff;
-    content: "";
-    height: 5px;
-    left: 3px;
-    top: 3px;
-    transform: rotate(-45deg);
-    width: 9px;
-  } */
 `;
 
 export const ContainerLinkInsert = styled.div`
@@ -394,3 +381,51 @@ export const ContainerProfileUpdate = styled.div`
   gap: 10px;
 `;
 
+export const ContainerSelectImage = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  >button {
+    border: 1px solid #00000014;
+    padding: 10px 15px;
+    border-radius: 3px;
+    color: #000000a1;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }
+
+  >svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const ContainerImgUser = styled.div`
+  background-color: #fff;
+  border-radius: 50%;
+  margin-right: 5px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  >svg {
+    width: 60px;
+
+    stroke: #575757a1;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 2rem;
+    -webkit-font-smoothing: antialiased;
+  }
+`;
+
+export const ContainerSpanInfoAboutSelectImage = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(153, 153, 153);
+`;
