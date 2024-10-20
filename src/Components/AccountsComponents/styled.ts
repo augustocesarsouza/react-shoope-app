@@ -65,7 +65,7 @@ export const ContainerImgUser = styled.div`
   padding: 20px;
   cursor: pointer;
 
-  svg {
+  >svg {
     width: 20px;
     fill: #fff;
 

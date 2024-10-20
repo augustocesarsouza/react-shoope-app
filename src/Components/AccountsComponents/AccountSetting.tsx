@@ -224,7 +224,7 @@ const AccountSetting = () => {
           <Styled.containerAccountUser>
             <Styled.ContainerUserNameImg>
               <Styled.ContainerImgUser>
-                <SvgUserBody></SvgUserBody>
+                <SvgUserBody />
               </Styled.ContainerImgUser>
               <Styled.ContainerUserName>
                 <Styled.H1>{userObjState?.name}</Styled.H1>
