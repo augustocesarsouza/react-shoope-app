@@ -3,6 +3,7 @@ import { useState, useEffect, createContext } from 'react';
 import HeaderMain from '../../Components/HeaderComponents/HeaderMain/HeaderMain';
 import * as Styled from './styled';
 import { ObjUser } from '../../Components/InterfaceAll/IObjUser/IObjUser';
+import HomeBodyMain from '../../Components/HomeBodyComponents/HomeBodyMain/HomeBodyMain';
 
 export interface ContextHomeProps {
   userObj: ObjUser | null;
@@ -38,6 +39,7 @@ const Home = () => {
     >
       <Styled.ContainerMain>
         <HeaderMain></HeaderMain>
+        <HomeBodyMain></HomeBodyMain>
       </Styled.ContainerMain>
     </ContextHome.Provider>
   );
