@@ -66,10 +66,6 @@ const UpdateShopee = () => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log(objAttShopeeAll);
-  }, [objAttShopeeAll]);
-
   return (
     <Styled.ContainerMain>
       <Styled.ContainerHeader>
