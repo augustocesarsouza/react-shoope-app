@@ -30,84 +30,56 @@ export const ContainerWithForAll = styled.div`
   flex-direction: column;
   margin: 0px 0px;
   width: 1200px;
-  
 `;
 
-export const ContainerFlashDealsHeaderMain = styled.div`
+export const ContainerTipsForUsingCoupons = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 50px;
+
+  >img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+`;
+
+export const ContainerCategorys = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-export const ContainerAllProductFlashDeals = styled.div`
-  display: flex;
-  position: relative;
-`;
-
-export const ContainerProductImgFlashInfo = styled.div`
-  display: flex;
-  gap: 30px;
-
-  overflow-x: hidden;
-
-  >div {
-    cursor: pointer;
-  }
-`;
-
-export const ContainerArrowLeft = styled.div`
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 80px;
-  height: 100%;
-  /* display: flex; */
-  display: none;
-  align-items: center;
-  justify-content: flex-start;
-  z-index: 1;
- 
-
-  >div {
-    background-color:  #fff;
-    padding: 10px;
-    border-radius: 50%;
-    display: flex;
-    cursor: pointer;
-    box-shadow: 0px 0px 4px 0px black;
-  }
-
-  >div>svg {
-    fill: #0000008f;
-    width: 14px;
-    height: 14px;
-  }
-`;
-
-export const ContainerArrowRight = styled.div`
-  position: absolute;
-  right: 0px;
-  top: 79px;
-  z-index: 1;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #00000061;
-  border-radius: 50%;
   
-  >div {
-    background-color:  #fff;
-    padding: 10px;
-    border-radius: 50%;
-    display: flex;
-    cursor: pointer;
-    box-shadow: 0px 0px 4px 0px black;
+  >h1 {
+    font-size: 20px;
+    font-weight: 500;
+    color: rgba(0,0,0,.54);
+    margin-bottom: 50px;
   }
 
-  >div>svg {
-    fill: #0000008f;
-    width: 14px;
-    height: 14px;
+  margin-bottom: 150px;
+`;
+
+export const ContainerAllCategory = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+export const ContainerCategoryProp = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 120px;
+  
+
+  >img {
+    width: 83px;
+    height: auto;
+  }
+
+  >span {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.8);
+    width: 90px;
+    text-align: center;
   }
 `;

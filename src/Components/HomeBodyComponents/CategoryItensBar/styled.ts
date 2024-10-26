@@ -23,4 +23,5 @@ export const ContainerCategoryItensBar = styled.div`
   justify-content: space-around;
   gap: 10px;
   border-bottom: 1px solid #00000026;
+  margin-bottom: 50px;
 `;

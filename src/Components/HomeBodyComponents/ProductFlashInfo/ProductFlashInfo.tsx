@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import SvgFlashDeals from '../../Svg/SvgFlashDeals/SvgFlashDeals';
-import { ProductFlashDeals } from '../HomeBodyMain/HomeBodyMain';
 import * as Styled from './styled';
+import { ProductFlashDeals } from '../ProductFlashDeals/ProductFlashDeals';
 
 interface ProductFlashInfoProps {
   product: ProductFlashDeals;
