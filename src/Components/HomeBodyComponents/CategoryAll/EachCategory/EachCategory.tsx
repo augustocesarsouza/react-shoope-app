@@ -1,16 +1,15 @@
+import { CategoriesProps } from '../CategoryAllMan/CategoryAllMan';
 import * as Styled from './styled';
 
 interface EachCategoryProps {
-  img: string;
-  alt: string;
-  title: string;
+  category: CategoriesProps;
 }
 
-const EachCategory = ({ img, alt, title }: EachCategoryProps) => {
+const EachCategory = ({ category }: EachCategoryProps) => {
   return (
     <Styled.ContainerCategoryProp>
-      <Styled.Img src={img} alt={alt} />
-      <Styled.Span>{title}</Styled.Span>
+      <Styled.Img src={category.imgCategory} alt={category.altValue} />
+      <Styled.Span>{category.title}</Styled.Span>
     </Styled.ContainerCategoryProp>
   );
 };

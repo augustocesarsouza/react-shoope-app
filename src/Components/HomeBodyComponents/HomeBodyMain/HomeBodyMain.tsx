@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ObjUser } from '../../InterfaceAll/IObjUser/IObjUser';
 import ProductFlashDeals from '../ProductFlashDeals/ProductFlashDeals';
 import CategoryAllMan from '../CategoryAll/CategoryAllMan/CategoryAllMan';
+import ProductHighlightsForYou from '../ProductHighlightsForYouComponents/ProductHighlightsForYou/ProductHighlightsForYou';
 
 const HomeBodyMain = () => {
   const location = useLocation();
@@ -41,11 +42,9 @@ const HomeBodyMain = () => {
           />
         </Styled.ContainerTipsForUsingCoupons>
 
-        <Styled.ContainerCategorys>
-          <Styled.H1>Categorias</Styled.H1>
+        {userLogged && <CategoryAllMan userLogged={userLogged} />}
 
-          <CategoryAllMan />
-        </Styled.ContainerCategorys>
+        {userLogged && <ProductHighlightsForYou userLogged={userLogged} />}
       </Styled.ContainerWithForAll>
     </Styled.ContainerMain>
   );

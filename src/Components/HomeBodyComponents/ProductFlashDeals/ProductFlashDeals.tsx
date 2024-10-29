@@ -11,7 +11,6 @@ import { useNavigate } from 'react-router-dom';
 export interface ProductFlashDeals {
   id: string;
   imgProduct: string;
-  imgProductPublicId: string;
   altValue: string;
   imgPartBottom: string;
   priceProduct: number;
@@ -139,9 +138,7 @@ const ProductFlashDeals = ({ userLogged }: ProductFlashDealsProps) => {
         <Styled.ContainerProductImgFlashInfo className="carousel-custom">
           {allProductFlashDeals &&
             allProductFlashDeals.map((product) => (
-              <Styled.Container key={product.id}>
-                <ProductFlashInfo product={product} />
-              </Styled.Container>
+              <ProductFlashInfo key={product.id} product={product} />
             ))}
         </Styled.ContainerProductImgFlashInfo>
         <Styled.ContainerArrowRight className="container-arrow-right">
