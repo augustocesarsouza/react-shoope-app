@@ -1,37 +1,43 @@
 import { useEffect, useRef, useState } from 'react';
-import EachCategory from '../EachCategory/EachCategory';
 import * as Styled from './styled';
+import { useNavigate } from 'react-router-dom';
 import { Url } from '../../../../Utils/Url';
+import { ObjUser } from '../../../InterfaceAll/IObjUser/IObjUser';
 import SvgArrowLeft from '../../../Svg/SvgArrowLeft/SvgArrowLeft';
 import SvgArrowRight from '../../../Svg/SvgArrowRight/SvgArrowRight';
-import { ObjUser } from '../../../InterfaceAll/IObjUser/IObjUser';
-import { useNavigate } from 'react-router-dom';
+import ProductHighlightsInfo from '../ProductHighlightsInfo/ProductHighlightsInfo';
 
-export interface CategoriesProps {
+export interface ProductHighlightProps {
   id: string;
-  imgCategory: string;
-  altValue: string;
   title: string;
+  imgProduct: string;
+  imgTop: string;
+  quantitySold: number;
 }
 
-interface CategoryAllManProps {
+interface ProductHighlightsForYouProps {
   userLogged: ObjUser;
 }
 
-const CategoryAllMan = ({ userLogged }: CategoryAllManProps) => {
-  const [allCategory, setAllCategory] = useState<CategoriesProps[] | null>(null);
+const ProductHighlightsForYou = ({ userLogged }: ProductHighlightsForYouProps) => {
+  const [allProductHighlight, setAllProductHighlight] = useState<ProductHighlightProps[] | null>(
+    null
+  );
+
   const nav = useNavigate();
 
   useEffect(() => {
-    getAllCategories();
-  }, []);
+    getAllCategories(userLogged);
+  }, [userLogged]);
 
-  const getAllCategories = async () => {
-    const res = await fetch(`${Url}/get-all-categories`, {
+  const getAllCategories = async (ObjUser: ObjUser | null) => {
+    if (ObjUser === null) return;
+
+    const res = await fetch(`${Url}/get-all-product-highlights`, {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${userLogged.token}`,
-        uid: userLogged.id,
+        Authorization: `Bearer ${ObjUser.token}`,
+        uid: ObjUser.id,
         'Content-Type': 'application/json',
       },
     });
@@ -39,9 +45,9 @@ const CategoryAllMan = ({ userLogged }: CategoryAllManProps) => {
     if (res.status === 200) {
       const json = await res.json();
 
-      const data: CategoriesProps[] = json.data;
+      const data: ProductHighlightProps[] = json.data;
 
-      setAllCategory(data);
+      setAllProductHighlight(data);
     }
 
     if (res.status === 400) {
@@ -62,12 +68,12 @@ const CategoryAllMan = ({ userLogged }: CategoryAllManProps) => {
   useEffect(() => {
     if (typeof document === 'undefined') return;
 
-    const scrollElement = document.querySelector('.carousel-custom-category');
+    const scrollElement = document.querySelector('.carousel-custom-product-highlights');
     const containerLeft: HTMLElement | null = document.querySelector(
-      '.container-arrow-left-category'
+      '.container-arrow-left-product-highlights'
     );
     const containerRight: HTMLElement | null = document.querySelector(
-      '.container-arrow-right-category'
+      '.container-arrow-right-product-highlights'
     );
 
     const scrollLeft = () => scrollElement?.scrollBy({ left: -1000, behavior: 'smooth' });
@@ -127,28 +133,32 @@ const CategoryAllMan = ({ userLogged }: CategoryAllManProps) => {
   };
 
   return (
-    <Styled.ContainerEachCategoryMain
+    <Styled.ContainerHighlightsForYou
       onMouseEnter={onMouseEnterContainerAllProductFlashDeals}
       onMouseLeave={onMouseLeaveContainerAllProductFlashDeals}
     >
-      <Styled.H1>Categorias</Styled.H1>
-
-      <Styled.ContainerArrowLeft className="container-arrow-left-category">
+      <Styled.H1>Destaques para você</Styled.H1>
+      <Styled.ContainerArrowLeft className="container-arrow-left-product-highlights">
         <Styled.Container ref={RefContainerArrowLeft}>
           <SvgArrowLeft />
         </Styled.Container>
       </Styled.ContainerArrowLeft>
-      <Styled.ContainerAllCategory ref={imageContainerRef} className="carousel-custom-category">
-        {allCategory &&
-          allCategory.map((category) => <EachCategory key={category.id} category={category} />)}
-      </Styled.ContainerAllCategory>
-      <Styled.ContainerArrowRight className="container-arrow-right-category">
+      <Styled.ContainerProductHighlight
+        ref={imageContainerRef}
+        className="carousel-custom-product-highlights"
+      >
+        {allProductHighlight &&
+          allProductHighlight.map((product) => (
+            <ProductHighlightsInfo key={product.id} product={product} />
+          ))}
+      </Styled.ContainerProductHighlight>
+      <Styled.ContainerArrowRight className="container-arrow-right-product-highlights">
         <Styled.Container ref={RefContainerArrowRight}>
           <SvgArrowRight />
         </Styled.Container>
       </Styled.ContainerArrowRight>
-    </Styled.ContainerEachCategoryMain>
+    </Styled.ContainerHighlightsForYou>
   );
 };
 
-export default CategoryAllMan;
+export default ProductHighlightsForYou;

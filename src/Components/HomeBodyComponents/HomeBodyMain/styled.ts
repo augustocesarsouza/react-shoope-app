@@ -55,31 +55,4 @@ export const ContainerCategorys = styled.div`
     color: rgba(0,0,0,.54);
     margin-bottom: 50px;
   }
-
-  margin-bottom: 150px;
-`;
-
-export const ContainerAllCategory = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-export const ContainerCategoryProp = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: 120px;
-  
-
-  >img {
-    width: 83px;
-    height: auto;
-  }
-
-  >span {
-    font-size: 14px;
-    color: rgba(0, 0, 0, 0.8);
-    width: 90px;
-    text-align: center;
-  }
 `;

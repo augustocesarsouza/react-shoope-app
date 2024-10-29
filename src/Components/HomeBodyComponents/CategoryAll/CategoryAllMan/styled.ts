@@ -20,6 +20,13 @@ export const Container = styled.div`
 
 export const ContainerEachCategoryMain = styled.div`
   position: relative;
+
+  >h1 {
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 35px;
+    color: rgba(0, 0, 0, 0.54);
+  }
 `;
 
 export const ButtonNav = styled.button`
