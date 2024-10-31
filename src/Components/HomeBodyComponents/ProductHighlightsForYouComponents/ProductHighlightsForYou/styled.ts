@@ -21,7 +21,6 @@ export const Container = styled.div`
 export const ContainerHighlightsForYou = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 150px;
   position: relative;
 
   >h1 {
