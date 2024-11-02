@@ -1,42 +1,54 @@
+import { IProductDiscoveriesOfTheDay } from '../../HomeBodyMain/HomeBodyMain';
 import * as Styled from './styled';
 
-const ProductDiscoveriesOfTheDay = () => {
+interface ProductDiscoveriesOfTheDayProps {
+  product: IProductDiscoveriesOfTheDay;
+}
+
+const ProductDiscoveriesOfTheDay = ({ product }: ProductDiscoveriesOfTheDayProps) => {
   const spanTitle = (string: string) => {
-    const stringChange = string.slice(0, 45) + '...';
+    const stringChange = string.slice(0, 41) + '...';
 
     return stringChange;
+  };
+
+  const spanPrice = (price: number) => {
+    const formattedPrice = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 2,
+    }).format(price);
+
+    return formattedPrice;
   };
 
   return (
     <Styled.ContainerProductDiscoveriesOfTheDay>
       <Styled.ContainerImgs>
-        <Styled.Img
-          src="https://down-br.img.susercontent.com/file/br-11134207-7r98o-m1j5s0qesvew35_tn.webp"
-          alt="img"
-        />
-        <Styled.Img
-          src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1729681997/img-flash-deals/br-11134258-7r98o-lzp49gh02mud40_tn_vqc0lf.png"
-          alt="img-part-bottom"
-        />
+        <Styled.Img src={product.imgProduct} alt={product.title} />
+        {product.imgPartBottom !== null && (
+          <Styled.Img src={product.imgPartBottom} alt="img-part-bottom" />
+        )}
         <Styled.ContainerDiscountProduct>
-          <Styled.Span>-67%</Styled.Span>
+          {product.discountPercentage > 0 && (
+            <Styled.Span>-{product.discountPercentage}%</Styled.Span>
+          )}
         </Styled.ContainerDiscountProduct>
       </Styled.ContainerImgs>
 
       <Styled.ContainerTitleAndPriceSalesProduct>
         <Styled.ContainerProductDiscoveriesDescribe>
-          <Styled.Span>
-            {spanTitle('Camiseta Premium 100% Algodão unissex Saudação Ogum OgunhÊ')}
-          </Styled.Span>
+          <Styled.Span>{spanTitle(product.title)}</Styled.Span>
         </Styled.ContainerProductDiscoveriesDescribe>
         <Styled.ContainerPriceProductAndSales>
           <Styled.ContainerPriceProduct>
-            <Styled.Span>R$</Styled.Span>
-            <Styled.H1>83,00</Styled.H1>
+            <Styled.H1>{spanPrice(product.price)}</Styled.H1>
           </Styled.ContainerPriceProduct>
-          <Styled.ContainerSalesProduct>
-            <Styled.Span>80 vendidos</Styled.Span>
-          </Styled.ContainerSalesProduct>
+          {product.quantitySold > 0 && (
+            <Styled.ContainerSalesProduct>
+              <Styled.Span>{product.quantitySold} vendidos</Styled.Span>
+            </Styled.ContainerSalesProduct>
+          )}
         </Styled.ContainerPriceProductAndSales>
       </Styled.ContainerTitleAndPriceSalesProduct>
     </Styled.ContainerProductDiscoveriesOfTheDay>

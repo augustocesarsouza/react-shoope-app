@@ -63,6 +63,7 @@ export const ContainerDiscoveriesOfTheDay = styled.div<ContainerDiscoveriesOfThe
   border-bottom: 4px solid rgb(238, 77, 45);
   height: 60px;
   margin-bottom: 20px;
+  user-select: none;
 
   position: ${props => props.$isOutOfView ? "fixed" : "block"};
   /* left: 225px; */

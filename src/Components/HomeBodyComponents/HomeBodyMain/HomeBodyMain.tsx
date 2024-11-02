@@ -8,6 +8,18 @@ import ProductFlashDeals from '../ProductFlashDeals/ProductFlashDeals';
 import CategoryAllMan from '../CategoryAll/CategoryAllMan/CategoryAllMan';
 import ProductHighlightsForYou from '../ProductHighlightsForYouComponents/ProductHighlightsForYou/ProductHighlightsForYou';
 import ProductDiscoveriesOfTheDay from '../ProductDiscoveriesOfTheDayComponent/ProductDiscoveriesOfTheDay/ProductDiscoveriesOfTheDay';
+import { Url } from '../../../Utils/Url';
+
+export interface IProductDiscoveriesOfTheDay {
+  id: string;
+  title: string;
+  imgProduct: string;
+  imgPartBottom: string;
+  discountPercentage: number;
+  isAd: boolean;
+  price: number;
+  quantitySold: number;
+}
 
 const HomeBodyMain = () => {
   const location = useLocation();
@@ -39,6 +51,7 @@ const HomeBodyMain = () => {
 
     const userLogged = JSON.parse(userLocalStorage);
     setUserLogged(userLogged);
+    getAllCategories(userLogged);
 
     return () => {
       if (timer) {
@@ -98,6 +111,55 @@ const HomeBodyMain = () => {
     setIsOutOfView(value);
   };
 
+  const [productDiscoveriesOfTheDay, setProductDiscoveriesOfTheDay] = useState<
+    IProductDiscoveriesOfTheDay[] | null
+  >(null);
+
+  const getAllCategories = async (userLoggedData: ObjUser) => {
+    const res = await fetch(`${Url}/get-all-product-discoveries-of-day`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${userLoggedData.token}`,
+        uid: userLoggedData.id,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (res.status === 200) {
+      const json = await res.json();
+
+      const data: IProductDiscoveriesOfTheDay[] = json.data;
+
+      const dataArray: IProductDiscoveriesOfTheDay[] = [];
+
+      for (let i = 0; i < data.length; i++) {
+        const element = data[i];
+        dataArray.push(element);
+      }
+
+      // for (let i = 0; i < data.length; i++) {
+      //   const element = data[i];
+      //   dataArray.push(element);
+      // }
+
+      // for (let i = 0; i < data.length; i++) {
+      //   const element = data[i];
+      //   dataArray.push(element);
+      // }
+
+      setProductDiscoveriesOfTheDay(dataArray);
+    }
+
+    if (res.status === 400) {
+      //ERROR
+    }
+
+    if (res.status === 403 || res.status === 401) {
+      localStorage.removeItem('user');
+      nav('/login');
+    }
+  };
+
   return (
     <Styled.ContainerMain>
       <Styled.ContainerWithForAll>
@@ -134,30 +196,10 @@ const HomeBodyMain = () => {
             <Styled.ContainerDiscoveriesOfTheDayFalse></Styled.ContainerDiscoveriesOfTheDayFalse>
           )}
           <Styled.ContainerAllProductDiscoveriesOfTheDay ref={containerDiscoveriesRef}>
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
-            <ProductDiscoveriesOfTheDay />
+            {productDiscoveriesOfTheDay &&
+              productDiscoveriesOfTheDay.map((el) => (
+                <ProductDiscoveriesOfTheDay key={el.id} product={el} />
+              ))}
           </Styled.ContainerAllProductDiscoveriesOfTheDay>
         </Styled.ContainerDiscoveriesOfTheDayMain>
         <Styled.ContainerEndButtonSeeMore>
