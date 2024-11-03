@@ -51,6 +51,7 @@ const CategoryAllMan = ({ userLogged }: CategoryAllManProps) => {
     if (res.status === 403 || res.status === 401) {
       localStorage.removeItem('user');
       nav('/login');
+      return;
     }
   };
 

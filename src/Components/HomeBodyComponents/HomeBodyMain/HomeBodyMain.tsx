@@ -134,6 +134,7 @@ const HomeBodyMain = () => {
 
       for (let i = 0; i < data.length; i++) {
         const element = data[i];
+
         dataArray.push(element);
       }
 
@@ -157,6 +158,7 @@ const HomeBodyMain = () => {
     if (res.status === 403 || res.status === 401) {
       localStorage.removeItem('user');
       nav('/login');
+      return;
     }
   };
 

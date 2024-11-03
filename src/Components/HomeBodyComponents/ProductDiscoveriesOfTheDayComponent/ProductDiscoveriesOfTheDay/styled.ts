@@ -71,6 +71,23 @@ export const ContainerDiscountProduct = styled.div`
   padding: 2px 4px;
 `;
 
+export const ContainerAdAndSpan = styled.div`
+  display: flex;
+
+  position: absolute;
+  bottom: 18px;
+  right: 3px;
+  object-fit: cover;
+  background: #797979;
+  border-radius: 2px;
+  padding: 2px;
+
+  >span {
+    font-size: 12px;
+    color: #ffffff;
+  }
+`;
+
 export const ContainerTitleAndPriceSalesProduct = styled.div`
   padding: 8px 7px;
 `;
