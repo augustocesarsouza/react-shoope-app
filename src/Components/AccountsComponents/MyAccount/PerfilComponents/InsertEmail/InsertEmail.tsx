@@ -92,8 +92,16 @@ const InsertEmail = () => {
       }
 
       // setShowStepToContinueCreateAccount(true);
-    } else if (resp.status === 400) {
+    }
+
+    if (resp.status === 400) {
       let json = await resp.json();
+    }
+
+    if (resp.status === 403 || resp.status === 401) {
+      localStorage.removeItem('user');
+      nav('/login');
+      return;
     }
   };
 

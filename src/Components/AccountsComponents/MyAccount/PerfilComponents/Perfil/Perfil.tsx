@@ -71,10 +71,9 @@ const Perfil = () => {
     }
 
     if (res.status === 403 || res.status === 401) {
-      // const json = await res.json();
-
       localStorage.removeItem('user');
       nav('/login');
+      return;
     }
   };
 
@@ -311,6 +310,7 @@ const Perfil = () => {
     if (res.status === 403 || res.status === 401) {
       localStorage.removeItem('user');
       nav('/login');
+      return;
     }
   };
 

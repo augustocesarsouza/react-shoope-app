@@ -103,6 +103,7 @@ const VerifyPasswordStep2 = () => {
       if (res.status === 403 || res.status === 401) {
         localStorage.removeItem('user');
         nav('/login');
+        return;
       }
       // verificar se o login foi feito com sucesso
     }

@@ -74,9 +74,13 @@ const Addresses = () => {
       //ERROR
     }
 
+    // res.status === 401 -> alguns dos erros é se o token não foi valido a assinatura do token for errado
+    // alguma pessoa passar outro token com outra assinatura
+
     if (res.status === 403 || res.status === 401) {
       localStorage.removeItem('user');
       nav('/login');
+      return;
     }
   };
 

@@ -17,9 +17,13 @@ export interface ProductHighlightProps {
 
 interface ProductHighlightsForYouProps {
   userLogged: ObjUser;
+  changeValueIsOutOfView: (value: boolean) => void;
 }
 
-const ProductHighlightsForYou = ({ userLogged }: ProductHighlightsForYouProps) => {
+const ProductHighlightsForYou = ({
+  userLogged,
+  changeValueIsOutOfView,
+}: ProductHighlightsForYouProps) => {
   const [allProductHighlight, setAllProductHighlight] = useState<ProductHighlightProps[] | null>(
     null
   );
@@ -57,6 +61,7 @@ const ProductHighlightsForYou = ({ userLogged }: ProductHighlightsForYouProps) =
     if (res.status === 403 || res.status === 401) {
       localStorage.removeItem('user');
       nav('/login');
+      return;
     }
   };
 
@@ -132,8 +137,42 @@ const ProductHighlightsForYou = ({ userLogged }: ProductHighlightsForYouProps) =
     svgArrowRight.style.fill = '#0000008f';
   };
 
+  // const [isOutOfView, setIsOutOfView] = useState(false);
+  const containerDiscoveriesRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const { boundingClientRect, isIntersecting } = entry;
+          const isAboveViewport = boundingClientRect.bottom < 0; // Saiu para cima
+
+          if (isAboveViewport && !isIntersecting) {
+            changeValueIsOutOfView(true);
+          } else if (isIntersecting) {
+            changeValueIsOutOfView(false);
+          }
+        });
+      },
+      {
+        threshold: 0, // Detecta quando qualquer parte da div entra ou sai da tela
+      }
+    );
+
+    if (containerDiscoveriesRef.current) {
+      observer.observe(containerDiscoveriesRef.current);
+    }
+
+    return () => {
+      if (containerDiscoveriesRef.current) {
+        observer.unobserve(containerDiscoveriesRef.current);
+      }
+    };
+  }, []);
+
   return (
     <Styled.ContainerHighlightsForYou
+      ref={containerDiscoveriesRef}
       onMouseEnter={onMouseEnterContainerAllProductFlashDeals}
       onMouseLeave={onMouseLeaveContainerAllProductFlashDeals}
     >
