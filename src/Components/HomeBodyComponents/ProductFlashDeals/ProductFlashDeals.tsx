@@ -14,10 +14,14 @@ interface ProductFlashDealsProps {
   userLogged: ObjUser;
 }
 
-interface ObjTimeFleshOffer {
+export interface ObjTimeFleshOffer {
   hours: number;
   minutes: number;
   seconds: number;
+}
+
+export interface TimeEndPromotionFleshOffer {
+  timeEnd: string;
 }
 
 const ProductFlashDeals = ({ userLogged }: ProductFlashDealsProps) => {
@@ -45,20 +49,12 @@ const ProductFlashDeals = ({ userLogged }: ProductFlashDealsProps) => {
         const bytes = CryptoJS.AES.decrypt(savedCountdown, secretKey);
         const decryptedString = bytes.toString(CryptoJS.enc.Utf8);
 
-        const decryptedData = JSON.parse(decryptedString);
-        const remainingTime = decryptedData.endTime - Date.now();
-
-        if (remainingTime < 0) {
-          saveCountdownState();
-          return;
-        }
-
-        convertMilliseconds(remainingTime);
+        functionGetTheValueTimeFleshOffer(decryptedString, userLogged);
       } catch (error) {
         console.error('Erro ao converter os dados descriptografados:', error);
       }
     } else {
-      saveCountdownState();
+      GetProductOfferFlashTimeend(userLogged);
     }
 
     getProductOfferFlashAll(userLogged);
@@ -151,26 +147,62 @@ const ProductFlashDeals = ({ userLogged }: ProductFlashDealsProps) => {
     }
   };
 
-  const saveCountdownState = () =>
-    // h: number, m: number, s: number
-    {
+  const [objTimeFlashDeals, setObjTimeFlashDeals] = useState<ObjTimeFleshOffer | null>(null);
+
+  const GetProductOfferFlashTimeend = async (user: ObjUser) => {
+    const res = await fetch(`${Url}/get-product-offer-flash-timeend/${user.id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        uid: user.id,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (res.status === 200) {
+      const json = await res.json();
+      let dataTime: TimeEndPromotionFleshOffer = json.data;
+
       const secretKey = import.meta.env.VITE__APP_SECRET_KEY;
 
       if (secretKey === undefined) return;
-      const countdownDuration = 60 * 60 * 1000;
 
-      const data = { endTime: Date.now() + countdownDuration };
-      const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
+      const encrypted = CryptoJS.AES.encrypt(dataTime.timeEnd, secretKey).toString();
 
       localStorage.setItem('countdown', encrypted);
-    };
 
-  const [objTimeFlashDeals, setObjTimeFlashDeals] = useState<ObjTimeFleshOffer | null>(null);
+      functionGetTheValueTimeFleshOffer(dataTime.timeEnd, user);
+    }
 
-  const convertMilliseconds = (ms: number) => {
-    let hours = Math.floor(ms / 3600000); // 1 hora = 3600000 ms
-    let minutes = Math.floor((ms % 3600000) / 60000); // 1 minuto = 60000 ms
-    let seconds = Math.floor((ms % 60000) / 1000); // 1 segundo = 1000 ms
+    if (res.status === 400) {
+      //ERROR
+    }
+
+    if (res.status === 403 || res.status === 401) {
+      localStorage.removeItem('user');
+      nav('/login');
+      return;
+    }
+  };
+
+  const functionGetTheValueTimeFleshOffer = (timeEnd: string, userLogged: ObjUser) => {
+    const targetDateTime = new Date(timeEnd);
+    const now = new Date();
+
+    const diffInMilliseconds = targetDateTime.getTime() - now.getTime();
+
+    const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+
+    // const days = Math.floor(diffInSeconds / (24 * 3600));
+    const hours = Math.floor((diffInSeconds % (24 * 3600)) / 3600);
+    const minutes = Math.floor((diffInSeconds % 3600) / 60);
+    const seconds = diffInSeconds % 60;
+
+    if (seconds < 0) {
+      // AQUI VENCE O "TIMEEND" PROMOTIONFLESHOFFER -Aqui da para pegar novos Product Flesh Offer
+      GetProductOfferFlashTimeend(userLogged);
+      return;
+    }
 
     const obj: ObjTimeFleshOffer = {
       hours,
