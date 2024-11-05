@@ -5,6 +5,7 @@ import SvgArrowBottom from '../../../../Svg/SvgArrowBottom/SvgArrowBottom';
 import SvgArrowTop from '../../../../Svg/SvgArrowTop/SvgArrowTop';
 import SvgGoogle from '../../../../Svg/SvgGoogle/SvgGoogle';
 import SvgTiktok from '../../../../Svg/SvgTiktok/SvgTiktok';
+import { GetUserFromLocalStorage } from '../../../../LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
 
 const Cokie = () => {
   const location = useLocation();
@@ -17,11 +18,18 @@ const Cokie = () => {
   useEffect(() => {
     if (location.state) {
       const objState = location.state;
-      let userLocalStorage = localStorage.getItem('user');
 
-      if (userLocalStorage === null) {
+      const objUser = GetUserFromLocalStorage();
+
+      if (objUser.isNullUserLocalStorage) {
         nav('/login');
+        return;
+      }
 
+      if (objUser.user === null) {
+        localStorage.removeItem('user');
+
+        nav('/login');
         return;
       }
 
@@ -32,7 +40,7 @@ const Cokie = () => {
         return;
       }
 
-      let user = JSON.parse(userLocalStorage);
+      let user = objUser.user;
     }
   }, []);
 

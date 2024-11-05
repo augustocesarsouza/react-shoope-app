@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSortUp } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ObjUser } from '../../InterfaceAll/IObjUser/IObjUser';
+import { GetUserFromLocalStorage } from '../../LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
 
 const HeaderFirst = () => {
   const [userObjState, setUserObjState] = useState<ObjUser>();
@@ -16,16 +17,22 @@ const HeaderFirst = () => {
   const location = useLocation();
 
   useEffect(() => {
-    let userString = localStorage.getItem('user');
+    const objUser = GetUserFromLocalStorage();
 
-    if (userString === null) {
-      // localStorage.clearItem('user');
+    if (objUser.isNullUserLocalStorage) {
       nav('/login');
       return;
     }
 
-    let userJson = JSON.parse(userString);
-    setUserObjState(userJson);
+    if (objUser.user === null) {
+      localStorage.removeItem('user');
+
+      nav('/login');
+      return;
+    }
+
+    // let userJson = JSON.parse(userString);
+    setUserObjState(objUser.user);
 
     if (location.state) {
       const objState = location.state;

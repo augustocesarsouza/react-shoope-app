@@ -4,6 +4,7 @@ import { Url } from '../../../../Utils/Url';
 import { useRef, useState } from 'react';
 import SvgFailAuthentication from '../../AllSvgLogin/SvgFailAuthentication/SvgFailAuthentication';
 import { ObjUser } from '../../../InterfaceAll/IObjUser/IObjUser';
+import CryptoJS from 'crypto-js';
 
 interface UserLogin {
   passwordIsCorrect: boolean;
@@ -49,7 +50,12 @@ const BodyComponentsMain = () => {
       const data: UserLogin = json.data;
 
       if (data.passwordIsCorrect) {
-        localStorage.setItem('user', JSON.stringify(data.userDTO));
+        const secretKey = import.meta.env.VITE__APP_SECRET_KEY_USER;
+        console.log(data.userDTO);
+
+        const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data.userDTO), secretKey).toString();
+
+        localStorage.setItem('user', encrypted);
         setpasswordIsCorrect(true);
         nav('/');
       }

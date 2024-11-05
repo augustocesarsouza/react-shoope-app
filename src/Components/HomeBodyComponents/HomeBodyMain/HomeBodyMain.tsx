@@ -9,6 +9,7 @@ import CategoryAllMan from '../CategoryAll/CategoryAllMan/CategoryAllMan';
 import ProductHighlightsForYou from '../ProductHighlightsForYouComponents/ProductHighlightsForYou/ProductHighlightsForYou';
 import ProductDiscoveriesOfTheDay from '../ProductDiscoveriesOfTheDayComponent/ProductDiscoveriesOfTheDay/ProductDiscoveriesOfTheDay';
 import { Url } from '../../../Utils/Url';
+import { GetUserFromLocalStorage } from '../../LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
 
 export interface IProductDiscoveriesOfTheDay {
   id: string;
@@ -41,17 +42,23 @@ const HomeBodyMain = () => {
     // }, 50);
 
     const objState = location.state;
-    let userLocalStorage = localStorage.getItem('user');
 
-    if (userLocalStorage === null) {
+    const objUser = GetUserFromLocalStorage();
+
+    if (objUser.isNullUserLocalStorage) {
       nav('/login');
-
       return;
     }
 
-    const userLogged = JSON.parse(userLocalStorage);
-    setUserLogged(userLogged);
-    getAllCategories(userLogged);
+    if (objUser.user === null) {
+      localStorage.removeItem('user');
+
+      nav('/login');
+      return;
+    }
+
+    setUserLogged(objUser.user);
+    getAllCategories(objUser.user);
 
     return () => {
       if (timer) {

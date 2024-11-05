@@ -4,6 +4,7 @@ import HeaderMain from '../../Components/HeaderComponents/HeaderMain/HeaderMain'
 import * as Styled from './styled';
 import { ObjUser } from '../../Components/InterfaceAll/IObjUser/IObjUser';
 import HomeBodyMain from '../../Components/HomeBodyComponents/HomeBodyMain/HomeBodyMain';
+import { GetUserFromLocalStorage } from '../../Components/LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
 
 export interface ContextHomeProps {
   userObj: ObjUser | null;
@@ -18,18 +19,21 @@ const Home = () => {
   const nav = useNavigate();
 
   useEffect(() => {
-    let userLocalStorage = localStorage.getItem('user');
+    const objUser = GetUserFromLocalStorage();
 
-    if (userLocalStorage === null) {
+    if (objUser.isNullUserLocalStorage) {
       nav('/login');
-
       return;
     }
 
-    // if (location.state === null) return;
-    // const objState = location.state;
+    if (objUser.user === null) {
+      localStorage.removeItem('user');
 
-    setUserObj(JSON.parse(userLocalStorage));
+      nav('/login');
+      return;
+    }
+
+    setUserObj(objUser.user);
   }, [location]);
   return (
     <ContextHome.Provider

@@ -7,6 +7,7 @@ import SvgEyesOpen from '../../../../VerifyPasswordComponents/Svg/SvgEyesOpen/Sv
 import { Url } from '../../../../../Utils/Url';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { GetUserFromLocalStorage } from '../../../../LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
 
 interface ChangePassword {
   passwordUpdateSuccessfully: boolean;
@@ -22,11 +23,17 @@ const ChangePassword = () => {
   const RefButtonConfirm = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
-    let userLocalStorage = localStorage.getItem('user');
+    const objUser = GetUserFromLocalStorage();
 
-    if (userLocalStorage === null) {
+    if (objUser.isNullUserLocalStorage) {
       nav('/login');
+      return;
+    }
 
+    if (objUser.user === null) {
+      localStorage.removeItem('user');
+
+      nav('/login');
       return;
     }
 
@@ -36,8 +43,8 @@ const ChangePassword = () => {
       setUserObjState(objState);
     }
 
-    let userJson = JSON.parse(userLocalStorage);
-    setUserObjState(userJson);
+    // let userJson = JSON.parse(userLocalStorage);
+    setUserObjState(objUser.user);
   }, []);
 
   const [showEyesOpenNewPassword, setShowEyesOpenNewPassword] = useState(false);

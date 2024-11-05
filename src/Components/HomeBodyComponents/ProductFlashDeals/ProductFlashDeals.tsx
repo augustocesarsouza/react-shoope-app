@@ -7,23 +7,21 @@ import * as Styled from './styled';
 import { ObjUser } from '../../InterfaceAll/IObjUser/IObjUser';
 import { Url } from '../../../Utils/Url';
 import { useNavigate } from 'react-router-dom';
-
-export interface ProductFlashDeals {
-  id: string;
-  imgProduct: string;
-  altValue: string;
-  imgPartBottom: string;
-  priceProduct: number;
-  popularityPercentage: number;
-  discountPercentage: number;
-}
+import { IProductFlashDeals } from '../../InterfaceAll/IProduct/IProductFlashDeals/IProductFlashDeals';
+import CryptoJS from 'crypto-js';
 
 interface ProductFlashDealsProps {
   userLogged: ObjUser;
 }
 
+interface ObjTimeFleshOffer {
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
 const ProductFlashDeals = ({ userLogged }: ProductFlashDealsProps) => {
-  const [allProductFlashDeals, setAllProductFlashDeals] = useState<ProductFlashDeals[] | null>(
+  const [allProductFlashDeals, setAllProductFlashDeals] = useState<IProductFlashDeals[] | null>(
     null
   );
 
@@ -33,6 +31,35 @@ const ProductFlashDeals = ({ userLogged }: ProductFlashDealsProps) => {
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
+
+    const savedCountdown = localStorage.getItem('countdown');
+
+    if (savedCountdown) {
+      let secretKey = import.meta.env.VITE__APP_SECRET_KEY;
+
+      if (secretKey === undefined) {
+        return;
+      }
+
+      try {
+        const bytes = CryptoJS.AES.decrypt(savedCountdown, secretKey);
+        const decryptedString = bytes.toString(CryptoJS.enc.Utf8);
+
+        const decryptedData = JSON.parse(decryptedString);
+        const remainingTime = decryptedData.endTime - Date.now();
+
+        if (remainingTime < 0) {
+          saveCountdownState();
+          return;
+        }
+
+        convertMilliseconds(remainingTime);
+      } catch (error) {
+        console.error('Erro ao converter os dados descriptografados:', error);
+      }
+    } else {
+      saveCountdownState();
+    }
 
     getProductOfferFlashAll(userLogged);
 
@@ -108,7 +135,7 @@ const ProductFlashDeals = ({ userLogged }: ProductFlashDealsProps) => {
 
     if (res.status === 200) {
       const json = await res.json();
-      const data: ProductFlashDeals[] = json.data;
+      const data: IProductFlashDeals[] = json.data;
 
       setAllProductFlashDeals(data);
     }
@@ -124,9 +151,46 @@ const ProductFlashDeals = ({ userLogged }: ProductFlashDealsProps) => {
     }
   };
 
+  const saveCountdownState = () =>
+    // h: number, m: number, s: number
+    {
+      const secretKey = import.meta.env.VITE__APP_SECRET_KEY;
+
+      if (secretKey === undefined) return;
+      const countdownDuration = 60 * 60 * 1000;
+
+      const data = { endTime: Date.now() + countdownDuration };
+      const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
+
+      localStorage.setItem('countdown', encrypted);
+    };
+
+  const [objTimeFlashDeals, setObjTimeFlashDeals] = useState<ObjTimeFleshOffer | null>(null);
+
+  const convertMilliseconds = (ms: number) => {
+    let hours = Math.floor(ms / 3600000); // 1 hora = 3600000 ms
+    let minutes = Math.floor((ms % 3600000) / 60000); // 1 minuto = 60000 ms
+    let seconds = Math.floor((ms % 60000) / 1000); // 1 segundo = 1000 ms
+
+    const obj: ObjTimeFleshOffer = {
+      hours,
+      minutes,
+      seconds,
+    };
+
+    setObjTimeFlashDeals(obj);
+  };
+
   return (
     <Styled.ContainerFlashDealsHeaderMain>
-      <FlashDealsAndCountdown hours={0} minutes={10} seconds={0} />
+      {objTimeFlashDeals && (
+        <FlashDealsAndCountdown
+          hours={objTimeFlashDeals.hours}
+          minutes={objTimeFlashDeals.minutes}
+          seconds={objTimeFlashDeals.seconds}
+        />
+      )}
+
       <Styled.ContainerAllProductFlashDeals
         onMouseEnter={onMouseEnterContainerAllProductFlashDeals}
         onMouseLeave={onMouseLeaveContainerAllProductFlashDeals}
@@ -139,7 +203,7 @@ const ProductFlashDeals = ({ userLogged }: ProductFlashDealsProps) => {
         <Styled.ContainerProductImgFlashInfo className="carousel-custom">
           {allProductFlashDeals &&
             allProductFlashDeals.map((product) => (
-              <ProductFlashInfo key={product.id} product={product} />
+              <ProductFlashInfo key={product.id} product={product} userLogged={userLogged} />
             ))}
         </Styled.ContainerProductImgFlashInfo>
         <Styled.ContainerArrowRight className="container-arrow-right">

@@ -1,22 +1,32 @@
 import { useEffect, useState } from 'react';
 import SvgFlashDeals from '../../Svg/SvgFlashDeals/SvgFlashDeals';
 import * as Styled from './styled';
-import { ProductFlashDeals } from '../ProductFlashDeals/ProductFlashDeals';
+import { useNavigate } from 'react-router-dom';
+import { ObjUser } from '../../InterfaceAll/IObjUser/IObjUser';
+import { IProductFlashDeals } from '../../InterfaceAll/IProduct/IProductFlashDeals/IProductFlashDeals';
 
 interface ProductFlashInfoProps {
-  product: ProductFlashDeals;
+  product: IProductFlashDeals;
+  userLogged: ObjUser;
 }
 
-const ProductFlashInfo = ({ product }: ProductFlashInfoProps) => {
+const ProductFlashInfo = ({ product, userLogged }: ProductFlashInfoProps) => {
   const [price, setPrice] = useState('0,00');
+  const nav = useNavigate();
 
   useEffect(() => {
     let priceFixed = product.priceProduct.toFixed(2).replace('.', ',');
     setPrice(priceFixed);
   }, [product]);
 
+  const onClickContainerProductFlashSale = () => {
+    nav('/flash_sale', { state: { user: userLogged } });
+
+    // nav('/user/account/profile', { state: { user: userObjState } });
+  };
+
   return (
-    <Styled.ContainerProductImgAndPrice>
+    <Styled.ContainerProductImgAndPrice onClick={onClickContainerProductFlashSale}>
       <Styled.ContainerProductImg>
         <Styled.ContainerDiscountPercentage>
           <SvgFlashDeals />

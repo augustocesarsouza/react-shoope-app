@@ -6,6 +6,7 @@ import FooterChangePassword from '../FooterChangePassword/FooterChangePassword';
 import ShieldShopee from '../Svg/ShieldShopee/ShieldShopee';
 import LockShopee from '../Svg/LockShopee/LockShopee';
 import { ObjUser } from '../../InterfaceAll/IObjUser/IObjUser';
+import { GetUserFromLocalStorage } from '../../LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
 
 const VerifyPassword = () => {
   const nav = useNavigate();
@@ -13,11 +14,17 @@ const VerifyPassword = () => {
   const [userObjState, setUserObjState] = useState<ObjUser>();
 
   useEffect(() => {
-    let userLocalStorage = localStorage.getItem('user');
+    const objUser = GetUserFromLocalStorage();
 
-    if (userLocalStorage === null) {
+    if (objUser.isNullUserLocalStorage) {
       nav('/login');
+      return;
+    }
 
+    if (objUser.user === null) {
+      localStorage.removeItem('user');
+
+      nav('/login');
       return;
     }
 
@@ -26,8 +33,8 @@ const VerifyPassword = () => {
       setUserObjState(objState);
     }
 
-    let userJson = JSON.parse(userLocalStorage);
-    setUserObjState(userJson);
+    // let userJson = JSON.parse(userLocalStorage);
+    setUserObjState(objUser.user);
   }, []);
 
   const onClickInputVerifyWithPassword = () => {

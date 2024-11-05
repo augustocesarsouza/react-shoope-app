@@ -34,10 +34,6 @@ export const ContainerProductImgFlashInfo = styled.div`
   gap: 30px;
 
   overflow-x: hidden;
-
-  >div {
-    cursor: pointer;
-  }
 `;
 
 export const ContainerArrowLeft = styled.div`

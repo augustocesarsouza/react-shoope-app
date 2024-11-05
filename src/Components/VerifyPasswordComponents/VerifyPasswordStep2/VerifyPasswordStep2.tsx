@@ -9,6 +9,7 @@ import { Url } from '../../../Utils/Url';
 import SvgErrorX from '../Svg/SvgErrorX/SvgErrorX';
 import HeaderToLoginAndRegisterComponent from '../HeaderToLoginAndRegisterComponent/HeaderToLoginAndRegisterComponent';
 import FooterChangePassword from '../FooterChangePassword/FooterChangePassword';
+import { GetUserFromLocalStorage } from '../../LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
 
 const VerifyPasswordStep2 = () => {
   const [userObjState, setUserObjState] = useState<ObjUser>();
@@ -22,11 +23,17 @@ const VerifyPasswordStep2 = () => {
   const RefButtonConfirm = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
-    let userLocalStorage = localStorage.getItem('user');
+    const objUser = GetUserFromLocalStorage();
 
-    if (userLocalStorage === null) {
+    if (objUser.isNullUserLocalStorage) {
       nav('/login');
+      return;
+    }
 
+    if (objUser.user === null) {
+      localStorage.removeItem('user');
+
+      nav('/login');
       return;
     }
 
@@ -35,8 +42,8 @@ const VerifyPasswordStep2 = () => {
       setUserObjState(objState.user);
     }
 
-    let userJson = JSON.parse(userLocalStorage);
-    setUserObjState(userJson);
+    // let userJson = JSON.parse(userLocalStorage);
+    setUserObjState(objUser.user);
   }, []);
 
   const onClickEyes = () => {

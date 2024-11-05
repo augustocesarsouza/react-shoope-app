@@ -8,6 +8,7 @@ import { IUserAddress } from '../../../../InterfaceAll/IUserAddress/IUserAddress
 import ViewAddressUser from '../ViewAddressUser/ViewAddressUser';
 import HeaderAddress from '../HeaderAddress/HeaderAddress';
 import DontHaveAnyAddresses from '../DontHaveAnyAddresses/DontHaveAnyAddresses';
+import { GetUserFromLocalStorage } from '../../../../LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
 
 const Addresses = () => {
   const location = useLocation();
@@ -20,15 +21,22 @@ const Addresses = () => {
   useEffect(() => {
     if (location.state) {
       const objState = location.state;
-      let userLocalStorage = localStorage.getItem('user');
 
-      if (userLocalStorage === null) {
+      if (objState.user === null || objState.user === undefined) {
+        localStorage.removeItem('user');
+
         nav('/login');
-
         return;
       }
 
-      if (objState.user === null || objState.user === undefined) {
+      const objUser = GetUserFromLocalStorage();
+
+      if (objUser.isNullUserLocalStorage) {
+        nav('/login');
+        return;
+      }
+
+      if (objUser.user === null) {
         localStorage.removeItem('user');
 
         nav('/login');
