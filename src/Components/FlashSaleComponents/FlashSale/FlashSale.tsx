@@ -12,6 +12,7 @@ import {
 } from '../../HomeBodyComponents/ProductFlashDeals/ProductFlashDeals';
 import CryptoJS from 'crypto-js';
 import FlashOfferAndCountdown from '../FlashOfferAndCountdown/FlashOfferAndCountdown';
+import FleshOfferEveryDayAndHours from '../FleshOfferEveryDayAndHours/FleshOfferEveryDayAndHours';
 
 const FlashSale = () => {
   const [allProductFlashDeals, setAllProductFlashDeals] = useState<IProductFlashDeals[] | null>(
@@ -175,6 +176,8 @@ const FlashSale = () => {
               seconds={objTimeFlashDeals.seconds}
             />
           )}
+
+          <FleshOfferEveryDayAndHours />
         </Styled.ContainerFlexOffer>
       </Styled.ContainerFlexOfferMain>
     </Styled.ContainerMain>

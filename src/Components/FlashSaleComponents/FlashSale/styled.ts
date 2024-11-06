@@ -32,5 +32,6 @@ export const ContainerFlexOfferMain = styled.div`
 export const ContainerFlexOffer = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
   width: 1200px;
 `;

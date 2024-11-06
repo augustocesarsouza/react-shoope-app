@@ -243,7 +243,6 @@ const ProductFlashDeals = ({ userLogged }: ProductFlashDealsProps) => {
                 key={product.id}
                 product={product}
                 userLogged={userLogged}
-                objTimeFlashDeals={objTimeFlashDeals}
                 timeEnd={timeEnd}
               />
             ))}
