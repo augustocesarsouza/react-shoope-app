@@ -4,13 +4,21 @@ import * as Styled from './styled';
 import { useNavigate } from 'react-router-dom';
 import { ObjUser } from '../../InterfaceAll/IObjUser/IObjUser';
 import { IProductFlashDeals } from '../../InterfaceAll/IProduct/IProductFlashDeals/IProductFlashDeals';
+import { ObjTimeFleshOffer } from '../ProductFlashDeals/ProductFlashDeals';
 
 interface ProductFlashInfoProps {
   product: IProductFlashDeals;
   userLogged: ObjUser;
+  objTimeFlashDeals: ObjTimeFleshOffer | null;
+  timeEnd: string;
 }
 
-const ProductFlashInfo = ({ product, userLogged }: ProductFlashInfoProps) => {
+const ProductFlashInfo = ({
+  product,
+  userLogged,
+  objTimeFlashDeals,
+  timeEnd,
+}: ProductFlashInfoProps) => {
   const [price, setPrice] = useState('0,00');
   const nav = useNavigate();
 
@@ -20,7 +28,7 @@ const ProductFlashInfo = ({ product, userLogged }: ProductFlashInfoProps) => {
   }, [product]);
 
   const onClickContainerProductFlashSale = () => {
-    nav('/flash_sale', { state: { user: userLogged } });
+    nav('/flash_sale', { state: { user: userLogged, timeEnd: timeEnd } });
 
     // nav('/user/account/profile', { state: { user: userObjState } });
   };

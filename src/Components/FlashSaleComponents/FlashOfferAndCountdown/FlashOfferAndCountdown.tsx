@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import * as Styled from './styled';
 
-interface FlashDealsAndCountdownProps {
+interface FlashOfferAndCountdownProps {
   hours: number;
   minutes: number;
   seconds: number;
@@ -13,16 +13,11 @@ interface TimeLeftProps {
   seconds: number;
 }
 
-const FlashDealsAndCountdown = ({
-  hours = 0,
-  minutes = 0,
-  seconds = 0,
-}: FlashDealsAndCountdownProps) => {
+const FlashOfferAndCountdown = ({ hours, minutes, seconds }: FlashOfferAndCountdownProps) => {
   const [totalTimeInMillis] = useState(
     hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000
   );
   const [targetTime] = useState(new Date().getTime() + totalTimeInMillis);
-  const [animate, setAnimate] = useState({ hours: false, minutes: false, seconds: false });
 
   const calculateTimeLeft = () => {
     const currentTime = new Date().getTime();
@@ -55,12 +50,6 @@ const FlashDealsAndCountdown = ({
     const timer = setInterval(() => {
       const newTimeLeft = calculateTimeLeft();
 
-      setAnimate({
-        hours: newTimeLeft.hours !== timeLeft.hours,
-        minutes: newTimeLeft.minutes !== timeLeft.minutes,
-        seconds: newTimeLeft.seconds !== timeLeft.seconds,
-      });
-
       setTimeLeft(newTimeLeft);
     }, 1000);
 
@@ -70,8 +59,22 @@ const FlashDealsAndCountdown = ({
   return (
     <Styled.ContainerFlashDealsMain>
       <Styled.ContainerFlashDealsHeader>
-        <Styled.ContainerFlashDealsImg></Styled.ContainerFlashDealsImg>
+        <Styled.ContainerFlashDealsImg>
+          <Styled.Img
+            src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1729512130/img-flash-deals/2c66c570e9bc4309bc51_eb0lw4.png"
+            alt="img-about-flesh-offer"
+          />
+        </Styled.ContainerFlashDealsImg>
       </Styled.ContainerFlashDealsHeader>
+      <Styled.ContainerFinishIn>
+        <Styled.ContainerChronometer>
+          <Styled.Img
+            src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1730893687/flash-offer-img/3b9d94a588dd77fd5ec6_wlo4sr.png"
+            alt="img-chronometer"
+          />
+        </Styled.ContainerChronometer>
+        <Styled.H1>TERMINA EM</Styled.H1>
+      </Styled.ContainerFinishIn>
       <Styled.CountdownContainer>
         <Styled.DigitBox>{String(timeLeft.hours || '00').padStart(2, '0')}</Styled.DigitBox>
         <Styled.DigitBox>{String(timeLeft.minutes || '00').padStart(2, '0')}</Styled.DigitBox>
@@ -81,4 +84,4 @@ const FlashDealsAndCountdown = ({
   );
 };
 
-export default FlashDealsAndCountdown;
+export default FlashOfferAndCountdown;

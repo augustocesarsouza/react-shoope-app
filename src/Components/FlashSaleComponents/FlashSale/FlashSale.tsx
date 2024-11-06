@@ -11,6 +11,7 @@ import {
   TimeEndPromotionFleshOffer,
 } from '../../HomeBodyComponents/ProductFlashDeals/ProductFlashDeals';
 import CryptoJS from 'crypto-js';
+import FlashOfferAndCountdown from '../FlashOfferAndCountdown/FlashOfferAndCountdown';
 
 const FlashSale = () => {
   const [allProductFlashDeals, setAllProductFlashDeals] = useState<IProductFlashDeals[] | null>(
@@ -18,12 +19,17 @@ const FlashSale = () => {
   );
   const local = useLocation();
   const nav = useNavigate();
+  const [objTimeFlashDeals, setObjTimeFlashDeals] = useState<ObjTimeFleshOffer | null>(null);
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
 
     let localUser = local.state;
     let user: ObjUser = localUser.user;
+    let timeEnd = localUser.timeEnd;
+    functionGetTheValueTimeFleshOffer(timeEnd, user);
+
+    // setObjTimeFlashDeals(timeWhereStopFlashOffer);
 
     const objUser = GetUserFromLocalStorage();
 
@@ -93,8 +99,6 @@ const FlashSale = () => {
     }
   };
 
-  const [objTimeFlashDeals, setObjTimeFlashDeals] = useState<ObjTimeFleshOffer | null>(null);
-
   const GetProductOfferFlashTimeend = async (user: ObjUser) => {
     const res = await fetch(`${Url}/get-product-offer-flash-timeend/${user.id}`, {
       method: 'GET',
@@ -159,16 +163,18 @@ const FlashSale = () => {
     setObjTimeFlashDeals(obj);
   };
 
-  useEffect(() => {
-    console.log(objTimeFlashDeals);
-  }, [objTimeFlashDeals]);
-
   return (
     <Styled.ContainerMain>
       <HeaderMain></HeaderMain>
       <Styled.ContainerFlexOfferMain>
         <Styled.ContainerFlexOffer>
-          <Styled.H1>OFERTAS RELAMPAGO</Styled.H1>
+          {objTimeFlashDeals && (
+            <FlashOfferAndCountdown
+              hours={objTimeFlashDeals.hours}
+              minutes={objTimeFlashDeals.minutes}
+              seconds={objTimeFlashDeals.seconds}
+            />
+          )}
         </Styled.ContainerFlexOffer>
       </Styled.ContainerFlexOfferMain>
     </Styled.ContainerMain>

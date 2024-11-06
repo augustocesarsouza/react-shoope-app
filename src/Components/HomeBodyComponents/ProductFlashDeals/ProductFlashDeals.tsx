@@ -32,6 +32,7 @@ const ProductFlashDeals = ({ userLogged }: ProductFlashDealsProps) => {
   const RefContainerArrowLeft = useRef<HTMLDivElement | null>(null);
   const RefContainerArrowRight = useRef<HTMLDivElement | null>(null);
   const nav = useNavigate();
+  const [timeEnd, setTimeEnd] = useState('');
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
@@ -48,6 +49,7 @@ const ProductFlashDeals = ({ userLogged }: ProductFlashDealsProps) => {
       try {
         const bytes = CryptoJS.AES.decrypt(savedCountdown, secretKey);
         const decryptedString = bytes.toString(CryptoJS.enc.Utf8);
+        setTimeEnd(decryptedString);
 
         functionGetTheValueTimeFleshOffer(decryptedString, userLogged);
       } catch (error) {
@@ -169,6 +171,8 @@ const ProductFlashDeals = ({ userLogged }: ProductFlashDealsProps) => {
 
       const encrypted = CryptoJS.AES.encrypt(dataTime.timeEnd, secretKey).toString();
 
+      setTimeEnd(dataTime.timeEnd);
+
       localStorage.setItem('countdown', encrypted);
 
       functionGetTheValueTimeFleshOffer(dataTime.timeEnd, user);
@@ -235,7 +239,13 @@ const ProductFlashDeals = ({ userLogged }: ProductFlashDealsProps) => {
         <Styled.ContainerProductImgFlashInfo className="carousel-custom">
           {allProductFlashDeals &&
             allProductFlashDeals.map((product) => (
-              <ProductFlashInfo key={product.id} product={product} userLogged={userLogged} />
+              <ProductFlashInfo
+                key={product.id}
+                product={product}
+                userLogged={userLogged}
+                objTimeFlashDeals={objTimeFlashDeals}
+                timeEnd={timeEnd}
+              />
             ))}
         </Styled.ContainerProductImgFlashInfo>
         <Styled.ContainerArrowRight className="container-arrow-right">
