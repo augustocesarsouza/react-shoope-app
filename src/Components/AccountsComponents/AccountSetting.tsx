@@ -7,6 +7,7 @@ import { ObjUser } from '../InterfaceAll/IObjUser/IObjUser';
 import FooterShopee from '../FooterShopeeComponents/FooterShopee/FooterShopee';
 import { EnumAccountSetting } from './MyAccount/Interface/EnumAccountSetting/EnumAccountSetting';
 import SvgPincel from '../Svg/SvgPincel/SvgPincel';
+import { GetUserFromLocalStorage } from '../LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
 
 const AccountSetting = () => {
   const [userObjState, setUserObjState] = useState<ObjUser>();
@@ -21,22 +22,21 @@ const AccountSetting = () => {
   const [whichWasClickedFirstLayer, setWhichWasClickedFirstLayer] = useState('1');
 
   useEffect(() => {
-    let userLocalStorage = localStorage.getItem('user');
-
-    if (userLocalStorage === null) {
-      nav('/login');
-
-      return;
-    }
-
     if (location.state) {
       const objState = location.state;
 
       setUserObjState(objState.user);
     }
 
-    let userJson = JSON.parse(userLocalStorage);
-    setUserObjState(userJson);
+    const objUser = GetUserFromLocalStorage();
+
+    if (objUser === null) {
+      nav('/login');
+      return;
+    }
+
+    // let userJson = JSON.parse(userLocalStorage);
+    setUserObjState(objUser);
 
     const currentPath = window.location.pathname; // Retorna o caminho da URL, por exemplo, '/user/account/password'
 

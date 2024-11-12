@@ -6,6 +6,7 @@ import SvgOk from '../../../../Svg/SvgOk/SvgOk';
 import { UserUpdateData } from '../FillCpfAndBirthdate/FillCpfAndBirthdate';
 import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
 import SvgUserBody from '../../../../HeaderComponents/AllSvgHeader/SvgUserBody/SvgUserBody';
+import { GetUserFromLocalStorage } from '../../../../LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
 
 const Perfil = () => {
   const [userObj, setUserObj] = useState<ObjUser | null>(null);
@@ -78,11 +79,17 @@ const Perfil = () => {
   };
 
   useEffect(() => {
-    let userLocalStorage = localStorage.getItem('user');
+    const objUser = GetUserFromLocalStorage();
 
-    if (userLocalStorage === null) {
+    if (objUser.isNullUserLocalStorage) {
       nav('/login');
+      return;
+    }
 
+    if (objUser.user === null) {
+      localStorage.removeItem('user');
+
+      nav('/login');
       return;
     }
 
@@ -104,7 +111,7 @@ const Perfil = () => {
       emailToShowToUserMyPerfil(objState.user.email);
     }
 
-    let userJson = JSON.parse(userLocalStorage);
+    let userJson = objUser.user;
     setUserObj(userJson);
     getInfoUser(userJson);
     // location.state.user = userJson;
@@ -289,11 +296,21 @@ const Perfil = () => {
 
       document.body.style.overflow = 'hidden';
 
-      let usser = localStorage.getItem('user');
+      const objUser = GetUserFromLocalStorage();
 
-      if (usser === null) return;
+      if (objUser.isNullUserLocalStorage) {
+        nav('/login');
+        return;
+      }
 
-      let userLocalStoage: ObjUser = JSON.parse(usser);
+      if (objUser.user === null) {
+        localStorage.removeItem('user');
+
+        nav('/login');
+        return;
+      }
+
+      let userLocalStoage: ObjUser = objUser.user;
 
       userLocalStoage.email = user.email;
       userLocalStoage.id = user.id;

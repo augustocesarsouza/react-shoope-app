@@ -3,6 +3,7 @@ import * as Styled from './styled';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Url } from '../../../../../Utils/Url';
 import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
+import { GetUserFromLocalStorage } from '../../../../LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
 
 interface DataObjConfirmCodeEmail {
   code: string;
@@ -18,11 +19,17 @@ const ChangeInformationEmail = () => {
   const [userObj, setUserObj] = useState<ObjUser | null>(null);
 
   useEffect(() => {
-    let userLocalStorage = localStorage.getItem('user');
+    const objUser = GetUserFromLocalStorage();
 
-    if (userLocalStorage === null) {
+    if (objUser.isNullUserLocalStorage) {
       nav('/login');
+      return;
+    }
 
+    if (objUser.user === null) {
+      localStorage.removeItem('user');
+
+      nav('/login');
       return;
     }
 
@@ -36,8 +43,8 @@ const ChangeInformationEmail = () => {
       }
     }
 
-    let userJson = JSON.parse(userLocalStorage);
-    setUserObj(userJson);
+    // let userJson = JSON.parse(userLocalStorage);
+    setUserObj(objUser.user);
     // setValueInput(userJson.name);
   }, []);
 

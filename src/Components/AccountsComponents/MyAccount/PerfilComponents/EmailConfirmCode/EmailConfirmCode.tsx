@@ -7,6 +7,7 @@ import SvgShopee from '../../../../HeaderComponents/AllSvgHeader/SvgShopee/SvgSh
 import SvgArrowLeft from '../../../../RegisterUserComponents/AllSvgRegisterUser/SvgArrowLeft/SvgArrowLeft';
 import SvgExit from '../../../../RegisterUserComponents/AllSvgRegisterUser/SvgExit/SvgExit';
 import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
+import { GetUserFromLocalStorage } from '../../../../LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
 
 const EmailConfirmCode = () => {
   const [valueInputPhoneOne, setValueInputPhoneOne] = useState('-1');
@@ -38,11 +39,17 @@ const EmailConfirmCode = () => {
   const [emailThatWasSent, setEmailThatWasSent] = useState('');
 
   useEffect(() => {
-    let userLocalStorage = localStorage.getItem('user');
+    const objUser = GetUserFromLocalStorage();
 
-    if (userLocalStorage === null) {
+    if (objUser.isNullUserLocalStorage) {
       nav('/login');
+      return;
+    }
 
+    if (objUser.user === null) {
+      localStorage.removeItem('user');
+
+      nav('/login');
       return;
     }
 
@@ -58,9 +65,9 @@ const EmailConfirmCode = () => {
       setEmailThatWasSent(objState.user.email);
     }
 
-    let userJson = JSON.parse(userLocalStorage);
+    // let userJson = JSON.parse(userLocalStorage);
     // setEmailThatWasSent(userJson);
-    setUserLogin(userJson);
+    setUserLogin(objUser.user);
   }, []);
 
   const onChangeInputCreateAccount = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {

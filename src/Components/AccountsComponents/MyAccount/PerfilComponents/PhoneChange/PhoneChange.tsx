@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as Styled from './styled';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
+import { GetUserFromLocalStorage } from '../../../../LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
 
 const PhoneChange = () => {
   const location = useLocation();
@@ -10,11 +11,17 @@ const PhoneChange = () => {
   const [userObj, setUserObj] = useState<ObjUser | null>(null);
 
   useEffect(() => {
-    let userLocalStorage = localStorage.getItem('user');
+    const objUser = GetUserFromLocalStorage();
 
-    if (userLocalStorage === null) {
+    if (objUser.isNullUserLocalStorage) {
       nav('/login');
+      return;
+    }
 
+    if (objUser.user === null) {
+      localStorage.removeItem('user');
+
+      nav('/login');
       return;
     }
 
@@ -28,8 +35,8 @@ const PhoneChange = () => {
       }
     }
 
-    let userJson = JSON.parse(userLocalStorage);
-    setUserObj(userJson);
+    // let userJson = JSON.parse(userLocalStorage);
+    setUserObj(objUser.user);
     // setValueInput(userJson.name);
   }, []);
 

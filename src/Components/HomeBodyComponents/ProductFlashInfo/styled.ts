@@ -21,6 +21,7 @@ export const Container = styled.div`
 export const ContainerProductImgAndPrice = styled.div`
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 
   >h1 {
     font-size: 18px;

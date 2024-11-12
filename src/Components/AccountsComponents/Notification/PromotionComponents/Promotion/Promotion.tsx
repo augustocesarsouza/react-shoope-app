@@ -5,6 +5,7 @@ import { Url } from '../../../../../Utils/Url';
 import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
 import SecondPromotion from '../SecondPromotion/SecondPromotion';
 import FirstPromotion from '../FirstPromotion/FirstPromotion';
+import { GetUserFromLocalStorage } from '../../../../LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
 
 export interface PromotionProps {
   id: string;
@@ -34,11 +35,18 @@ const Promotion = () => {
   useEffect(() => {
     if (location.state) {
       const objState = location.state;
-      let userLocalStorage = localStorage.getItem('user');
 
-      if (userLocalStorage === null) {
+      const objUser = GetUserFromLocalStorage();
+
+      if (objUser.isNullUserLocalStorage) {
         nav('/login');
+        return;
+      }
 
+      if (objUser.user === null) {
+        localStorage.removeItem('user');
+
+        nav('/login');
         return;
       }
 
