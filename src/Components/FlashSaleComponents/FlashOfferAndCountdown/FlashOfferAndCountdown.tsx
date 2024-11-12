@@ -47,13 +47,11 @@ const FlashOfferAndCountdown = ({ hours, minutes, seconds }: FlashOfferAndCountd
   }, []);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      const newTimeLeft = calculateTimeLeft();
+    if (timeLeft === null) return;
 
-      setTimeLeft(newTimeLeft);
-    }, 1000);
-
-    return () => clearInterval(timer);
+    if (timeLeft.seconds <= 0) {
+      window.location.reload();
+    }
   }, [timeLeft]);
 
   return (

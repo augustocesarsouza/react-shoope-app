@@ -39,7 +39,7 @@ export const ContainerFleshOfferImg = styled.div`
 export const ContainerhoursFleshOfferMain = styled.div`
   display: flex;
   background-color: #414142;
-  height: 100px;
+  height: 64px;
   position: relative;
 `;
 
@@ -49,6 +49,7 @@ export const ContainerhoursFleshOffer = styled.div`
   gap: 0px;
   overflow-x: hidden;
   /* padding-left: 25px; */
+  
 `;
 
 interface ContainerEachScheduleProps {
@@ -66,10 +67,12 @@ export const ContainerEachSchedule = styled.div<ContainerEachScheduleProps>`
   background: ${props => props.$whatWasItClicked ? "#ee4d2d" : ""};
   color: ${props => props.$whatWasItClicked ? "white" : "rgb(195, 195, 195)"};
   
+  
   >h1 {
     font-size: 24px;
     font-weight: 400;
-    width: 169px;
+    width: 171.4px;
+    /* width: 160px; */
   }
 
   >span {
@@ -80,56 +83,55 @@ export const ContainerEachSchedule = styled.div<ContainerEachScheduleProps>`
 export const ContainerArrowLeft = styled.div`
   position: absolute;
   left: 0px;
-  top: 30px;
-  width: 30px;
-  height: 30px;
+  top: 0px;
+  width: 24px;
+  height: 100%;
   /* display: flex; */
   display: none;
   align-items: center;
   justify-content: flex-start;
   z-index: 1;
+  cursor: pointer;
+  background-color: #414142;
 
   >div {
-    background-color:  #fff;
-    padding: 10px;
-    border-radius: 50%;
+    /* padding: 10px; */
     display: flex;
-    cursor: pointer;
-    box-shadow: 0px 0px 4px 0px black;
   }
 
   >div>svg {
-    fill: #0000008f;
-    width: 14px;
-    height: 14px;
+    fill: rgb(211 211 211);
+    width: 20px;
+    transform: rotate(180deg); /* Rotaciona o SVG em 180 graus */
+    transition: transform 0.3s ease; /* Adiciona transição suave */
+
+    /* height: 14px; */
   }
 `;
 
 export const ContainerArrowRight = styled.div`
   position: absolute;
-  right: 5px;
-  top: 30px;
+  right: 0px;
+  top: 0px;
   z-index: 1;
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #00000061;
-  border-radius: 50%;
+  background-color: #414142;
+  /* border-radius: 50%; */
+  cursor: pointer;
+  background-color: #414142;
   
   >div {
-    background-color:  #fff;
-    padding: 10px;
-    border-radius: 50%;
+    /* padding: 10px; */
     display: flex;
-    cursor: pointer;
-    box-shadow: 0px 0px 4px 0px black;
   }
 
   >div>svg {
-    fill: #0000008f;
-    width: 14px;
-    height: 14px;
+    fill: rgb(211 211 211);
+    width: 20px;
+    /* height: 14px; */
   }
 `;
