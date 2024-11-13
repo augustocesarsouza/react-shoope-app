@@ -49,7 +49,7 @@ const FlashOfferAndCountdown = ({ hours, minutes, seconds }: FlashOfferAndCountd
   useEffect(() => {
     if (timeLeft === null) return;
 
-    if (timeLeft.seconds <= 0) {
+    if (timeLeft.seconds <= 0 && timeLeft.minutes <= 0 && timeLeft.hours <= 0) {
       window.location.reload();
     }
   }, [timeLeft]);

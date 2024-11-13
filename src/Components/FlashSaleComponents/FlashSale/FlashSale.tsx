@@ -10,11 +10,13 @@ import { ObjTimeFleshOffer } from '../../HomeBodyComponents/ProductFlashDeals/Pr
 import FlashOfferAndCountdown from '../FlashOfferAndCountdown/FlashOfferAndCountdown';
 import FleshOfferEveryDayAndHours, {
   ObjTime,
-  TimeLeftProps,
 } from '../FleshOfferEveryDayAndHours/FleshOfferEveryDayAndHours';
-import SvgFlashDeals from '../../Svg/SvgFlashDeals/SvgFlashDeals';
+import ProductFlashOffer from '../ProductFlashOffer/ProductFlashOffer';
+import FooterForFlashOffer from '../FooterForFlashOfferComponents/FooterForFlashOffer/FooterForFlashOffer';
+import FooterShopee from '../../FooterShopeeComponents/FooterShopee/FooterShopee';
+import SvgArrowBottomFlashSale from '../../Svg/SvgArrowBottomFlashSale/SvgArrowBottomFlashSale';
 
-interface GetAllProductHourProps {
+export interface GetAllProductHourProps {
   altValue: string;
   discountPercentage: number;
   id: string;
@@ -32,8 +34,6 @@ const FlashSale = () => {
   const local = useLocation();
   const nav = useNavigate();
   const [objTimeFlashDeals, setObjTimeFlashDeals] = useState<ObjTimeFleshOffer | null>(null);
-
-  const ContainerFlexOfferRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
@@ -54,15 +54,6 @@ const FlashSale = () => {
       nav('/login');
       return;
     }
-
-    if (ContainerFlexOfferRef.current === null) return;
-
-    const containerFlexOfferRef = ContainerFlexOfferRef.current;
-
-    // containerFlexOfferMainRef.style.marginBottom = '200px';
-
-    document.body.style.overflowY = 'scroll';
-    containerFlexOfferRef.style.marginBottom = '300px';
 
     // getProductOfferFlashAll(objUser.user);
   }, []);
@@ -113,6 +104,7 @@ const FlashSale = () => {
   };
 
   const RefSvgArrowBottom = useRef<SVGSVGElement | null>(null);
+  const [showContainerAfterArrowIsTop, setShowContainerAfterArrowIsTop] = useState(false);
 
   const onMouseEnterContainerCategoryMore = () => {
     if (RefSvgArrowBottom.current === null) return;
@@ -120,6 +112,7 @@ const FlashSale = () => {
     const svg = RefSvgArrowBottom.current;
 
     svg.style.rotate = '180deg';
+    setShowContainerAfterArrowIsTop(true);
   };
 
   const onMouseLeaveEnterContainerCategoryMore = () => {
@@ -128,6 +121,25 @@ const FlashSale = () => {
     const svg = RefSvgArrowBottom.current;
 
     svg.style.rotate = '0deg';
+    setShowContainerAfterArrowIsTop(false);
+  };
+
+  const onMouseEnterContainerItensMoreOfferFlesh = () => {
+    if (RefSvgArrowBottom.current === null) return;
+
+    const svg = RefSvgArrowBottom.current;
+
+    svg.style.rotate = '180deg';
+    setShowContainerAfterArrowIsTop(true);
+  };
+
+  const onMouseLeaveContainerItensMoreOfferFlesh = () => {
+    if (RefSvgArrowBottom.current === null) return;
+
+    const svg = RefSvgArrowBottom.current;
+
+    svg.style.rotate = '0deg';
+    setShowContainerAfterArrowIsTop(false);
   };
 
   const getAllHoursFleshOffers = (allHoursFleshOffers: ObjTime) => {
@@ -170,7 +182,30 @@ const FlashSale = () => {
     if (res.status === 200) {
       const json = await res.json();
       let value: GetAllProductHourProps[] = json.data;
-      setGetAllProductHourProps(value);
+
+      const arrayProductHours: GetAllProductHourProps[] = [];
+
+      for (let i = 0; i < value.length; i++) {
+        const element = value[i];
+        arrayProductHours.push(element);
+      }
+
+      // for (let i = 0; i < value.length; i++) {
+      //   const element = value[i];
+      //   arrayProductHours.push(element);
+      // }
+
+      // for (let i = 0; i < value.length; i++) {
+      //   const element = value[i];
+      //   arrayProductHours.push(element);
+      // }
+
+      // for (let i = 0; i < value.length; i++) {
+      //   const element = value[i];
+      //   arrayProductHours.push(element);
+      // }
+
+      setGetAllProductHourProps(arrayProductHours);
     }
 
     if (res.status === 400) {
@@ -184,18 +219,82 @@ const FlashSale = () => {
     }
   };
 
-  const functionForPriceOriginal = (obj: GetAllProductHourProps): string => {
-    const priceOriginal = obj.priceProduct / (1 - obj.discountPercentage / 100);
-    // console.log(priceOriginal.toFixed(2));
+  const [itensOfferFlesh, setItensOfferFlesh] = useState([
+    'Mais Populares',
+    'Lojas Oficiais',
+    'Top Ofertas',
+    'Moda',
+    'Beleza e Cuidado Pessoal',
+    'Ofertas Internacionais',
+  ]);
 
-    return 'R$' + priceOriginal.toFixed(2).replace('.', ',');
+  const [itensMoreOfferFlesh, setItensMoreOfferFlesh] = useState([
+    'Moda Infantil',
+    'Mercado e Pets',
+    'Casa e Cozinha',
+    'Brinquedos',
+    'Eletrônicos',
+    'Cuidados para o Bebê',
+    'Livros e Papelaria',
+    'Computadores e Acessórios',
+    'Celulares e Dispositivos',
+    'Auto & Moto',
+    'Esportes e Lazer',
+    'Mais Ofertas Locais',
+  ]);
+
+  const onClickNewItenMoreOfferFlesh = (iten: string) => {
+    setItensMoreOfferFlesh((array) => {
+      const newArray = [...array];
+
+      if (iten === 'Ofertas Internacionais') {
+        const indexOfferInternational = newArray.findIndex((el) => el === iten);
+
+        const elementLastItensOffer = itensOfferFlesh[itensOfferFlesh.length - 1];
+
+        newArray[indexOfferInternational] = elementLastItensOffer;
+      } else {
+        if (itensOfferFlesh[itensOfferFlesh.length - 1] !== 'Ofertas Internacionais') {
+          const indexPosition = newArray.findIndex((el) => el === 'Ofertas Internacionais');
+          const itenIndexOfferInterncation = newArray[indexPosition];
+
+          const indexItenClicked = newArray.findIndex((el) => el === iten);
+          newArray[indexItenClicked] = itenIndexOfferInterncation;
+
+          const lastElementItensOfferFlehs = itensOfferFlesh[itensOfferFlesh.length - 1];
+
+          if (indexPosition !== -1) {
+            newArray[indexPosition] = lastElementItensOfferFlehs;
+          }
+        } else {
+          const indexPosition = newArray.findIndex((el) => el === iten);
+          const lastElementItensOfferFlehs = itensOfferFlesh[itensOfferFlesh.length - 1];
+
+          if (indexPosition !== -1) {
+            newArray[indexPosition] = lastElementItensOfferFlehs;
+          }
+        }
+      }
+
+      return newArray;
+    });
+
+    setItensOfferFlesh((arrayOfferFlesh) => {
+      const newArrayOfferFlesh = [...arrayOfferFlesh];
+      newArrayOfferFlesh[newArrayOfferFlesh.length - 1] = iten;
+
+      return newArrayOfferFlesh;
+    });
+
+    setShowContainerAfterArrowIsTop(false);
+    onClickCategory(itensOfferFlesh.length);
   };
 
   return (
     <Styled.ContainerMain>
       <HeaderMain></HeaderMain>
       <Styled.ContainerFlexOfferMain>
-        <Styled.ContainerFlexOffer ref={ContainerFlexOfferRef}>
+        <Styled.ContainerFlexOffer>
           {objTimeFlashDeals && (
             <FlashOfferAndCountdown
               hours={objTimeFlashDeals.hours}
@@ -210,82 +309,47 @@ const FlashSale = () => {
           />
 
           <Styled.ContainerCategoryProduct>
-            <Styled.ContainerCategory
-              $clickedCategory={objClickedCategory === 1}
-              onClick={() => onClickCategory(1)}
-            >
-              <Styled.Span>Mais Populares</Styled.Span>
-            </Styled.ContainerCategory>
-            <Styled.ContainerCategory
-              $clickedCategory={objClickedCategory === 2}
-              onClick={() => onClickCategory(2)}
-            >
-              <Styled.Span>Lojas Oficiais</Styled.Span>
-            </Styled.ContainerCategory>
-            <Styled.ContainerCategory
-              $clickedCategory={objClickedCategory === 3}
-              onClick={() => onClickCategory(3)}
-            >
-              <Styled.Span>Top Ofertas</Styled.Span>
-            </Styled.ContainerCategory>
-            <Styled.ContainerCategory
-              $clickedCategory={objClickedCategory === 4}
-              onClick={() => onClickCategory(4)}
-            >
-              <Styled.Span>Moda</Styled.Span>
-            </Styled.ContainerCategory>
-            <Styled.ContainerCategory
-              $clickedCategory={objClickedCategory === 5}
-              onClick={() => onClickCategory(5)}
-            >
-              <Styled.Span>Beleza e Cuidado Pessoal</Styled.Span>
-            </Styled.ContainerCategory>
-            <Styled.ContainerCategory
-              $clickedCategory={objClickedCategory === 6}
-              onClick={() => onClickCategory(6)}
-            >
-              <Styled.Span>Ofertas Internacionais</Styled.Span>
-            </Styled.ContainerCategory>
-            <Styled.ContainerCategory
-              $clickedCategory={false}
+            {itensOfferFlesh.length > 0 &&
+              itensOfferFlesh.map((array, i) => (
+                <Styled.ContainerCategory
+                  key={i}
+                  $clickedCategory={objClickedCategory === i + 1}
+                  onClick={() => onClickCategory(i + 1)}
+                >
+                  <Styled.Span>{array}</Styled.Span>
+                </Styled.ContainerCategory>
+              ))}
+
+            <Styled.ContainerCategoryMore
               onClick={() => onClickCategory(0)}
               onMouseEnter={onMouseEnterContainerCategoryMore}
               onMouseLeave={onMouseLeaveEnterContainerCategoryMore}
             >
               <Styled.Span>Mais</Styled.Span>
-              <svg
-                enableBackground="new 0 0 15 15"
-                viewBox="0 0 15 15"
-                x="0"
-                y="0"
-                className="shopee-svg-icon icon-down-arrow-filled"
-                ref={RefSvgArrowBottom}
-              >
-                <path d="m6.5 12.9-6-7.9s-1.4-1.5.5-1.5h13s1.8 0 .6 1.5l-6 7.9c-.1 0-.9 1.3-2.1 0z"></path>
-              </svg>
-            </Styled.ContainerCategory>
+              <SvgArrowBottomFlashSale RefSvgArrowBottom={RefSvgArrowBottom} />
+            </Styled.ContainerCategoryMore>
           </Styled.ContainerCategoryProduct>
+          {showContainerAfterArrowIsTop && (
+            <Styled.ContainerItensMoreOfferFlesh
+              onMouseEnter={onMouseEnterContainerItensMoreOfferFlesh}
+              onMouseLeave={onMouseLeaveContainerItensMoreOfferFlesh}
+            >
+              {itensMoreOfferFlesh.length > 0 &&
+                itensMoreOfferFlesh.map((element, index) => (
+                  <Styled.ContainerItenMoreOfferFlesh
+                    key={index}
+                    onClick={() => onClickNewItenMoreOfferFlesh(element)}
+                  >
+                    <Styled.H1>{element}</Styled.H1>
+                  </Styled.ContainerItenMoreOfferFlesh>
+                ))}
+            </Styled.ContainerItensMoreOfferFlesh>
+          )}
 
-          <Styled.ContainerAllProductHourMain>
-            {getAllProductHourProps.length > 0 &&
-              getAllProductHourProps.map((el) => (
-                <Styled.ContainerProductFlashOffer key={el.id}>
-                  <Styled.ContainerProductHour>
-                    <Styled.Img src={el.imgProduct} alt="img-sdlvjk" />
-                  </Styled.ContainerProductHour>
-                  <Styled.ContainerInfoAboutProductFlashOffer>
-                    <Styled.H1>{el.title}</Styled.H1>
-                    <Styled.ContainerDiscountPercentageMain>
-                      <Styled.Span>{functionForPriceOriginal(el)}</Styled.Span>
-                      <Styled.ContainerDiscountPercentage>
-                        <SvgFlashDeals />
-                        <Styled.Span>-{el.discountPercentage}%</Styled.Span>
-                      </Styled.ContainerDiscountPercentage>
-                    </Styled.ContainerDiscountPercentageMain>
-                  </Styled.ContainerInfoAboutProductFlashOffer>
-                </Styled.ContainerProductFlashOffer>
-              ))}
-          </Styled.ContainerAllProductHourMain>
+          <ProductFlashOffer getAllProductHourProps={getAllProductHourProps} />
+
+          <FooterForFlashOffer />
+          <FooterShopee />
         </Styled.ContainerFlexOffer>
       </Styled.ContainerFlexOfferMain>
     </Styled.ContainerMain>

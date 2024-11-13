@@ -34,11 +34,14 @@ export const ContainerFlexOffer = styled.div`
   justify-content: space-between;
   flex-direction: column;
   width: 1200px;
+  position: relative;
 `;
 
 export const ContainerCategoryProduct = styled.div`
   display: flex;
   margin-top: 15px;
+  margin-bottom: 20px;
+  z-index: 1;
 `;
 
 interface ContainerCategoryProps {
@@ -47,7 +50,6 @@ interface ContainerCategoryProps {
 
 export const ContainerCategory = styled.div<ContainerCategoryProps>`
   display: flex;
-  /* flex-direction: column; */
   align-items: center;
   justify-content: center;
   width: 168px;
@@ -57,7 +59,6 @@ export const ContainerCategory = styled.div<ContainerCategoryProps>`
 
   >span {
     font-size: 16px;
-    /* font-weight: 500; */
     font-weight: ${props => props.$clickedCategory ? "500" : "400"};;
     text-align: center;
     padding: 14px 10px;
@@ -71,76 +72,62 @@ export const ContainerCategory = styled.div<ContainerCategoryProps>`
 
   >svg {
     width: 10px;
-
     transform: rotate(0deg);
   }
 `;
 
-export const ContainerAllProductHourMain = styled.div`
-  display: flex;
-`;
-
-export const ContainerProductFlashOffer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 280px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-`;
-
-export const ContainerProductHour = styled.div`
-  display: flex;
-  width: 280px;
-
-  >img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
-`;
-
-export const ContainerInfoAboutProductFlashOffer = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  >h1 {
-    font-size: 12px;
-  }
-`;
-
-export const ContainerDiscountPercentageMain = styled.div`
-  display: flex;
-
-  >span {
-    font-size: 17px;
-    font-weight: 500;
-    text-decoration: line-through;
-    padding-right: 4px;
-    color: rgba(0, 0, 0, 0.26);
-  }
-`;
-
-export const ContainerDiscountPercentage = styled.div`
+export const ContainerCategoryMore = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  background-color: #ffe97a;
-  color: #ec3814;
-  border-radius: 1px;
+  width: 188px;
+  height: 68px;
+  border-bottom: '1px solid #00000017';
+  cursor: pointer;
 
-  >h1 {
-    font-size: 12px;
-  }
+  >span {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    padding: 14px 10px;
+    color: 'black';
+  } 
 
   >svg {
     width: 10px;
-  }
-
-  >span {
-    font-size: 17px;
-    font-weight: 500;
+    transform: rotate(0deg);
   }
 `;
 
-//seila
+export const ContainerItensMoreOfferFlesh = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  position: absolute;
+  right: 23px;
+  top: 444px;
+  z-index: 10;
+  width: 340px;
+  border: 1px solid #00000017;
+  /* border: 1px solid red; */
+  background: #ffffff;
+`;
+
+export const ContainerItenMoreOfferFlesh = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 15px 10px;
+  cursor: pointer;
+
+  &:hover {
+    >h1 {
+      color: rgb(238, 77, 45);
+    }
+  }
+  
+  >h1 {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    color: #000000;
+  }
+`;
