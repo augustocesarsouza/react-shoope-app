@@ -58,34 +58,6 @@ const FlashSale = () => {
     // getProductOfferFlashAll(objUser.user);
   }, []);
 
-  const getProductOfferFlashAll = async (user: ObjUser) => {
-    const res = await fetch(`${Url}/get-product-offer-flash-all`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-        uid: user.id,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (res.status === 200) {
-      const json = await res.json();
-      const data: IProductFlashDeals[] = json.data;
-
-      setAllProductFlashDeals(data);
-    }
-
-    if (res.status === 400) {
-      //ERROR
-    }
-
-    if (res.status === 403 || res.status === 401) {
-      localStorage.removeItem('user');
-      nav('/login');
-      return;
-    }
-  };
-
   const functionGetTheValueTimeFleshOffer = (hours: number, minutes: number, seconds: number) => {
     const obj: ObjTimeFleshOffer = {
       hours,
@@ -98,9 +70,68 @@ const FlashSale = () => {
 
   const [objClickedCategory, setObjClickedCategory] = useState(1);
 
-  const onClickCategory = (value: number) => {
+  const [pageNumber, setPageNumber] = useState(1);
+  const [hourFlashOffer, setHourFlashOffer] = useState('05:00');
+
+  const [getAllProductHourProps, setGetAllProductHourProps] = useState<GetAllProductHourProps[]>(
+    []
+  );
+  const [itensOfferFlesh, setItensOfferFlesh] = useState([
+    'Mais Populares',
+    'Lojas Oficiais',
+    'Top Ofertas',
+    'Moda',
+    'Beleza e Cuidado Pessoal',
+    'Ofertas Internacionais',
+  ]);
+
+  // ARRUMAR QUANDO FAZ A PAGINAÇÃO PÓRQUE AGORA
+  // ELE TÁ CHEGANDO NO FINAL DA PAGINA AI ELE CHAMA MAIS "10"
+
+  const onClickCategory = async (value: number) => {
     if (value === 0) return;
+
+    let valuePageNumber = 1;
+    setPageNumber((prev) => {
+      return 1;
+    });
+
+    // setPageNumber(1);
     setObjClickedCategory(value);
+
+    let tagProduct = itensOfferFlesh[value - 1];
+    tagProduct = tagProduct.replace(/ /g, '_');
+
+    const res = await fetch(
+      `${Url}/get-all-by-tag-product/${hourFlashOffer}/${tagProduct}/${valuePageNumber}/10`,
+      {
+        method: 'GET',
+      }
+    );
+
+    if (res.status === 200) {
+      const json = await res.json();
+      let value: GetAllProductHourProps[] = json.data;
+
+      const arrayProductHours: GetAllProductHourProps[] = [];
+
+      for (let i = 0; i < value.length; i++) {
+        const element = value[i];
+        arrayProductHours.push(element);
+      }
+
+      setGetAllProductHourProps(arrayProductHours);
+    }
+
+    if (res.status === 400) {
+      //ERROR
+    }
+
+    if (res.status === 403 || res.status === 401) {
+      localStorage.removeItem('user');
+      nav('/login');
+      return;
+    }
   };
 
   const RefSvgArrowBottom = useRef<SVGSVGElement | null>(null);
@@ -165,19 +196,29 @@ const FlashSale = () => {
     GetAllProductHour(dateFull);
   };
 
-  const [getAllProductHourProps, setGetAllProductHourProps] = useState<GetAllProductHourProps[]>(
-    []
-  );
-
   const GetAllProductHour = async (dateFull: string) => {
-    const res = await fetch(`${Url}/get_all_product_hour/${dateFull}`, {
-      method: 'GET',
-      // headers: {
-      //   Authorization: `Bearer ${user.token}`,
-      //   uid: user.id,
-      //   'Content-Type': 'application/json',
-      // },
-    });
+    // console.log(dateFull);
+    let valuePageNumber = 1;
+    setPageNumber(1);
+
+    let hourFlashOffer = dateFull;
+    // hourFlashOffer = '09:00';
+
+    let tagProduct = itensOfferFlesh[objClickedCategory - 1];
+    tagProduct = tagProduct.replace(/ /g, '_');
+    setHourFlashOffer(dateFull);
+
+    const res = await fetch(
+      `${Url}/get-all-by-tag-product/${hourFlashOffer}/${tagProduct}/${valuePageNumber}/10`,
+      {
+        method: 'GET',
+        // headers: {
+        //   Authorization: `Bearer ${user.token}`,
+        //   uid: user.id,
+        //   'Content-Type': 'application/json',
+        // },
+      }
+    );
 
     if (res.status === 200) {
       const json = await res.json();
@@ -189,21 +230,6 @@ const FlashSale = () => {
         const element = value[i];
         arrayProductHours.push(element);
       }
-
-      // for (let i = 0; i < value.length; i++) {
-      //   const element = value[i];
-      //   arrayProductHours.push(element);
-      // }
-
-      // for (let i = 0; i < value.length; i++) {
-      //   const element = value[i];
-      //   arrayProductHours.push(element);
-      // }
-
-      // for (let i = 0; i < value.length; i++) {
-      //   const element = value[i];
-      //   arrayProductHours.push(element);
-      // }
 
       setGetAllProductHourProps(arrayProductHours);
     }
@@ -218,15 +244,6 @@ const FlashSale = () => {
       return;
     }
   };
-
-  const [itensOfferFlesh, setItensOfferFlesh] = useState([
-    'Mais Populares',
-    'Lojas Oficiais',
-    'Top Ofertas',
-    'Moda',
-    'Beleza e Cuidado Pessoal',
-    'Ofertas Internacionais',
-  ]);
 
   const [itensMoreOfferFlesh, setItensMoreOfferFlesh] = useState([
     'Moda Infantil',
@@ -290,6 +307,65 @@ const FlashSale = () => {
     onClickCategory(itensOfferFlesh.length);
   };
 
+  const getAllByPageNumberProductCategory = async (pageNumber: number) => {
+    if (objClickedCategory === 0) return;
+
+    // setObjClickedCategory(value);
+
+    let tagProduct = itensOfferFlesh[objClickedCategory - 1];
+    tagProduct = tagProduct.replace(/ /g, '_');
+
+    const res = await fetch(
+      `${Url}/get-all-by-tag-product/${hourFlashOffer}/${tagProduct}/${pageNumber}/10`,
+      {
+        method: 'GET',
+      }
+    );
+
+    if (res.status === 200) {
+      const json = await res.json();
+      let value: GetAllProductHourProps[] = json.data;
+
+      const arrayProductHours: GetAllProductHourProps[] = [];
+
+      for (let i = 0; i < value.length; i++) {
+        const element = value[i];
+        arrayProductHours.push(element);
+      }
+
+      setGetAllProductHourProps((prev) => {
+        const copia = [...prev, ...arrayProductHours];
+
+        return copia;
+      });
+    }
+
+    if (res.status === 400) {
+      //ERROR
+    }
+
+    if (res.status === 403 || res.status === 401) {
+      localStorage.removeItem('user');
+      nav('/login');
+      return;
+    }
+  };
+
+  const functionGetMoreProductPaginate = (value: boolean) => {
+    if (value) {
+      let pagenumberValue = 1;
+      setPageNumber((prev) => {
+        let value = prev + 1;
+        pagenumberValue = value;
+        return value;
+      });
+
+      getAllByPageNumberProductCategory(pagenumberValue);
+    }
+
+    console.log(value);
+  };
+
   return (
     <Styled.ContainerMain>
       <HeaderMain></HeaderMain>
@@ -348,7 +424,7 @@ const FlashSale = () => {
 
           <ProductFlashOffer getAllProductHourProps={getAllProductHourProps} />
 
-          <FooterForFlashOffer />
+          <FooterForFlashOffer functionGetMoreProductPaginate={functionGetMoreProductPaginate} />
           <FooterShopee />
         </Styled.ContainerFlexOffer>
       </Styled.ContainerFlexOfferMain>

@@ -9,15 +9,23 @@ interface ProductFlashOfferProps {
 const ProductFlashOffer = ({ getAllProductHourProps }: ProductFlashOfferProps) => {
   const functionForPriceOriginal = (obj: GetAllProductHourProps): string => {
     const priceOriginal = obj.priceProduct / (1 - obj.discountPercentage / 100);
-    // console.log(priceOriginal.toFixed(2));
 
-    return 'R$' + priceOriginal.toFixed(2).replace('.', ',');
+    return (
+      'R$' +
+      priceOriginal.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    );
   };
 
   const functionForPriceMainWithDiscount = (priceProduct: number): string => {
     const priceOriginal = priceProduct;
 
-    return priceOriginal.toFixed(2).replace('.', ',');
+    return priceOriginal.toLocaleString('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
   };
 
   const functionTitleFormat = (title: string): string => {

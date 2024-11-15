@@ -1,9 +1,49 @@
+import { useEffect, useRef, useState } from 'react';
 import * as Styled from './styled';
 
-const FooterForFlashOffer = () => {
+interface FooterForFlashOfferProps {
+  functionGetMoreProductPaginate: (value: boolean) => void;
+}
+
+const FooterForFlashOffer = ({ functionGetMoreProductPaginate }: FooterForFlashOfferProps) => {
+  const containerMainRef = useRef<HTMLDivElement | null>(null);
+  const [isBelowViewport, setIsBelowViewport] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+
+    const handleScroll = () => {
+      if (containerMainRef.current) {
+        const rect = containerMainRef.current.getBoundingClientRect();
+        const isBelow = rect.bottom <= window.innerHeight;
+
+        setIsBelowViewport(isBelow);
+      }
+    };
+
+    setTimeout(() => {
+      // Adiciona o evento de scroll
+      window.addEventListener('scroll', handleScroll);
+
+      // Checa inicialmente
+      handleScroll();
+    }, 100);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    functionGetMoreProductPaginate(isBelowViewport);
+  }, [isBelowViewport]);
+
   return (
     <Styled.ContainerMain>
-      <Styled.ContainerFirstPart>
+      <Styled.ContainerFirstPart ref={containerMainRef}>
         <Styled.Span>Página inicial</Styled.Span>
         <Styled.Span>{'>'}</Styled.Span>
         <Styled.Span>Ofertas Relâmpago</Styled.Span>
