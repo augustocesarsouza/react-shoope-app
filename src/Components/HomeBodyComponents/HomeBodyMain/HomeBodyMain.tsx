@@ -70,8 +70,7 @@ const HomeBodyMain = () => {
 
   useEffect(() => {
     let test = false;
-    // preciso que ele desça pelo menos uma vez abaixo desse "containerDiscoveriesRef" ai sim se não ele já começa true
-    // e o container já vai começar flutuando
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -79,12 +78,15 @@ const HomeBodyMain = () => {
           const isAboveViewport = boundingClientRect.bottom < 0;
 
           if (isAboveViewport && !isIntersecting) {
-            setIsOutOfView(false);
             test = true;
+
+            setIsOutOfView(false);
           } else if (isIntersecting) {
             if (test) {
               setIsOutOfView(true);
             }
+
+            test = false;
           }
         });
       },
@@ -144,16 +146,6 @@ const HomeBodyMain = () => {
 
         dataArray.push(element);
       }
-
-      // for (let i = 0; i < data.length; i++) {
-      //   const element = data[i];
-      //   dataArray.push(element);
-      // }
-
-      // for (let i = 0; i < data.length; i++) {
-      //   const element = data[i];
-      //   dataArray.push(element);
-      // }
 
       setProductDiscoveriesOfTheDay(dataArray);
     }

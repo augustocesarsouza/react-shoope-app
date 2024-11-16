@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as Styled from './styled';
 
 interface FlashOfferAndCountdownProps {
   hours: number;
   minutes: number;
   seconds: number;
+  passedContainerLightningOffer: boolean;
 }
 
 interface TimeLeftProps {
@@ -13,7 +14,12 @@ interface TimeLeftProps {
   seconds: number;
 }
 
-const FlashOfferAndCountdown = ({ hours, minutes, seconds }: FlashOfferAndCountdownProps) => {
+const FlashOfferAndCountdown = ({
+  hours,
+  minutes,
+  seconds,
+  passedContainerLightningOffer,
+}: FlashOfferAndCountdownProps) => {
   const [totalTimeInMillis] = useState(
     hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000
   );
@@ -49,36 +55,53 @@ const FlashOfferAndCountdown = ({ hours, minutes, seconds }: FlashOfferAndCountd
   useEffect(() => {
     if (timeLeft === null) return;
 
-    if (timeLeft.seconds <= 0) {
+    if (timeLeft.seconds <= 0 && timeLeft.minutes <= 0 && timeLeft.hours <= 0) {
       window.location.reload();
     }
   }, [timeLeft]);
 
+  useEffect(() => {
+    // console.log(passedContainerLightningOffer);
+  }, [passedContainerLightningOffer]);
+
   return (
-    <Styled.ContainerFlashDealsMain>
-      <Styled.ContainerFlashDealsHeader>
-        <Styled.ContainerFlashDealsImg>
-          <Styled.Img
-            src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1729512130/img-flash-deals/2c66c570e9bc4309bc51_eb0lw4.png"
-            alt="img-about-flesh-offer"
-          />
-        </Styled.ContainerFlashDealsImg>
-      </Styled.ContainerFlashDealsHeader>
-      <Styled.ContainerFinishIn>
-        <Styled.ContainerChronometer>
-          <Styled.Img
-            src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1730893687/flash-offer-img/3b9d94a588dd77fd5ec6_wlo4sr.png"
-            alt="img-chronometer"
-          />
-        </Styled.ContainerChronometer>
-        <Styled.H1>TERMINA EM</Styled.H1>
-      </Styled.ContainerFinishIn>
-      <Styled.CountdownContainer>
-        <Styled.DigitBox>{String(timeLeft.hours || '00').padStart(2, '0')}</Styled.DigitBox>
-        <Styled.DigitBox>{String(timeLeft.minutes || '00').padStart(2, '0')}</Styled.DigitBox>
-        <Styled.DigitBox>{String(timeLeft.seconds || '00').padStart(2, '0')}</Styled.DigitBox>
-      </Styled.CountdownContainer>
-    </Styled.ContainerFlashDealsMain>
+    <>
+      <Styled.ContainerFlashDealsAboutPosition
+        className="container-flash-deals-about-position"
+        $isOutOfView={passedContainerLightningOffer}
+      >
+        <Styled.ContainerFlashDealsMain>
+          <Styled.ContainerFlashDealsHeader>
+            <Styled.ContainerFlashDealsImg>
+              <Styled.Img
+                src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1729512130/img-flash-deals/2c66c570e9bc4309bc51_eb0lw4.png"
+                alt="img-about-flesh-offer"
+              />
+            </Styled.ContainerFlashDealsImg>
+          </Styled.ContainerFlashDealsHeader>
+          <Styled.ContainerFinishIn>
+            <Styled.ContainerChronometer>
+              <Styled.Img
+                src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1730893687/flash-offer-img/3b9d94a588dd77fd5ec6_wlo4sr.png"
+                alt="img-chronometer"
+              />
+            </Styled.ContainerChronometer>
+            <Styled.H1>TERMINA EM</Styled.H1>
+          </Styled.ContainerFinishIn>
+          <Styled.CountdownContainer>
+            <Styled.DigitBox>{String(timeLeft.hours || '00').padStart(2, '0')}</Styled.DigitBox>
+            <Styled.DigitBox>{String(timeLeft.minutes || '00').padStart(2, '0')}</Styled.DigitBox>
+            <Styled.DigitBox>{String(timeLeft.seconds || '00').padStart(2, '0')}</Styled.DigitBox>
+          </Styled.CountdownContainer>
+        </Styled.ContainerFlashDealsMain>
+      </Styled.ContainerFlashDealsAboutPosition>
+
+      <Styled.ContainerDiscoveriesOfTheDayFalse className="container-discoveries-of-the-day-false"></Styled.ContainerDiscoveriesOfTheDayFalse>
+
+      {/* {passedContainerLightningOffer && (
+        <Styled.ContainerDiscoveriesOfTheDayFalse></Styled.ContainerDiscoveriesOfTheDayFalse>
+      )} */}
+    </>
   );
 };
 

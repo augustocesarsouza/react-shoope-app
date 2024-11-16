@@ -21,6 +21,35 @@ export const Container = styled.div`
 export const ContainerMain = styled.div`
 `;
 
+interface ContainerFlashDealsAboutPositionProps {
+  $isOutOfView: boolean;
+}
+
+export const ContainerFlashDealsAboutPosition = styled.div<ContainerFlashDealsAboutPositionProps>`
+  display: flex;
+  /* position: relative; */
+  position: relative;
+  width: 100%;
+  opacity: 1;
+  /* position: ${props => props.$isOutOfView ? "fixed" : "block"}; */
+  /* width: ${props => props.$isOutOfView ? '1200px' : "100%"}; */
+  /* opacity: ${props => props.$isOutOfView ? 0.9 : 1};  */
+  top: 0px;
+  z-index: 100;
+  background-color: #ffffff;
+  transition: opacity 0.3s ease;
+`;
+
+export const ContainerDiscoveriesOfTheDayFalse = styled.div`
+  /* display: flex; */
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-bottom: none;
+  height: 60px;
+  margin-bottom: 20px;
+`;
+
 export const ContainerFlashDealsMain = styled.div`
   display: flex;
   align-items: center;

@@ -7,6 +7,7 @@ interface FleshOfferEveryDayAndHoursProps {
   // functionGetTheValueTimeFleshOffer: (timeEnd: string, userLogged: ObjUser) => void;
   functionGetTheValueTimeFleshOffer: (hours: number, minutes: number, seconds: number) => void;
   getAllHoursFleshOffers: (allHoursFleshOffers: ObjTime) => void;
+  getPassedContainerLightningOffer: (value: boolean) => void;
 }
 
 export interface ObjTime {
@@ -23,6 +24,7 @@ export interface TimeLeftProps {
 const FleshOfferEveryDayAndHours = ({
   functionGetTheValueTimeFleshOffer,
   getAllHoursFleshOffers,
+  getPassedContainerLightningOffer,
 }: FleshOfferEveryDayAndHoursProps) => {
   const [numberContainer, setNumberContainer] = useState(0);
   const RefContainerArrowLeft = useRef<HTMLDivElement | null>(null);
@@ -234,9 +236,62 @@ const FleshOfferEveryDayAndHours = ({
     updateArrowsVisibility();
   }, []);
 
+  const containerFleshOfferRef = useRef<HTMLDivElement | null>(null);
+  const containerFleshOfferRef2 = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout | null = null;
+
+    const handleScroll = () => {
+      timer = setTimeout(() => {
+        const containerDiscoveriesOfTheDayFalse = document.querySelector(
+          '.container-discoveries-of-the-day-false'
+        ) as HTMLDivElement;
+        const containerFlashDealsAboutPosition = document.querySelector(
+          '.container-flash-deals-about-position'
+        ) as HTMLDivElement;
+
+        if (!containerFleshOfferRef.current) return;
+
+        const rect = containerFleshOfferRef.current.getBoundingClientRect();
+
+        const isAboveViewport = rect.top < 0;
+
+        if (isAboveViewport) {
+          // Estado verdadeiro: fixa o elemento e ajusta os estilos
+          containerDiscoveriesOfTheDayFalse.style.display = 'flex';
+          containerFlashDealsAboutPosition.style.position = 'fixed';
+          containerFlashDealsAboutPosition.style.width = '1200px';
+          containerFlashDealsAboutPosition.style.opacity = '0.9';
+        } else {
+          // Estado falso: volta ao estilo original
+          containerFlashDealsAboutPosition.style.position = 'relative';
+          containerDiscoveriesOfTheDayFalse.style.display = 'none';
+          containerFlashDealsAboutPosition.style.width = '100%';
+          containerFlashDealsAboutPosition.style.opacity = '1';
+        }
+      }, 10);
+    };
+    // Adiciona o evento de scroll
+    window.addEventListener('scroll', handleScroll);
+
+    // Checa inicialmente
+    handleScroll();
+
+    return () => {
+      // Remove o evento de scroll
+      window.removeEventListener('scroll', handleScroll);
+
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+    };
+  }, []);
+
   return (
-    <Styled.ContainerFleshOfferEveryDay>
-      <Styled.ContainerFleshOfferImg>
+    <Styled.ContainerFleshOfferEveryDay ref={containerFleshOfferRef}>
+      <Styled.ContainerFleshOfferImg ref={containerFleshOfferRef2}>
         <Styled.Img
           src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1730896707/flash-offer-img/br-11134004-7r98o-m1wyzuu42c4138_vzsoej.png"
           alt="Flesh Offer Everyday"

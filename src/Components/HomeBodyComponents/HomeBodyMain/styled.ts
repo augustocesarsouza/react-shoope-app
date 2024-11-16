@@ -48,7 +48,6 @@ export const ContainerTipsForUsingCoupons = styled.div`
 export const ContainerDiscoveriesOfTheDayMain = styled.div`
   display: flex;
   flex-direction: column;
-  
 `;
 
 interface ContainerDiscoveriesOfTheDayProps {
@@ -66,7 +65,6 @@ export const ContainerDiscoveriesOfTheDay = styled.div<ContainerDiscoveriesOfThe
   user-select: none;
 
   position: ${props => props.$isOutOfView ? "fixed" : "block"};
-  /* left: 225px; */
   top: 0px;
   width: ${props => props.$isOutOfView ? props.$valueWidthContainerDiscoveriesOfTheDay : "100%"};
   z-index: 100;
