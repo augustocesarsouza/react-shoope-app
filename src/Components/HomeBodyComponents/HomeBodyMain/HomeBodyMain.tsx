@@ -147,16 +147,6 @@ const HomeBodyMain = () => {
         dataArray.push(element);
       }
 
-      // for (let i = 0; i < data.length; i++) {
-      //   const element = data[i];
-      //   dataArray.push(element);
-      // }
-
-      // for (let i = 0; i < data.length; i++) {
-      //   const element = data[i];
-      //   dataArray.push(element);
-      // }
-
       setProductDiscoveriesOfTheDay(dataArray);
     }
 

@@ -51,12 +51,22 @@ export const ContainerProductHour = styled.div`
   display: flex;
   width: 100%;
   margin-bottom: 15px;
+  position: relative;
 
-  >img {
+  :nth-child(1) {
     width: 100%;
     height: auto;
     object-fit: cover;
   }
+`;
+
+export const ImgPartBottom = styled.img`
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  position: absolute;
+  left: 0;
+  top: 0;
 `;
 
 export const ContainerInfoAboutProductFlashOffer = styled.div`

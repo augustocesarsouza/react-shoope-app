@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import SvgFlashDeals from '../../Svg/SvgFlashDeals/SvgFlashDeals';
 import { GetAllProductHourProps } from '../FlashSale/FlashSale';
 import * as Styled from './styled';
@@ -40,7 +41,10 @@ const ProductFlashOffer = ({ getAllProductHourProps }: ProductFlashOfferProps) =
         getAllProductHourProps.map((el, i) => (
           <Styled.ContainerProductFlashOffer key={el.id} $lastProduct={(i + 1) % 4 === 0}>
             <Styled.ContainerProductHour>
-              <Styled.Img src={el.imgProduct} alt="img-sdlvjk" />
+              <Styled.Img src={el.imgProduct} alt={el.altValue} />
+              {el.imgPartBottom && (
+                <Styled.ImgPartBottom src={el.imgPartBottom} alt="img-part-bottom" />
+              )}
             </Styled.ContainerProductHour>
             <Styled.ContainerInfoAboutProductFlashOffer>
               <Styled.H1>{functionTitleFormat(el.title)}</Styled.H1>

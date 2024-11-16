@@ -362,8 +362,12 @@ const FlashSale = () => {
 
       getAllByPageNumberProductCategory(pagenumberValue);
     }
+  };
 
-    console.log(value);
+  const [passedContainerLightningOffer, setPassedContainerLightningOffer] = useState(false);
+
+  const getPassedContainerLightningOffer = (value: boolean) => {
+    setPassedContainerLightningOffer(value);
   };
 
   return (
@@ -376,12 +380,14 @@ const FlashSale = () => {
               hours={objTimeFlashDeals.hours}
               minutes={objTimeFlashDeals.minutes}
               seconds={objTimeFlashDeals.seconds}
+              passedContainerLightningOffer={passedContainerLightningOffer}
             />
           )}
 
           <FleshOfferEveryDayAndHours
             functionGetTheValueTimeFleshOffer={functionGetTheValueTimeFleshOffer}
             getAllHoursFleshOffers={getAllHoursFleshOffers}
+            getPassedContainerLightningOffer={getPassedContainerLightningOffer}
           />
 
           <Styled.ContainerCategoryProduct>
