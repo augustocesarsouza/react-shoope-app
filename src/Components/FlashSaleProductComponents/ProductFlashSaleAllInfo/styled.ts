@@ -20,6 +20,7 @@ export const Container = styled.div`
 
 export const ContainerImageProductAndDescription = styled.div`
   display: flex;
+  margin-bottom: 60px;
 `;
 
 export const ContainerImageProductAndAllImagePartBottom = styled.div`

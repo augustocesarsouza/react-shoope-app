@@ -2,12 +2,14 @@ import { useNavigate } from 'react-router-dom';
 import SvgFlashDeals from '../../Svg/SvgFlashDeals/SvgFlashDeals';
 import { GetAllProductHourProps } from '../FlashSale/FlashSale';
 import * as Styled from './styled';
+import { ObjUser } from '../../InterfaceAll/IObjUser/IObjUser';
 
 interface ProductFlashOfferProps {
   getAllProductHourProps: GetAllProductHourProps[];
+  objUser: ObjUser | null;
 }
 
-const ProductFlashOffer = ({ getAllProductHourProps }: ProductFlashOfferProps) => {
+const ProductFlashOffer = ({ getAllProductHourProps, objUser }: ProductFlashOfferProps) => {
   const nav = useNavigate();
 
   const functionForPriceOriginal = (obj: GetAllProductHourProps): string => {
