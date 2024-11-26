@@ -36,7 +36,9 @@ const AccountSetting = () => {
     }
 
     // let userJson = JSON.parse(userLocalStorage);
-    setUserObjState(objUser);
+    if (!objUser.isNullUserLocalStorage && objUser.user !== null) {
+      setUserObjState(objUser.user);
+    }
 
     const currentPath = window.location.pathname; // Retorna o caminho da URL, por exemplo, '/user/account/password'
 

@@ -1,13 +1,17 @@
-import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SvgFlashDeals from '../../Svg/SvgFlashDeals/SvgFlashDeals';
 import { GetAllProductHourProps } from '../FlashSale/FlashSale';
 import * as Styled from './styled';
+import { ObjUser } from '../../InterfaceAll/IObjUser/IObjUser';
 
 interface ProductFlashOfferProps {
   getAllProductHourProps: GetAllProductHourProps[];
+  objUser: ObjUser | null;
 }
 
-const ProductFlashOffer = ({ getAllProductHourProps }: ProductFlashOfferProps) => {
+const ProductFlashOffer = ({ getAllProductHourProps, objUser }: ProductFlashOfferProps) => {
+  const nav = useNavigate();
+
   const functionForPriceOriginal = (obj: GetAllProductHourProps): string => {
     const priceOriginal = obj.priceProduct / (1 - obj.discountPercentage / 100);
 
@@ -35,11 +39,21 @@ const ProductFlashOffer = ({ getAllProductHourProps }: ProductFlashOfferProps) =
     return priceOriginal;
   };
 
+  const onClickContainerProductFlashOffer = (id: string) => {
+    window.open(`/flash_sale_product/${id}`, '_blank');
+    // nav('/flash_sale_product');
+    console.log('click');
+  };
+
   return (
     <Styled.ContainerAllProductHourMain>
       {getAllProductHourProps.length > 0 &&
         getAllProductHourProps.map((el, i) => (
-          <Styled.ContainerProductFlashOffer key={el.id} $lastProduct={(i + 1) % 4 === 0}>
+          <Styled.ContainerProductFlashOffer
+            key={el.id}
+            $lastProduct={(i + 1) % 4 === 0}
+            onClick={() => onClickContainerProductFlashOffer(el.id)}
+          >
             <Styled.ContainerProductHour>
               <Styled.Img src={el.imgProduct} alt={el.altValue} />
               {el.imgPartBottom && (

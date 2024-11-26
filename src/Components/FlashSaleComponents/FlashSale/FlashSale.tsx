@@ -34,12 +34,14 @@ const FlashSale = () => {
   const local = useLocation();
   const nav = useNavigate();
   const [objTimeFlashDeals, setObjTimeFlashDeals] = useState<ObjTimeFleshOffer | null>(null);
+  const [objUser, setObjUser] = useState<ObjUser | null>(null);
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
 
     let localUser = local.state;
     let user: ObjUser = localUser.user;
+    setObjUser(user);
 
     const objUser = GetUserFromLocalStorage();
 
@@ -428,7 +430,7 @@ const FlashSale = () => {
             </Styled.ContainerItensMoreOfferFlesh>
           )}
 
-          <ProductFlashOffer getAllProductHourProps={getAllProductHourProps} />
+          <ProductFlashOffer getAllProductHourProps={getAllProductHourProps} objUser={objUser} />
 
           <FooterForFlashOffer functionGetMoreProductPaginate={functionGetMoreProductPaginate} />
           <FooterShopee />

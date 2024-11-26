@@ -27,6 +27,7 @@ import UpdateShopee from '../../Components/AccountsComponents/Notification/Promo
 import MyCupons from '../../Components/AccountsComponents/MyCupons/MyCuponsComponents/MyCupons/MyCupons';
 import MyCoinsShopee from '../../Components/AccountsComponents/MyCoinsShopee/MyCoinsShopeeComponents/MyCoinsShopee/MyCoinsShopee';
 import FlashSale from '../../Components/FlashSaleComponents/FlashSale/FlashSale';
+import FlashSaleProduct from '../../Components/FlashSaleProductComponents/FlashSaleProduct/FlashSaleProduct';
 
 const AppContent = () => {
   document.body.style.overflowY = 'none';
@@ -75,6 +76,7 @@ const AppContent = () => {
         <Route path="/signup" element={<RegisterUserComponentMain />} />
         <Route path="/confirm-code-email" element={<EmailConfirmCode />} />
         <Route path="/flash_sale" element={<FlashSale />} />
+        <Route path="/flash_sale_product/:id" element={<FlashSaleProduct />} />
         {/* <Route path="/signup" element={<Home />} /> -> ESSE AQUI TEM QUE FAZER CADASTRO LÁ NO SITE PARA VER COMO QUE É GRAVA NO OBS */}
         {/* <Route path="/filme/:title" element={<SelectCinema />} /> */}
       </Routes>
