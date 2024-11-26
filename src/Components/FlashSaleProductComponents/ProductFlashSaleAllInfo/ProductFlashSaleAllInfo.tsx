@@ -9,14 +9,22 @@ import MinusSignSvg from '../../Svg/MinusSignSvg/MinusSignSvg';
 import SumSignSvg from '../../Svg/SumSignSvg/SumSignSvg';
 import CartBuySvg from '../../Svg/CartBuySvg/CartBuySvg';
 import HeartRed from '../../Svg/HeartRed/HeartRed';
+import { Url } from '../../../Utils/Url';
+import { useNavigate } from 'react-router-dom';
+import SvgArrowRight from '../../Svg/SvgArrowRight/SvgArrowRight';
 
 export interface GetFlashSaleProductProps {
   id: string;
-  productReviewsRate: number;
   productsOfferFlashDTO: ProductsOfferFlashDTOProps;
+  productReviewsRate: number;
   quantitySold: number;
   favoriteQuantity: number;
   quantityAvaliation: number;
+  coins: number;
+  creditCard: string;
+  voltage: string;
+  quantityPiece: number;
+  productHaveInsurance: boolean;
 }
 
 interface ProductsOfferFlashDTOProps {
@@ -30,15 +38,36 @@ interface ProductsOfferFlashDTOProps {
 
 interface ProductFlashSaleAllInfoProps {
   getFlashSaleProduct: GetFlashSaleProductProps;
+  idProductClicked: string;
 }
 
-const ProductFlashSaleAllInfo = ({ getFlashSaleProduct }: ProductFlashSaleAllInfoProps) => {
+export interface ProductOptionImageProps {
+  id: string;
+  imageUrl: string;
+  imgAlt: string;
+  optionType: string;
+  titleOptionType: string;
+}
+
+const ProductFlashSaleAllInfo = ({
+  getFlashSaleProduct,
+  idProductClicked,
+}: ProductFlashSaleAllInfoProps) => {
   const [whichDivVoltagensWasClicked, setWhichDivVoltagensWasClicked] = useState(0);
+  const nav = useNavigate();
 
   const [quantityStarRender] = useState([0, 1, 2, 3, 4]);
   const [quantityParts] = useState(120);
+  const [allVoltage, setAllVoltage] = useState<string[] | null>(null);
 
   useEffect(() => {
+    if (getFlashSaleProduct.voltage) {
+      let allVoltageSplit = getFlashSaleProduct.voltage.split(',');
+
+      setAllVoltage(allVoltageSplit);
+    }
+    // FALTA MAIS ALGUMAS IMAGENS DO MINECRAFT
+
     getFlashSaleProductByProductFlashSaleId(getFlashSaleProduct);
   }, [getFlashSaleProduct]);
 
@@ -231,6 +260,71 @@ const ProductFlashSaleAllInfo = ({ getFlashSaleProduct }: ProductFlashSaleAllInf
     spanPriceFull.style.color = 'black';
   };
 
+  useEffect(() => {
+    GetByListFlashSaleProductImageAllId(idProductClicked);
+  }, [idProductClicked]);
+
+  const [productOptionImageAll, setProductOptionImageAll] = useState<
+    ProductOptionImageProps[] | null
+  >(null);
+
+  const [productOptionImageColor, setProductOptionImageColor] = useState<
+    ProductOptionImageProps[] | null
+  >(null);
+
+  const [allTheOptionsThatExists, setAllTheOptionsThatExists] = useState<
+    ProductOptionImageProps[] | null
+  >(null);
+
+  const GetByListFlashSaleProductImageAllId = async (idProductClicked: string) => {
+    const res = await fetch(
+      `${Url}/product-option-image/get-by-list-flash-sale-product-image-all-id/${idProductClicked}`
+    );
+
+    // Colocar as imagens, do "MINECRAFT"
+
+    if (res.status === 200) {
+      const json = await res.json();
+      let getDate: ProductOptionImageProps[] = json.data;
+
+      let allTheColorsThatExists = getDate.filter((el) => el.optionType === 'Color');
+
+      if (allTheColorsThatExists) {
+        setProductOptionImageColor(allTheColorsThatExists);
+      }
+
+      let allTheOptionsThatExists = getDate.filter((el) => el.optionType === 'Option');
+
+      if (allTheOptionsThatExists) {
+        setAllTheOptionsThatExists(allTheOptionsThatExists);
+      }
+
+      setProductOptionImageAll(getDate);
+    }
+
+    if (res.status === 400) {
+      //ERROR
+    }
+
+    if (res.status === 403 || res.status === 401) {
+      localStorage.removeItem('user');
+      nav('/login');
+      return;
+    }
+  };
+
+  const [whichDivOptionsWasClicked, setWhichDivOptionsWasClicked] = useState(0);
+
+  const onClickOptions = (whichDivVoltagensWasClicked: number, option: ProductOptionImageProps) => {
+    setWhichDivOptionsWasClicked((prop) => {
+      if (prop === whichDivVoltagensWasClicked) {
+        return 0;
+      }
+
+      return whichDivVoltagensWasClicked;
+    });
+  };
+
   return (
     <Styled.ContainerImageProductAndDescription>
       <Styled.ContainerImageProductAndAllImagePartBottom>
@@ -248,26 +342,13 @@ const ProductFlashSaleAllInfo = ({ getFlashSaleProduct }: ProductFlashSaleAllInf
           )}
         </Styled.ContainerImageProduct>
 
-        <Styled.ContainerAllImagePartBottom>
-          {/* criar uma tabela para colocar as imagens de baixo! - que pega o id do "product" e nessa tabela
-                      vai ter o id ai eu pucho todas as "imagens" dessa tabela com a imagens */}
-          <Styled.Img
-            src={getFlashSaleProduct.productsOfferFlashDTO.imgProduct}
-            alt={getFlashSaleProduct.productsOfferFlashDTO.altValue}
-          />
-          <Styled.Img
-            src={getFlashSaleProduct.productsOfferFlashDTO.imgProduct}
-            alt={getFlashSaleProduct.productsOfferFlashDTO.altValue}
-          />
-          <Styled.Img
-            src={getFlashSaleProduct.productsOfferFlashDTO.imgProduct}
-            alt={getFlashSaleProduct.productsOfferFlashDTO.altValue}
-          />
-          <Styled.Img
-            src={getFlashSaleProduct.productsOfferFlashDTO.imgProduct}
-            alt={getFlashSaleProduct.productsOfferFlashDTO.altValue}
-          />
-        </Styled.ContainerAllImagePartBottom>
+        {productOptionImageAll && (
+          <Styled.ContainerAllImagePartBottom>
+            {productOptionImageAll.map((productImg) => (
+              <Styled.Img key={productImg.id} src={productImg.imageUrl} alt={productImg.imgAlt} />
+            ))}
+          </Styled.ContainerAllImagePartBottom>
+        )}
 
         <Styled.ContainerToShareMain>
           <Styled.ContainerToShare>
@@ -353,19 +434,32 @@ const ProductFlashSaleAllInfo = ({ getFlashSaleProduct }: ProductFlashSaleAllInf
                 alt="img-coins"
               />
               <Styled.Span>
-                Compre e ganhe <Styled.SpanQuantityCoins>500</Styled.SpanQuantityCoins> Moeda(s)
-                Shopee
+                Compre e ganhe{' '}
+                <Styled.SpanQuantityCoins>{getFlashSaleProduct.coins}</Styled.SpanQuantityCoins>{' '}
+                Moeda(s) Shopee
               </Styled.Span>
               <SvgQuestionMark />
             </Styled.ContainerCoinsDescription>
           </Styled.ContainerCoinsInsuranceColorMain>
-          <Styled.ContainerCoinsInsuranceColorMain $index={2}>
-            <Styled.H1>Seguros</Styled.H1>
-            <Styled.ContainerInsuranceDescription>
-              <Styled.Span>Seguros disponíveis</Styled.Span>
-              <Styled.Span>Saber Mais</Styled.Span>
-            </Styled.ContainerInsuranceDescription>
-          </Styled.ContainerCoinsInsuranceColorMain>
+          <Styled.ContainerCreditCard $index={2}>
+            <Styled.H1>Cartão de Crédito</Styled.H1>
+            <Styled.ContainerCreditCardDescription>
+              <Styled.Span>{getFlashSaleProduct.creditCard}</Styled.Span>
+              <Styled.Container>
+                <Styled.Span>Opções de parcelamento</Styled.Span>
+                <SvgArrowRight />
+              </Styled.Container>
+            </Styled.ContainerCreditCardDescription>
+          </Styled.ContainerCreditCard>
+          {getFlashSaleProduct.productHaveInsurance && (
+            <Styled.ContainerCoinsInsuranceColorMain $index={3}>
+              <Styled.H1>Seguros</Styled.H1>
+              <Styled.ContainerInsuranceDescription>
+                <Styled.Span>Seguros disponíveis</Styled.Span>
+                <Styled.Span>Saber Mais</Styled.Span>
+              </Styled.ContainerInsuranceDescription>
+            </Styled.ContainerCoinsInsuranceColorMain>
+          )}
           <Styled.ContainerShippingMain>
             <Styled.H1>Frete</Styled.H1>
             <Styled.ContainerShippingDescriptionMain>
@@ -411,46 +505,70 @@ const ProductFlashSaleAllInfo = ({ getFlashSaleProduct }: ProductFlashSaleAllInf
               </Styled.ContainerShippingDescription>
             </Styled.ContainerShippingDescriptionMain>
           </Styled.ContainerShippingMain>
-          <Styled.ContainerCoinsInsuranceColorMain $index={4}>
-            <Styled.H1>Cor</Styled.H1>
-            <Styled.ContainerColorsProductDescription>
-              <Styled.Img
-                src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1732279346/img-product-colors/img-fridge/sg-11134201-7rcbt-ltf71dl7xufk75_resize_w24_nl_dvn88o.webp"
-                alt="img-color-fridge"
-              />
-              <Styled.Span>BRANCO</Styled.Span>
-            </Styled.ContainerColorsProductDescription>
-          </Styled.ContainerCoinsInsuranceColorMain>
-          <Styled.ContainerCoinsInsuranceColorMain $index={5}>
-            <Styled.H1>Voltagem</Styled.H1>
-            <Styled.ContainerVoltagesDescription>
-              <Styled.ContainerVoltages
-                $whichDivVoltagensWasClicked={whichDivVoltagensWasClicked}
-                $divVoltagens={1}
-                onClick={() => onClickVoltagens(1)}
-              >
-                110v
-                {whichDivVoltagensWasClicked === 1 && (
-                  <Styled.Container>
-                    <FontAwesomeIcon icon={faCheck} />
-                  </Styled.Container>
+          {productOptionImageColor &&
+            productOptionImageColor.map((el) => (
+              <Styled.ContainerCoinsInsuranceColorMain $index={5} key={el.id}>
+                {el.optionType === 'Color' && (
+                  <>
+                    <Styled.H1>Cor</Styled.H1>
+                    <Styled.ContainerColorsProductDescription>
+                      <Styled.Img src={el.imageUrl} alt={el.imgAlt} />
+                      <Styled.Span>{el.titleOptionType}</Styled.Span>
+                    </Styled.ContainerColorsProductDescription>
+                  </>
                 )}
-              </Styled.ContainerVoltages>
-              <Styled.ContainerVoltages
-                $whichDivVoltagensWasClicked={whichDivVoltagensWasClicked}
-                $divVoltagens={2}
-                onClick={() => onClickVoltagens(2)}
-              >
-                220v
-                {whichDivVoltagensWasClicked === 2 && (
-                  <Styled.Container>
-                    <FontAwesomeIcon icon={faCheck} />
-                  </Styled.Container>
-                )}
-              </Styled.ContainerVoltages>
-            </Styled.ContainerVoltagesDescription>
-          </Styled.ContainerCoinsInsuranceColorMain>
-          <Styled.ContainerCoinsInsuranceColorMain $index={6}>
+              </Styled.ContainerCoinsInsuranceColorMain>
+            ))}
+
+          {allTheOptionsThatExists && (
+            <Styled.ContainerOptionsMain>
+              <Styled.H1>Opção</Styled.H1>
+
+              <Styled.ContainerOptionsMainDescription>
+                {allTheOptionsThatExists.map((option, index) => (
+                  <Styled.ContainerOptions
+                    $whichDivOptionsWasClicked={whichDivOptionsWasClicked}
+                    $divOptions={index + 1}
+                    onClick={() => onClickOptions(index + 1, option)}
+                    key={index}
+                  >
+                    <Styled.Img src={option.imageUrl} />
+                    <Styled.Span>{option.titleOptionType}</Styled.Span>
+                    {whichDivOptionsWasClicked === index + 1 && (
+                      <Styled.Container>
+                        <FontAwesomeIcon icon={faCheck} />
+                      </Styled.Container>
+                    )}
+                  </Styled.ContainerOptions>
+                ))}
+              </Styled.ContainerOptionsMainDescription>
+            </Styled.ContainerOptionsMain>
+          )}
+
+          {allVoltage && (
+            <Styled.ContainerCoinsInsuranceColorMain $index={6}>
+              <Styled.H1>Voltagem</Styled.H1>
+
+              <Styled.ContainerVoltagesDescription>
+                {allVoltage.map((v, index) => (
+                  <Styled.ContainerVoltages
+                    $whichDivVoltagensWasClicked={whichDivVoltagensWasClicked}
+                    $divVoltagens={index + 1}
+                    onClick={() => onClickVoltagens(index + 1)}
+                    key={index}
+                  >
+                    {v}
+                    {whichDivVoltagensWasClicked === index + 1 && (
+                      <Styled.Container>
+                        <FontAwesomeIcon icon={faCheck} />
+                      </Styled.Container>
+                    )}
+                  </Styled.ContainerVoltages>
+                ))}
+              </Styled.ContainerVoltagesDescription>
+            </Styled.ContainerCoinsInsuranceColorMain>
+          )}
+          <Styled.ContainerCoinsInsuranceColorMain $index={7}>
             <Styled.H1>Quantidade</Styled.H1>
             <Styled.ContainerQuantityProductDescription>
               <Styled.Container>

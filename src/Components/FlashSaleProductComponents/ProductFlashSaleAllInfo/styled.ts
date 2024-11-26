@@ -34,11 +34,13 @@ export const ContainerAllImagePartBottom = styled.div`
   justify-content: space-between;
   width: 460px;
   margin-bottom: 30px;
+  overflow-x: scroll;
 
   >img {
     width: 100px;
     height: auto;
     object-fit: cover;
+    margin-right: 5px;
   }
 `;
 
@@ -309,12 +311,136 @@ export const ContainerCoinsInsuranceColorMain = styled.div<ContainerCoinsMainPro
     font-size: 15px;
     font-weight: 400;
     color: rgb(117, 117, 117);
-    /* margin-right: 70px; */
-    /* margin-right: ${props => props.$index === 4 && "100px"};
-    margin-right: ${props => props.$index === 5 && "60px"};
-    margin-right: ${props => props.$index === 6 && "42px"}; */
 
     width: 115px;
+  }
+`;
+
+export const ContainerCreditCard = styled.div<ContainerCoinsMainProps>`
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+
+  >h1 {
+    font-size: 15px;
+    font-weight: 400;
+    color: rgb(117, 117, 117);
+
+    width: 115px;
+  }
+`;
+
+export const ContainerOptionsMain = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+
+  >h1 {
+    font-size: 15px;
+    font-weight: 400;
+    color: rgb(117, 117, 117);
+
+    width: 115px;
+  }
+`;
+
+export const ContainerOptionsMainDescription = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  >span:nth-of-type(1) {
+    color: rgb(34, 34, 34);
+  }
+`;
+
+interface ContainerOptionsProps {
+  $whichDivOptionsWasClicked: number;
+  $divOptions: number;
+}
+
+export const ContainerOptions = styled.div<ContainerOptionsProps>`
+  display: flex;
+  align-items: center;
+  border: 1px solid #00000021;
+  padding: 8px 9px;
+  cursor: pointer;
+  position: relative;
+
+  border-color: ${props => props.$whichDivOptionsWasClicked === props.$divOptions && "red"};
+  color: ${props => props.$whichDivOptionsWasClicked === props.$divOptions && "red"};
+
+  >img {
+    width: 25px;
+    height: auto;
+    object-fit: cover;
+    margin-right: 5px;
+  }
+
+  >span {
+    font-size: 14px;
+  }
+
+  overflow: hidden;
+
+  &:hover {
+    border-color: red;
+    color: red;
+  }
+
+  >div  {
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    z-index: 1;
+
+    &::before {
+      border: 18px solid transparent;
+      border-bottom: 18px solid red;
+      bottom: 0;
+      content: "";
+      position: absolute;
+      right: -18px;
+      z-index: 1;
+    }
+
+    >svg {
+      color: #ffffff;
+      z-index: 20;
+      width: 9px;
+      bottom: -1px;
+      position: absolute;
+      right: 1px;
+      display: flex;
+
+      /* background-color: black; */
+    }
+  }
+`;
+
+export const ContainerCreditCardDescription = styled.div`
+  display: flex;
+  align-items: center;
+
+  >span:nth-of-type(1) {
+    color: rgb(34, 34, 34);
+  }
+
+  >div{
+    cursor: pointer;
+    margin-left: 20px;
+
+    >span:nth-of-type(1) {
+      color: rgb(0, 85, 170);
+      margin-right: 5px;
+      font-size: 15px;
+    }
+
+    >svg:nth-of-type(1){
+      width: 10px;
+      height: 10px;
+      fill: rgb(0, 85, 170);
+    }
   }
 `;
 
@@ -467,11 +593,17 @@ export const ContainerColorsProductDescription = styled.div`
   align-items: center;
   border: 1px solid #0000001c;
   /* padding: 4px 5px; */
+  padding: 8px;
 
   >span:nth-of-type(1) {
     font-size: 15px;
     font-weight: 400;
     color: #000000b8;
+  }
+
+  >img {
+    width: 24px;
+    height: auto;
   }
 `;
 
