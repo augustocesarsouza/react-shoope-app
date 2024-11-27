@@ -64,12 +64,37 @@ const UserSellerProduct = ({ userSellerProductDTO }: UserSellerProductProps) => 
   };
 
   const formatFollowers = (followers: number) => {
-    if (followers > 1000) {
-      // Divide por 1000, fixa 1 casa decimal e adiciona 'mil'
-      return (followers / 1000).toFixed(1).replace('.', ',') + 'mil';
+    if (followers >= 1_000_000) {
+      const millions = followers / 1_000_000;
+
+      return millions % 1 === 0
+        ? `${millions.toFixed(0)}mi`
+        : `${millions.toFixed(1).replace('.', ',')}mi`;
+    } else if (followers >= 1_000) {
+      const thousands = followers / 1_000;
+      return thousands % 1 === 0
+        ? `${thousands.toFixed(0)}mil`
+        : `${thousands.toFixed(1).replace('.', ',')}mil`;
     }
 
     return followers.toString();
+  };
+
+  const formatProducts = (products: number) => {
+    if (products >= 1_000_000) {
+      const millions = products / 1_000_000;
+
+      return millions % 1 === 0
+        ? `${millions.toFixed(0)}mi`
+        : `${millions.toFixed(1).replace('.', ',')}mi`;
+    } else if (products >= 1_000) {
+      const thousands = products / 1_000;
+      return thousands % 1 === 0
+        ? `${thousands.toFixed(0)}mil`
+        : `${thousands.toFixed(1).replace('.', ',')}mil`;
+    }
+
+    return products.toString();
   };
 
   return (
@@ -128,7 +153,7 @@ const UserSellerProduct = ({ userSellerProductDTO }: UserSellerProductProps) => 
           <Styled.Container>
             <Styled.Span>Produtos</Styled.Span>
             <Styled.Span>
-              {userSellerProductDTO.userSellerProductDTO.quantityOfProductSold}
+              {formatProducts(userSellerProductDTO.userSellerProductDTO.quantityOfProductSold)}
             </Styled.Span>
           </Styled.Container>
 

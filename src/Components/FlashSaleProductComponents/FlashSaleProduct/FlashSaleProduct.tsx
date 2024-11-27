@@ -21,17 +21,12 @@ const FlashSaleProduct = () => {
 
   const [userSellerProductDTO, setUserSellerProductDTO] = useState<IProductSeller | null>(null);
 
-  const [objUser, setObjUser] = useState<ObjUser | null>(null);
   const [idProductClicked, setIdProductClicked] = useState<string | null>(null);
 
   useEffect(() => {
     const { id } = obj;
 
     const objUser = GetUserFromLocalStorage();
-
-    if (!objUser.isNullUserLocalStorage && objUser.user !== null) {
-      setObjUser(objUser.user);
-    }
 
     if (id && objUser.user) {
       setIdProductClicked(id);

@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
-import SvgArrowRight from '../../Svg/SvgArrowRight/SvgArrowRight';
+import SvgArrowRight from '../../../Svg/SvgArrowRight/SvgArrowRight';
 import * as Styled from './styled';
-import HeartRed from '../../Svg/HeartRed/HeartRed';
+import HeartRed from '../../../Svg/HeartRed/HeartRed';
 import {
   GetFlashSaleProductProps,
   ProductOptionImageProps,
-} from '../ProductFlashSaleAllInfo/ProductFlashSaleAllInfo';
+} from '../../ProductFlashSaleAllInfo/ProductFlashSaleAllInfo';
 
 interface ProductFlashSaleFirstPartProps {
   productOptionImageAll: ProductOptionImageProps[];
