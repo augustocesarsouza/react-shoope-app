@@ -12,6 +12,7 @@ import HeartRed from '../../Svg/HeartRed/HeartRed';
 import { Url } from '../../../Utils/Url';
 import { useNavigate } from 'react-router-dom';
 import SvgArrowRight from '../../Svg/SvgArrowRight/SvgArrowRight';
+import ProductFlashSaleFirstPart from '../ProductFlashSaleFirstPart/ProductFlashSaleFirstPart';
 
 export interface GetFlashSaleProductProps {
   id: string;
@@ -136,18 +137,6 @@ const ProductFlashSaleAllInfo = ({
     setSecondHalfStar(secondHalfStar);
     setFirstHalfStar(firstHalfStar);
     setAllStarWithoutFill(allStarWithoutFill);
-  };
-
-  const funcFormatFavoriteQuantity = (favoriteQuantity: number) => {
-    if (favoriteQuantity >= 1000) {
-      // Divide por 1000 e formata com uma casa decimal
-
-      const formattedQuantity = (favoriteQuantity / 1000).toFixed(1).replace('.', ',');
-      return `Favoritar (${formattedQuantity}mil)`;
-    } else {
-      // Retorna o número sem formatação especial
-      return `Favoritar (${favoriteQuantity})`;
-    }
   };
 
   const funcFormatTitleProduct = (productsOfferFlashTitle: string) => {
@@ -299,7 +288,17 @@ const ProductFlashSaleAllInfo = ({
         setAllTheOptionsThatExists(allTheOptionsThatExists);
       }
 
-      setProductOptionImageAll(getDate);
+      let arrayElement = [];
+
+      for (let i = 0; i < getDate.length; i++) {
+        arrayElement.push(getDate[i]);
+      }
+
+      for (let i = 0; i < getDate.length; i++) {
+        arrayElement.push(getDate[i]);
+      }
+
+      setProductOptionImageAll(arrayElement);
     }
 
     if (res.status === 400) {
@@ -327,47 +326,12 @@ const ProductFlashSaleAllInfo = ({
 
   return (
     <Styled.ContainerImageProductAndDescription>
-      <Styled.ContainerImageProductAndAllImagePartBottom>
-        <Styled.ContainerImageProduct>
-          <Styled.Img
-            src={getFlashSaleProduct.productsOfferFlashDTO.imgProduct}
-            alt={getFlashSaleProduct.productsOfferFlashDTO.altValue}
-          />
-
-          {getFlashSaleProduct.productsOfferFlashDTO.imgPartBottom && (
-            <Styled.Img
-              src={getFlashSaleProduct.productsOfferFlashDTO.imgPartBottom}
-              alt="img-part-bottom-floating"
-            />
-          )}
-        </Styled.ContainerImageProduct>
-
-        {productOptionImageAll && (
-          <Styled.ContainerAllImagePartBottom>
-            {productOptionImageAll.map((productImg) => (
-              <Styled.Img key={productImg.id} src={productImg.imageUrl} alt={productImg.imgAlt} />
-            ))}
-          </Styled.ContainerAllImagePartBottom>
-        )}
-
-        <Styled.ContainerToShareMain>
-          <Styled.ContainerToShare>
-            <Styled.H1>Compartilhar:</Styled.H1>
-            <Styled.Button></Styled.Button>
-            <Styled.Button></Styled.Button>
-            <Styled.Button></Styled.Button>
-            <Styled.Button></Styled.Button>
-          </Styled.ContainerToShare>
-
-          <Styled.ContainerFavoriteQuantity>
-            <HeartRed />
-
-            <Styled.Span>
-              {funcFormatFavoriteQuantity(getFlashSaleProduct.favoriteQuantity)}
-            </Styled.Span>
-          </Styled.ContainerFavoriteQuantity>
-        </Styled.ContainerToShareMain>
-      </Styled.ContainerImageProductAndAllImagePartBottom>
+      {productOptionImageAll && (
+        <ProductFlashSaleFirstPart
+          productOptionImageAll={productOptionImageAll}
+          getFlashSaleProduct={getFlashSaleProduct}
+        />
+      )}
 
       <Styled.ContainerProductFlashSaleDescription>
         <Styled.H1>
@@ -520,7 +484,7 @@ const ProductFlashSaleAllInfo = ({
               </Styled.ContainerCoinsInsuranceColorMain>
             ))}
 
-          {allTheOptionsThatExists && (
+          {allTheOptionsThatExists && allTheOptionsThatExists.length > 0 && (
             <Styled.ContainerOptionsMain>
               <Styled.H1>Opção</Styled.H1>
 

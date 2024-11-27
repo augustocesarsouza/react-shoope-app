@@ -23,85 +23,84 @@ export const ContainerImageProductAndDescription = styled.div`
   margin-bottom: 60px;
 `;
 
-export const ContainerImageProductAndAllImagePartBottom = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 480px;
-`;
+// export const ContainerImageProductAndAllImagePartBottom = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   width: 450px;
+//   margin-right: 30px;
+// `;
 
-export const ContainerAllImagePartBottom = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 460px;
-  margin-bottom: 30px;
-  overflow-x: scroll;
+// export const ContainerAllImagePartBottom = styled.div`
+//   display: flex;
+//   gap: 0px;
+//   overflow-x: hidden;
 
-  >img {
-    width: 100px;
-    height: auto;
-    object-fit: cover;
-    margin-right: 5px;
-  }
-`;
+//   >img {
+//     width: 100px;
+//     height: auto;
+//     object-fit: cover;
+//     margin-right: 5px;
+//   }
+// `;
 
-export const ContainerToShareMain = styled.div`
-  display: flex;
-  justify-content: space-around;
-`;
+// export const ContainerToShareMain = styled.div`
+//   display: flex;
+//   justify-content: space-around;
+// `;
 
-export const ContainerToShare = styled.div`
-  display: flex;
-  align-items: center;
+// export const ContainerToShare = styled.div`
+//   display: flex;
+//   align-items: center;
 
-  >h1 {
-    font-size: 18px;
-    font-weight: 400;
-  }
+//   >h1 {
+//     font-size: 18px;
+//     font-weight: 400;
+//   }
 
-  > button {
-    border: 0;
-    height: 25px;
-    margin-left: 5px;
-    outline: 0;
-    overflow: visible;
-    padding: 0;
-    position: relative;
-    width: 25px;
+//   > button {
+//     border: 0;
+//     height: 25px;
+//     margin-left: 5px;
+//     outline: 0;
+//     overflow: visible;
+//     padding: 0;
+//     position: relative;
+//     width: 25px;
 
-    /* background-position: 0 0; */
-    background-color: initial;
-    background-image: url(https://res.cloudinary.com/dyqsqg7pk/image/upload/v1732105018/12f585f9c56d4f30_r9l0vi.png);
-    background-size: 100%;
-  }
+//     /* background-position: 0 0; */
+//     background-color: initial;
+//     background-image: url(https://res.cloudinary.com/dyqsqg7pk/image/upload/v1732105018/12f585f9c56d4f30_r9l0vi.png);
+//     background-size: 100%;
+//   }
 
-  > button:nth-of-type(1) {
-    background-position: 0 -100%;
-  }
+//   > button:nth-of-type(1) {
+//     background-position: 0 -100%;
+//   }
 
-  > button:nth-of-type(2){
-    background-position: 0  0;
-  }
+//   > button:nth-of-type(2){
+//     background-position: 0  0;
+//   }
 
-  > button:nth-of-type(3){
-    background-position: 0 -300%;
-  }
+//   > button:nth-of-type(3){
+//     background-position: 0 -300%;
+//   }
 
-  > button:nth-of-type(4){
-    background-position: 0 -400%;
-  }
-`;
+//   > button:nth-of-type(4){
+//     background-position: 0 -400%;
+//   }
+// `;
 
-export const ContainerFavoriteQuantity = styled.div`
-  display: flex;
-  align-items: center;
-  line-height: 1.1;
+// export const ContainerFavoriteQuantity = styled.div`
+//   display: flex;
+//   align-items: center;
+//   line-height: 1.1;
 
-  >span {
-    font-size: 18px;
-    width: 100px;
-    text-align: center;
-  }
-`;
+//   >span {
+//     font-size: 18px;
+//     width: 100px;
+//     text-align: center;
+//   }
+// `;
 
 export const ContainerProductFlashSaleDescription = styled.div`
   display: flex;
@@ -233,26 +232,27 @@ export const ContainerStarImg = styled.div`
   width: 14px;
 `;
 
-export const ContainerImageProduct = styled.div`
-  display: flex;
-  width: 450px;
-  position: relative;
+// export const ContainerImageProduct = styled.div`
+//   display: flex;
+//   width: 450px;
+//   position: relative;
+//   margin-bottom: 20px;
 
-  > img:nth-of-type(1){
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
+//   > img:nth-of-type(1){
+//     width: 100%;
+//     height: auto;
+//     object-fit: cover;
+//   }
 
-  > img:nth-of-type(2) {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-  }
-`;
+//   > img:nth-of-type(2) {
+//     width: 100%;
+//     height: auto;
+//     object-fit: cover;
+//     position: absolute;
+//     bottom: 0;
+//     left: 0;
+//   }
+// `;
 
 export const SpanWhiteStripe = styled.div`
   margin-right: 15px;
@@ -771,3 +771,4 @@ export const ContainerSvgArrowTop = styled.div`
     transform: rotate(180deg);
   }
 `;
+
