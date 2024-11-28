@@ -3,7 +3,6 @@ import * as Styled from './styled';
 import { useEffect, useRef, useState } from 'react';
 import { ObjUser } from '../../InterfaceAll/IObjUser/IObjUser';
 import { Url } from '../../../Utils/Url';
-import { IProductFlashDeals } from '../../InterfaceAll/IProduct/IProductFlashDeals/IProductFlashDeals';
 import HeaderMain from '../../HeaderComponents/HeaderMain/HeaderMain';
 import { GetUserFromLocalStorage } from '../../LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
 import { ObjTimeFleshOffer } from '../../HomeBodyComponents/ProductFlashDeals/ProductFlashDeals';
@@ -15,6 +14,7 @@ import ProductFlashOffer from '../ProductFlashOffer/ProductFlashOffer';
 import FooterForFlashOffer from '../FooterForFlashOfferComponents/FooterForFlashOffer/FooterForFlashOffer';
 import FooterShopee from '../../FooterShopeeComponents/FooterShopee/FooterShopee';
 import SvgArrowBottomFlashSale from '../../Svg/SvgArrowBottomFlashSale/SvgArrowBottomFlashSale';
+import { FlashSaleCountdownFunc } from '../../FlashSaleFunctions/FlashSaleCountdownFunc';
 
 export interface GetAllProductHourProps {
   altValue: string;
@@ -28,13 +28,13 @@ export interface GetAllProductHourProps {
 }
 
 const FlashSale = () => {
-  const [allProductFlashDeals, setAllProductFlashDeals] = useState<IProductFlashDeals[] | null>(
-    null
-  );
-  const local = useLocation();
-  const nav = useNavigate();
   const [objTimeFlashDeals, setObjTimeFlashDeals] = useState<ObjTimeFleshOffer | null>(null);
   const [objUser, setObjUser] = useState<ObjUser | null>(null);
+
+  const [timeForCountdown, setTimeForCountdown] = useState<Date | null>(null);
+
+  const local = useLocation();
+  const nav = useNavigate();
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
@@ -60,14 +60,11 @@ const FlashSale = () => {
     // getProductOfferFlashAll(objUser.user);
   }, []);
 
-  const functionGetTheValueTimeFleshOffer = (hours: number, minutes: number, seconds: number) => {
-    const obj: ObjTimeFleshOffer = {
-      hours,
-      minutes,
-      seconds,
-    };
+  const functionGetTheValueTimeFleshOffer = (time: Date) => {
+    setTimeForCountdown(time);
+    let flashSaleCountdown = FlashSaleCountdownFunc(time);
 
-    setObjTimeFlashDeals(obj);
+    setObjTimeFlashDeals(flashSaleCountdown);
   };
 
   const [objClickedCategory, setObjClickedCategory] = useState(1);
@@ -366,11 +363,11 @@ const FlashSale = () => {
     }
   };
 
-  const [passedContainerLightningOffer, setPassedContainerLightningOffer] = useState(false);
+  // const [passedContainerLightningOffer, setPassedContainerLightningOffer] = useState(false);
 
-  const getPassedContainerLightningOffer = (value: boolean) => {
-    setPassedContainerLightningOffer(value);
-  };
+  // const getPassedContainerLightningOffer = (value: boolean) => {
+  //   setPassedContainerLightningOffer(value);
+  // };
 
   return (
     <Styled.ContainerMain>
@@ -382,14 +379,12 @@ const FlashSale = () => {
               hours={objTimeFlashDeals.hours}
               minutes={objTimeFlashDeals.minutes}
               seconds={objTimeFlashDeals.seconds}
-              passedContainerLightningOffer={passedContainerLightningOffer}
             />
           )}
 
           <FleshOfferEveryDayAndHours
             functionGetTheValueTimeFleshOffer={functionGetTheValueTimeFleshOffer}
             getAllHoursFleshOffers={getAllHoursFleshOffers}
-            getPassedContainerLightningOffer={getPassedContainerLightningOffer}
           />
 
           <Styled.ContainerCategoryProduct>
@@ -430,7 +425,10 @@ const FlashSale = () => {
             </Styled.ContainerItensMoreOfferFlesh>
           )}
 
-          <ProductFlashOffer getAllProductHourProps={getAllProductHourProps} objUser={objUser} />
+          <ProductFlashOffer
+            getAllProductHourProps={getAllProductHourProps}
+            timeForCountdown={timeForCountdown}
+          />
 
           <FooterForFlashOffer functionGetMoreProductPaginate={functionGetMoreProductPaginate} />
           <FooterShopee />

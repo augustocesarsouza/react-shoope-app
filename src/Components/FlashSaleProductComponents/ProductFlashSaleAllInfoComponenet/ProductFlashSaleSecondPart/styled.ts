@@ -765,3 +765,17 @@ export const ContainerSvgArrowTop = styled.div`
     transform: rotate(180deg);
   }
 `;
+
+interface ContainerSvgArrowShippingProps {
+  $wasClickContainerLocationUser: boolean;
+}
+// svgArrowBottom.style.rotate = svgArrowBottom.style.rotate === '180deg' ? '0deg' : '180deg';
+export const ContainerSvgArrowShipping = styled.div<ContainerSvgArrowShippingProps>`
+  display: flex;
+
+  >svg {
+    width: 12px;
+    transform: rotate(180deg);
+    transform: ${props => props.$wasClickContainerLocationUser ? "rotate(0deg)" : "rotate(180deg)"};
+  }
+`;

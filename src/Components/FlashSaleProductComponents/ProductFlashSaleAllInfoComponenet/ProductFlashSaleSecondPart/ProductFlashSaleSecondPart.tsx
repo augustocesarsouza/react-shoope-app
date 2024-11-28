@@ -16,6 +16,12 @@ import {
 } from '../../ProductFlashSaleAllInfo/ProductFlashSaleAllInfo';
 import Inputmask from 'inputmask';
 import AddressSvg from '../../../Svg/AddressSvg/AddressSvg';
+import {
+  FlashSaleCountdown,
+  FlashSaleCountdownFunc,
+} from '../../../FlashSaleFunctions/FlashSaleCountdownFunc';
+import { GetCountdonwTimeFromLocalStorage } from '../../../FlashSaleFunctions/GetCountdonwTimeFromLocalStorage';
+import FlashSaleCountdownAfterClickedProduct from '../FlashSaleCountdown/FlashSaleCountdown';
 
 interface ProductFlashSaleSecondPartProps {
   productOptionImageColor: ProductOptionImageProps[];
@@ -250,18 +256,10 @@ const ProductFlashSaleSecondPart = ({
 
   const ContainerLocationUserRef = useRef<HTMLDivElement | null>(null);
   const InputCepRef = useRef<HTMLInputElement | null>(null);
-  const [showCepContainer, setShowCepContainer] = useState(false);
+
   const [errorCep, setErrorCep] = useState(false);
   const [addressUserFound, setAddressUserFound] = useState<AddressUserFoundProps | null>(null);
   const ButtonConfirmRef = useRef<HTMLButtonElement | null>(null);
-
-  const onClickContainerLocationUser = () => {
-    if (ContainerLocationUserRef.current === null) return;
-
-    let svgArrowBottom = ContainerLocationUserRef.current.lastChild as SVGSVGElement;
-    svgArrowBottom.style.rotate = svgArrowBottom.style.rotate === '180deg' ? '0deg' : '180deg';
-    setShowCepContainer(svgArrowBottom.style.rotate === '180deg');
-  };
 
   const onChangeInputCep = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let cep = e.target.value;
@@ -297,7 +295,21 @@ const ProductFlashSaleSecondPart = ({
     }
   };
 
+  const [flashSaleCountdown, setFlashSaleCountdown] = useState<FlashSaleCountdown | null>(null);
+  const [showCepContainer, setShowCepContainer] = useState(false);
+
   useEffect(() => {
+    let countdown = GetCountdonwTimeFromLocalStorage();
+
+    let timeForCountdown = countdown.countdowntime;
+
+    if (timeForCountdown === null) return;
+
+    let dateParse = new Date(timeForCountdown);
+
+    let flashSaleCountdown = FlashSaleCountdownFunc(dateParse);
+    setFlashSaleCountdown(flashSaleCountdown);
+
     if (showCepContainer) {
       // let inputCepUser = document.getElementById('input-cep-user');
       let inputCepUser = InputCepRef.current;
@@ -332,11 +344,90 @@ const ProductFlashSaleSecondPart = ({
       let svgArrowBottom = ContainerLocationUserRef.current.lastChild as SVGSVGElement;
       svgArrowBottom.style.rotate = svgArrowBottom.style.rotate === '180deg' ? '0deg' : '180deg';
       setAddressUserFound(null);
-
-      // Continuar fazendo o bagui quando clica no "CPF" e ele abre modal quando clicar fora dele é para fechar e depois fazer
-      //R$199,58 R$189,58
     }
   };
+
+  const onMouseEnterContainerShippingPrices = () => {};
+
+  const onMouseLeaveContainerShippingPrices = () => {};
+
+  const [showContainerInputCep, setShowContainerInputCep] = useState(false);
+  const [notEnterBody, setNotEnterBody] = useState(false);
+
+  const onMouseEnterContainerCepAllInfo = () => {
+    setShowContainerInputCep(false);
+    setNotEnterBody(true);
+  };
+
+  const onMouseLeaveContainerCepAllInfo = () => {
+    setShowContainerInputCep(true);
+    setNotEnterBody(false);
+  };
+
+  const onClickBody = (showContainerInputCepFunc: boolean) => {
+    if (showContainerInputCepFunc) {
+      setShowContainerInputCep(false);
+      setShowCepContainer(false);
+
+      if (ContainerLocationUserRef.current === null) return;
+
+      let svgArrowBottom = ContainerLocationUserRef.current.lastChild as SVGSVGElement;
+      svgArrowBottom.style.rotate = svgArrowBottom.style.rotate === '180deg' ? '0deg' : '180deg';
+      setAddressUserFound(null);
+    }
+  };
+
+  const [enterContainerLocationUser, setEnterContainerLocationUser] = useState(false);
+
+  useEffect(() => {
+    if (notEnterBody) return;
+
+    const handleBodyClick = () => onClickBody(showContainerInputCep);
+
+    document.body.addEventListener('click', handleBodyClick);
+
+    return () => {
+      document.body.removeEventListener('click', handleBodyClick);
+    };
+  }, [showContainerInputCep, notEnterBody]);
+
+  const [wasClickContainerLocationUser, setWasClickContainerLocationUser] = useState(false);
+
+  const onClickContainerLocationUser = () => {
+    if (ContainerLocationUserRef.current === null) return;
+    setWasClickContainerLocationUser(true);
+
+    let svgArrowBottom = ContainerLocationUserRef.current.lastChild as SVGSVGElement;
+    svgArrowBottom.style.rotate = svgArrowBottom.style.rotate === '180deg' ? '0deg' : '180deg';
+
+    setShowCepContainer(svgArrowBottom.style.rotate === '180deg');
+  };
+
+  const onMouseEnterContainerLocationUser = () => {
+    setEnterContainerLocationUser(true);
+    setNotEnterBody(true);
+  };
+
+  const onMouseLeaveContainerLocationUser = () => {
+    if (ContainerLocationUserRef.current === null) return;
+
+    setNotEnterBody(false);
+
+    if (enterContainerLocationUser && wasClickContainerLocationUser) {
+      setShowContainerInputCep(false);
+      setEnterContainerLocationUser(false);
+      setWasClickContainerLocationUser(false);
+    }
+
+    let svgArrowBottom = ContainerLocationUserRef.current.lastChild as SVGSVGElement;
+
+    if (wasClickContainerLocationUser && svgArrowBottom.style.rotate === '180deg') {
+      setShowContainerInputCep(true);
+    }
+  };
+
+  // fazer amanha "R$199,58 R$189,58", e separar o "Frete" para outro Component, separado todo esses "onMouseEnter" "onMouseLeave" que está envolvido
+  // para colocar cep e tal
 
   return (
     <Styled.ContainerProductFlashSaleDescription>
@@ -380,6 +471,14 @@ const ProductFlashSaleSecondPart = ({
           <Styled.Span>Denunciar</Styled.Span>
         </Styled.ContainerReport>
       </Styled.ContainerRateAvaliation>
+
+      {flashSaleCountdown && (
+        <FlashSaleCountdownAfterClickedProduct
+          hours={flashSaleCountdown.hours}
+          minutes={flashSaleCountdown.minutes}
+          seconds={flashSaleCountdown.seconds}
+        />
+      )}
 
       <Styled.ContainerPrinceProductAndMoreInfo>
         <Styled.ContainerPriceProduct>
@@ -439,6 +538,8 @@ const ProductFlashSaleSecondPart = ({
                 <Styled.Span>Frete para</Styled.Span>
                 <Styled.ContainerLocationUser
                   onClick={onClickContainerLocationUser}
+                  onMouseEnter={onMouseEnterContainerLocationUser}
+                  onMouseLeave={onMouseLeaveContainerLocationUser}
                   ref={ContainerLocationUserRef}
                   $spanAddress={spanAddress}
                 >
@@ -450,7 +551,10 @@ const ProductFlashSaleSecondPart = ({
               </Styled.ContainerShippingDescriptionInner>
               <Styled.ContainerShippingDescriptionInner $index={2}>
                 <Styled.Span>Frete</Styled.Span>
-                <Styled.ContainerShippingPrices>
+                <Styled.ContainerShippingPrices
+                  onMouseEnter={onMouseEnterContainerShippingPrices}
+                  onMouseLeave={onMouseLeaveContainerShippingPrices}
+                >
                   <Styled.Span
                     ref={spanPriceFullShipping}
                     onMouseEnter={onMouseEnterSpanFullPrice}
@@ -482,7 +586,10 @@ const ProductFlashSaleSecondPart = ({
           </Styled.ContainerShippingDescriptionMain>
 
           {showCepContainer && (
-            <Styled.ContainerCepAllInfo>
+            <Styled.ContainerCepAllInfo
+              onMouseEnter={onMouseEnterContainerCepAllInfo}
+              onMouseLeave={onMouseLeaveContainerCepAllInfo}
+            >
               <Styled.ContainerCepAllInfo2>
                 <Styled.Container>
                   <Styled.InputCep

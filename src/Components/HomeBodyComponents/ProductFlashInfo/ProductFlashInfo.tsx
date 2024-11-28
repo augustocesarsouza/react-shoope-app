@@ -8,10 +8,9 @@ import { IProductFlashDeals } from '../../InterfaceAll/IProduct/IProductFlashDea
 interface ProductFlashInfoProps {
   product: IProductFlashDeals;
   userLogged: ObjUser;
-  timeEnd: string;
 }
 
-const ProductFlashInfo = ({ product, userLogged, timeEnd }: ProductFlashInfoProps) => {
+const ProductFlashInfo = ({ product, userLogged }: ProductFlashInfoProps) => {
   const [price, setPrice] = useState('0,00');
   const nav = useNavigate();
 
@@ -21,7 +20,7 @@ const ProductFlashInfo = ({ product, userLogged, timeEnd }: ProductFlashInfoProp
   }, [product]);
 
   const onClickContainerProductFlashSale = () => {
-    nav('/flash_sale', { state: { user: userLogged, timeEnd: timeEnd } });
+    nav('/flash_sale', { state: { user: userLogged } });
 
     // nav('/user/account/profile', { state: { user: userObjState } });
   };
