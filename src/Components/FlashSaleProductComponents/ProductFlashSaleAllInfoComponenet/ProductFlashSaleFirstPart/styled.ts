@@ -207,8 +207,9 @@ export const ContainerModalAfterClicked = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   background-color: #00000042;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
@@ -218,5 +219,71 @@ export const ContainerModalAfterClicked = styled.div`
   >div {
     display: flex;
     background-color: #fff;
+    width: 853px;
+    height: 540px;
+  }
+
+  >svg {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #fff;
+    cursor: pointer;
+  }
+`;
+
+export const ContainerFirstImgThatWasClicked = styled.div`
+  width: 516px;
+  padding: 12px 0px 12px 12px;
+
+  >div {
+    display: flex;
+  }
+
+  >div>img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+`;
+
+export const ContainerSecondPartAllImgs = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 308px;
+  padding: 40px 0px 30px 12px;
+
+  >h1 {
+    font-size: 17px;
+  }
+`;
+
+export const ContainerAllImgAll = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+`;
+
+interface ContainerImgAllInnerModelProps {
+  $istrue: boolean;
+  $idImg: string;
+  $whichIdWasClciked: string;
+}
+
+export const ContainerImgAllInnerModel = styled.div<ContainerImgAllInnerModelProps>`
+  display: ${props => props.$istrue ? "flex" : "none"};
+
+  >img {
+    width: 80px;
+    height: auto;
+    object-fit: cover;
+    cursor: pointer;
+
+    border: ${props => props.$whichIdWasClciked === props.$idImg && "2px solid red"};
+  
+    &:hover {
+      opacity: 0.7;
+    }
   }
 `;

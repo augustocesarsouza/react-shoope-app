@@ -6,6 +6,9 @@ import {
   GetFlashSaleProductProps,
   ProductOptionImageProps,
 } from '../../ProductFlashSaleAllInfo/ProductFlashSaleAllInfo';
+import SvgExit from '../../../Svg/SvgExit/SvgExit';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 interface ProductFlashSaleFirstPartProps {
   productOptionImageAll: ProductOptionImageProps[];
@@ -71,7 +74,10 @@ const ProductFlashSaleFirstPart = ({
   const [indexImg, setIndexImg] = useState(0);
   const [productImgMain, setProductImgMain] = useState<ProductOptionImageProps | null>(null);
 
-  const onClickImgsProductPartBottom = () => {};
+  const onClickImgsProductPartBottom = (productImg: ProductOptionImageProps) => {
+    setClickImgProduct(productImg);
+    document.body.style.overflowY = 'hidden';
+  };
 
   const onMouseEnterImgProductBottom = (i: number, productImg: ProductOptionImageProps) => {
     setIndexImg(i);
@@ -84,6 +90,8 @@ const ProductFlashSaleFirstPart = ({
 
   const onClickClickImgProduct = (productImgMain: ProductOptionImageProps) => {
     setClickImgProduct(productImgMain);
+
+    document.body.style.overflowY = 'hidden';
   };
 
   useEffect(() => {
@@ -98,7 +106,17 @@ const ProductFlashSaleFirstPart = ({
     setProductImgMain(obj1ProductMain);
   }, [getFlashSaleProduct]);
 
-  // CONTINUAR FAZER DEPOIS DE CLICAR COLOCARR TODOS AS IMAGEN E A IMAGEM QUE FOI CLIADO
+  const onClickImgAfterClicked = (el: ProductOptionImageProps) => {
+    setClickImgProduct(el);
+  };
+
+  const onClickExitContainerModal = () => {
+    setClickImgProduct(null);
+    document.body.style.overflowY = 'auto';
+  };
+
+  // SEPARAR ESSES CONTAINER DE IMAGENS, MODAL, E TAL E FALTA MAIS UMA COISA AQUI 'ContainerModalAfterClicked'
+
   return (
     <Styled.ContainerImageProductAndAllImagePartBottom>
       <Styled.ContainerImageProduct>
@@ -120,8 +138,37 @@ const ProductFlashSaleFirstPart = ({
 
       {clickImgProduct && (
         <Styled.ContainerModalAfterClicked>
+          <FontAwesomeIcon icon={faXmark} onClick={onClickExitContainerModal} />
           <Styled.Container>
-            <Styled.H1>Flutando</Styled.H1>
+            <Styled.ContainerFirstImgThatWasClicked>
+              <Styled.Container>
+                <Styled.Img src={clickImgProduct.imageUrl} alt={clickImgProduct.imgAlt} />
+              </Styled.Container>
+            </Styled.ContainerFirstImgThatWasClicked>
+
+            <Styled.ContainerSecondPartAllImgs>
+              <Styled.H1>
+                {getFlashSaleProduct.productsOfferFlashDTO.title.substring(0, 50) + '...'}
+              </Styled.H1>
+
+              <Styled.ContainerAllImgAll>
+                {productOptionImageAll &&
+                  productOptionImageAll.map((el) => (
+                    <Styled.ContainerImgAllInnerModel
+                      id={el.id}
+                      $istrue={el.optionType.length <= 0}
+                      $idImg={el.id}
+                      $whichIdWasClciked={clickImgProduct.id}
+                    >
+                      <Styled.Img
+                        src={el.imageUrl}
+                        alt={el.imgAlt}
+                        onClick={() => onClickImgAfterClicked(el)}
+                      />
+                    </Styled.ContainerImgAllInnerModel>
+                  ))}
+              </Styled.ContainerAllImgAll>
+            </Styled.ContainerSecondPartAllImgs>
           </Styled.Container>
         </Styled.ContainerModalAfterClicked>
       )}
@@ -142,7 +189,7 @@ const ProductFlashSaleFirstPart = ({
                     alt={productImg.imgAlt}
                     $indexImg={indexImg}
                     $index={i}
-                    onClick={() => onClickImgsProductPartBottom()}
+                    onClick={() => onClickImgsProductPartBottom(productImg)}
                     onMouseEnter={() => onMouseEnterImgProductBottom(i, productImg)}
                     onMouseLeave={() => onMouseLeaveImgProductBottom()}
                   />
