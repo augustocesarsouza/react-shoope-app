@@ -18,6 +18,9 @@ export const Button = styled.button`
 export const Container = styled.div`
 `;
 
+export const Strong = styled.strong`
+`;
+
 export const ContainerShippingMain = styled.div`
   display: flex;
   align-items: unset;
@@ -221,5 +224,62 @@ export const ContainerAddressUser = styled.div`
   >span:nth-of-type(1){
     font-size: 13px;
     color: rgba(0, 0, 0, 0.65);
+  }
+`;
+
+export const ModalShippingMain = styled.div`
+  display: flex;
+  justify-content: space-between;
+  z-index: 10;
+  position: absolute;
+  right: 136px;
+  top: 50px;
+  background-color: white;
+  padding: 24px;
+  border-radius: 3px;
+  border: 1px solid #00000024;
+  width: 510px;
+  height: 115px;
+`;
+
+export const ContainerShippingFirst = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  >h1:nth-of-type(1){
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  >span:nth-of-type(1){
+    font-size: 13px;
+  }
+
+  >span:nth-of-type(2){
+    font-size: 14px;
+  }
+`;
+
+export const ContainerShippingSecond = styled.div`
+  display: flex;
+  cursor: pointer;
+
+  >span:nth-of-type(1){
+    font-size: 15px;
+    margin-right: 7px;
+    color: rgb(146, 146, 146);
+    text-decoration: line-through;
+    /* font-weight: 500; */
+
+    &:hover {
+      color: red;
+    }
+  }
+
+  >span:nth-of-type(2){
+    font-size: 15px;
+    font-weight: 500;
   }
 `;

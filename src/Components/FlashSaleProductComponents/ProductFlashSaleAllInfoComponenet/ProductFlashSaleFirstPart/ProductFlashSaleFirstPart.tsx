@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SvgArrowRight from '../../../Svg/SvgArrowRight/SvgArrowRight';
 import * as Styled from './styled';
 import HeartRed from '../../../Svg/HeartRed/HeartRed';
@@ -68,13 +68,47 @@ const ProductFlashSaleFirstPart = ({
     }
   };
 
+  const [indexImg, setIndexImg] = useState(0);
+  const [productImgMain, setProductImgMain] = useState<ProductOptionImageProps | null>(null);
+
+  const onClickImgsProductPartBottom = () => {};
+
+  const onMouseEnterImgProductBottom = (i: number, productImg: ProductOptionImageProps) => {
+    setIndexImg(i);
+    setProductImgMain(productImg);
+  };
+
+  const onMouseLeaveImgProductBottom = () => {};
+
+  const [clickImgProduct, setClickImgProduct] = useState<ProductOptionImageProps | null>(null);
+
+  const onClickClickImgProduct = (productImgMain: ProductOptionImageProps) => {
+    setClickImgProduct(productImgMain);
+  };
+
+  useEffect(() => {
+    const obj1ProductMain = {
+      id: getFlashSaleProduct.productsOfferFlashDTO.id,
+      imageUrl: getFlashSaleProduct.productsOfferFlashDTO.imgProduct,
+      imgAlt: getFlashSaleProduct.productsOfferFlashDTO.altValue,
+      optionType: '',
+      titleOptionType: '',
+    };
+
+    setProductImgMain(obj1ProductMain);
+  }, [getFlashSaleProduct]);
+
+  // CONTINUAR FAZER DEPOIS DE CLICAR COLOCARR TODOS AS IMAGEN E A IMAGEM QUE FOI CLIADO
   return (
     <Styled.ContainerImageProductAndAllImagePartBottom>
       <Styled.ContainerImageProduct>
-        <Styled.Img
-          src={getFlashSaleProduct.productsOfferFlashDTO.imgProduct}
-          alt={getFlashSaleProduct.productsOfferFlashDTO.altValue}
-        />
+        {productImgMain && (
+          <Styled.Img
+            src={productImgMain.imageUrl}
+            alt={productImgMain.imgAlt}
+            onClick={() => onClickClickImgProduct(productImgMain)}
+          />
+        )}
 
         {getFlashSaleProduct.productsOfferFlashDTO.imgPartBottom && (
           <Styled.Img
@@ -84,6 +118,14 @@ const ProductFlashSaleFirstPart = ({
         )}
       </Styled.ContainerImageProduct>
 
+      {clickImgProduct && (
+        <Styled.ContainerModalAfterClicked>
+          <Styled.Container>
+            <Styled.H1>Flutando</Styled.H1>
+          </Styled.Container>
+        </Styled.ContainerModalAfterClicked>
+      )}
+
       {productOptionImageAll && (
         <Styled.ContainerCaroselProductFlashSaleAllInfo>
           <Styled.ContainerArrowLeft className="container-arrow-left-container-all-image-part-bottom">
@@ -92,8 +134,20 @@ const ProductFlashSaleFirstPart = ({
             </Styled.Container>
           </Styled.ContainerArrowLeft>
           <Styled.ContainerAllImagePartBottom className="carousel-custom-container-all-image-part-bottom">
-            {productOptionImageAll.map((productImg) => (
-              <Styled.Img key={productImg.id} src={productImg.imageUrl} alt={productImg.imgAlt} />
+            {productOptionImageAll.map((productImg, i) => (
+              <Styled.Container key={productImg.id}>
+                {productImg.optionType.length <= 0 && (
+                  <Styled.ImgProductBottom
+                    src={productImg.imageUrl}
+                    alt={productImg.imgAlt}
+                    $indexImg={indexImg}
+                    $index={i}
+                    onClick={() => onClickImgsProductPartBottom()}
+                    onMouseEnter={() => onMouseEnterImgProductBottom(i, productImg)}
+                    onMouseLeave={() => onMouseLeaveImgProductBottom()}
+                  />
+                )}
+              </Styled.Container>
             ))}
           </Styled.ContainerAllImagePartBottom>
           <Styled.ContainerArrowRight className="container-arrow-right-container-all-image-part-bottom">

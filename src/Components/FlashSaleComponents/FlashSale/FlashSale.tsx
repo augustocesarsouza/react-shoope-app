@@ -363,12 +363,6 @@ const FlashSale = () => {
     }
   };
 
-  // const [passedContainerLightningOffer, setPassedContainerLightningOffer] = useState(false);
-
-  // const getPassedContainerLightningOffer = (value: boolean) => {
-  //   setPassedContainerLightningOffer(value);
-  // };
-
   return (
     <Styled.ContainerMain>
       <HeaderMain></HeaderMain>

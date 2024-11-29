@@ -1,7 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ShippingSvg from '../../../Svg/ShippingSvg/ShippingSvg';
 import SvgArrowRight from '../../../Svg/SvgArrowRight/SvgArrowRight';
-import SvgArrowTop from '../../../Svg/SvgArrowTop/SvgArrowTop';
 import SvgQuestionMark from '../../../Svg/SvgQuestionMark/SvgQuestionMark';
 import * as Styled from './styled';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -304,6 +302,7 @@ const ProductFlashSaleSecondPart = ({
             </Styled.ContainerInsuranceDescription>
           </Styled.ContainerCoinsInsuranceColorMain>
         )}
+
         <FlashSaleShipping />
 
         {productOptionImageColor &&

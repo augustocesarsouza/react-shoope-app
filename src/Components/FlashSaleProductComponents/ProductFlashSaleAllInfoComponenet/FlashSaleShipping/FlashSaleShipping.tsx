@@ -28,12 +28,10 @@ const FlashSaleShipping = ({}: FlashSaleShippingProps) => {
   const ButtonConfirmRef = useRef<HTMLButtonElement | null>(null);
 
   const InputCepRef = useRef<HTMLInputElement | null>(null);
-
   const [showCepContainer, setShowCepContainer] = useState(false);
 
   useEffect(() => {
     if (showCepContainer) {
-      // let inputCepUser = document.getElementById('input-cep-user');
       let inputCepUser = InputCepRef.current;
 
       if (inputCepUser) {
@@ -142,6 +140,7 @@ const FlashSaleShipping = ({}: FlashSaleShippingProps) => {
   const onClickInputCep = () => {
     if (addressUserFound) {
       let span = `${addressUserFound.cep}, ${addressUserFound.localidade},${addressUserFound.estado}`;
+
       setSpanAddress(span);
       setShowCepContainer(false);
 
@@ -153,9 +152,15 @@ const FlashSaleShipping = ({}: FlashSaleShippingProps) => {
     }
   };
 
-  const onMouseEnterContainerShippingPrices = () => {};
+  const [showModalPriceShipping, setShowModalPriceShipping] = useState(false);
 
-  const onMouseLeaveContainerShippingPrices = () => {};
+  const onMouseEnterContainerShippingPrices = () => {
+    setShowModalPriceShipping(true);
+  };
+
+  const onMouseLeaveContainerShippingPrices = () => {
+    setShowModalPriceShipping(false);
+  };
 
   const [showContainerInputCep, setShowContainerInputCep] = useState(false);
   const [notEnterBody, setNotEnterBody] = useState(false);
@@ -325,6 +330,23 @@ const FlashSaleShipping = ({}: FlashSaleShippingProps) => {
 
           <Styled.Span onClick={onClickIdunnoCep}>Não sei meu CEP</Styled.Span>
         </Styled.ContainerCepAllInfo>
+      )}
+
+      {showModalPriceShipping && (
+        <Styled.ModalShippingMain>
+          <Styled.ContainerShippingFirst>
+            <Styled.H1>Logística do vendedor</Styled.H1>
+            <Styled.Span>Receba entre 5 e 9/dez</Styled.Span>
+            <Styled.Span>
+              até <Styled.Strong>R$10,00 de desconto</Styled.Strong> no frete com cupom
+            </Styled.Span>
+          </Styled.ContainerShippingFirst>
+
+          <Styled.ContainerShippingSecond>
+            <Styled.Span>R$199,58</Styled.Span>
+            <Styled.Span>R$189,58</Styled.Span>
+          </Styled.ContainerShippingSecond>
+        </Styled.ModalShippingMain>
       )}
     </Styled.ContainerShippingMain>
   );

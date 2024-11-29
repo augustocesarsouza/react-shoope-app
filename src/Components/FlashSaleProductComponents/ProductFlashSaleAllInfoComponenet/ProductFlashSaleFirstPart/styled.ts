@@ -35,6 +35,7 @@ export const ContainerImageProduct = styled.div`
     width: 100%;
     height: auto;
     object-fit: cover;
+    cursor: pointer;
   }
 
   > img:nth-of-type(2) {
@@ -68,7 +69,7 @@ export const ContainerArrowLeft = styled.div`
   justify-content: flex-start;
   z-index: 1;
   cursor: pointer;
-  background-color: #42414126;
+  background-color: #4241415c;
 
   >div {
     /* padding: 10px; */
@@ -95,7 +96,7 @@ export const ContainerArrowRight = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #42414126;
+  background-color: #4241415c;
   /* border-radius: 50%; */
   cursor: pointer;
   
@@ -118,13 +119,30 @@ export const ContainerAllImagePartBottom = styled.div`
   gap: 0px;
   overflow-x: hidden;
 
-  >img {
-    width: 100px;
-    height: auto;
-    object-fit: cover;
-    margin-right: 5px;
+  >div {
+    display: flex;
   }
 `;
+
+interface ImgProductBottomProps {
+  $indexImg: number;
+  $index: number;
+}
+
+export const ImgProductBottom = styled.img<ImgProductBottomProps>`
+  width: 100px;
+  height: auto;
+  object-fit: cover;
+  margin-right: 5px;
+  cursor: pointer;
+
+  border: ${props => props.$index === props.$indexImg && "2px solid red"};
+
+  &:hover {
+    border: 2px solid red;
+  }
+`;
+
 
 export const ContainerToShareMain = styled.div`
   display: flex;
@@ -182,5 +200,23 @@ export const ContainerFavoriteQuantity = styled.div`
     font-size: 18px;
     width: 100px;
     text-align: center;
+  }
+`;
+
+export const ContainerModalAfterClicked = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #00000042;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+
+  >div {
+    display: flex;
+    background-color: #fff;
   }
 `;

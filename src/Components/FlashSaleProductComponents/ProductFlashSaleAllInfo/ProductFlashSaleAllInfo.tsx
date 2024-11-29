@@ -33,6 +33,7 @@ export interface ProductsOfferFlashDTOProps {
   imgProduct: string;
   priceProduct: number;
   title: string;
+  id: string;
 }
 
 export interface ProductOptionImageProps {
@@ -100,7 +101,17 @@ const ProductFlashSaleAllInfo = ({
         setAllTheOptionsThatExists(allTheOptionsThatExists);
       }
 
-      let arrayElement = [];
+      let arrayElement: ProductOptionImageProps[] = [];
+
+      const obj1ProductMain = {
+        id: getFlashSaleProduct.productsOfferFlashDTO.id,
+        imageUrl: getFlashSaleProduct.productsOfferFlashDTO.imgProduct,
+        imgAlt: getFlashSaleProduct.productsOfferFlashDTO.altValue,
+        optionType: '',
+        titleOptionType: '',
+      };
+
+      arrayElement.push(obj1ProductMain);
 
       for (let i = 0; i < getDate.length; i++) {
         arrayElement.push(getDate[i]);
