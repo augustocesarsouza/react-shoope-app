@@ -2,14 +2,17 @@ import { useNavigate } from 'react-router-dom';
 import SvgFlashDeals from '../../Svg/SvgFlashDeals/SvgFlashDeals';
 import { GetAllProductHourProps } from '../FlashSale/FlashSale';
 import * as Styled from './styled';
-import { ObjUser } from '../../InterfaceAll/IObjUser/IObjUser';
+import CryptoJS from 'crypto-js';
 
 interface ProductFlashOfferProps {
   getAllProductHourProps: GetAllProductHourProps[];
-  objUser: ObjUser | null;
+  timeForCountdown: Date | null;
 }
 
-const ProductFlashOffer = ({ getAllProductHourProps, objUser }: ProductFlashOfferProps) => {
+const ProductFlashOffer = ({
+  getAllProductHourProps,
+  timeForCountdown,
+}: ProductFlashOfferProps) => {
   const nav = useNavigate();
 
   const functionForPriceOriginal = (obj: GetAllProductHourProps): string => {
@@ -40,9 +43,14 @@ const ProductFlashOffer = ({ getAllProductHourProps, objUser }: ProductFlashOffe
   };
 
   const onClickContainerProductFlashOffer = (id: string) => {
+    const secretKey = import.meta.env.VITE__APP_SECRET_KEY_COUNTDOWN;
+
+    if (secretKey === undefined || timeForCountdown === null) return;
+
+    const encrypted = CryptoJS.AES.encrypt(JSON.stringify(timeForCountdown), secretKey).toString();
+    localStorage.setItem('countdowntime', encrypted);
+
     window.open(`/flash_sale_product/${id}`, '_blank');
-    // nav('/flash_sale_product');
-    console.log('click');
   };
 
   return (

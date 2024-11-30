@@ -4,10 +4,8 @@ import SvgArrowRight from '../../Svg/SvgArrowRight/SvgArrowRight';
 import { useNavigate } from 'react-router-dom';
 
 interface FleshOfferEveryDayAndHoursProps {
-  // functionGetTheValueTimeFleshOffer: (timeEnd: string, userLogged: ObjUser) => void;
-  functionGetTheValueTimeFleshOffer: (hours: number, minutes: number, seconds: number) => void;
+  functionGetTheValueTimeFleshOffer: (time: Date) => void;
   getAllHoursFleshOffers: (allHoursFleshOffers: ObjTime) => void;
-  getPassedContainerLightningOffer: (value: boolean) => void;
 }
 
 export interface ObjTime {
@@ -24,7 +22,6 @@ export interface TimeLeftProps {
 const FleshOfferEveryDayAndHours = ({
   functionGetTheValueTimeFleshOffer,
   getAllHoursFleshOffers,
-  getPassedContainerLightningOffer,
 }: FleshOfferEveryDayAndHoursProps) => {
   const [numberContainer, setNumberContainer] = useState(0);
   const RefContainerArrowLeft = useRef<HTMLDivElement | null>(null);
@@ -180,16 +177,8 @@ const FleshOfferEveryDayAndHours = ({
 
     objsHoursFleshOffersFilter[0].inProgress = true;
 
-    const diffInMilliseconds = objsHoursFleshOffersFilter[1].time.getTime() - dateNow.getTime(); // diferença em milissegundos
-    const diffInMinutes = Math.floor(diffInMilliseconds / (1000 * 60)); // converter para minutos
-    const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
-    const hours = Math.floor(diffInMinutes / 60);
-    const minutes = diffInMinutes % 60;
-    const seconds = diffInSeconds % 60;
+    functionGetTheValueTimeFleshOffer(objsHoursFleshOffersFilter[1].time);
 
-    functionGetTheValueTimeFleshOffer(hours, minutes, seconds);
-
-    // console.log(objsHoursFleshOffersFilter);
     setAllHoursFleshOffers(objsHoursFleshOffersFilter);
 
     let elementInProgress: ObjTime | null = null;

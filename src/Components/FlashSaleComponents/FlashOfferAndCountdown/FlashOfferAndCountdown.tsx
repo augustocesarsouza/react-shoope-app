@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Styled from './styled';
 
 interface FlashOfferAndCountdownProps {
   hours: number;
   minutes: number;
   seconds: number;
-  passedContainerLightningOffer: boolean;
 }
 
 interface TimeLeftProps {
@@ -14,12 +13,7 @@ interface TimeLeftProps {
   seconds: number;
 }
 
-const FlashOfferAndCountdown = ({
-  hours,
-  minutes,
-  seconds,
-  passedContainerLightningOffer,
-}: FlashOfferAndCountdownProps) => {
+const FlashOfferAndCountdown = ({ hours, minutes, seconds }: FlashOfferAndCountdownProps) => {
   const [totalTimeInMillis] = useState(
     hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000
   );
@@ -60,16 +54,9 @@ const FlashOfferAndCountdown = ({
     }
   }, [timeLeft]);
 
-  useEffect(() => {
-    // console.log(passedContainerLightningOffer);
-  }, [passedContainerLightningOffer]);
-
   return (
     <>
-      <Styled.ContainerFlashDealsAboutPosition
-        className="container-flash-deals-about-position"
-        $isOutOfView={passedContainerLightningOffer}
-      >
+      <Styled.ContainerFlashDealsAboutPosition className="container-flash-deals-about-position">
         <Styled.ContainerFlashDealsMain>
           <Styled.ContainerFlashDealsHeader>
             <Styled.ContainerFlashDealsImg>
@@ -97,10 +84,6 @@ const FlashOfferAndCountdown = ({
       </Styled.ContainerFlashDealsAboutPosition>
 
       <Styled.ContainerDiscoveriesOfTheDayFalse className="container-discoveries-of-the-day-false"></Styled.ContainerDiscoveriesOfTheDayFalse>
-
-      {/* {passedContainerLightningOffer && (
-        <Styled.ContainerDiscoveriesOfTheDayFalse></Styled.ContainerDiscoveriesOfTheDayFalse>
-      )} */}
     </>
   );
 };

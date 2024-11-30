@@ -49,7 +49,6 @@ export const ContainerhoursFleshOffer = styled.div`
   gap: 0px;
   overflow-x: hidden;
   /* padding-left: 25px; */
-  
 `;
 
 interface ContainerEachScheduleProps {

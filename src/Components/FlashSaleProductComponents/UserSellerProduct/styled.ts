@@ -189,6 +189,7 @@ export const ContainerReviewsRateChatResponseStoreDate = styled.div<ContainerRev
     justify-content: space-between;
 
     >span:nth-of-type(1){
+      margin-right: 12px;
       color: rgba(0, 0, 0, 0.4);
     }
 

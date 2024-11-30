@@ -21,19 +21,12 @@ export const Container = styled.div`
 export const ContainerMain = styled.div`
 `;
 
-interface ContainerFlashDealsAboutPositionProps {
-  $isOutOfView: boolean;
-}
-
-export const ContainerFlashDealsAboutPosition = styled.div<ContainerFlashDealsAboutPositionProps>`
+export const ContainerFlashDealsAboutPosition = styled.div`
   display: flex;
   /* position: relative; */
   position: relative;
   width: 100%;
   opacity: 1;
-  /* position: ${props => props.$isOutOfView ? "fixed" : "block"}; */
-  /* width: ${props => props.$isOutOfView ? '1200px' : "100%"}; */
-  /* opacity: ${props => props.$isOutOfView ? 0.9 : 1};  */
   top: 0px;
   z-index: 100;
   background-color: #ffffff;
