@@ -309,8 +309,6 @@ const FlashSale = () => {
   const getAllByPageNumberProductCategory = async (pageNumber: number) => {
     if (objClickedCategory === 0) return;
 
-    // setObjClickedCategory(value);
-
     let tagProduct = itensOfferFlesh[objClickedCategory - 1];
     tagProduct = tagProduct.replace(/ /g, '_');
 
@@ -319,7 +317,7 @@ const FlashSale = () => {
       {
         method: 'GET',
       }
-    );
+    ); // colocar aqui a validação token
 
     if (res.status === 200) {
       const json = await res.json();

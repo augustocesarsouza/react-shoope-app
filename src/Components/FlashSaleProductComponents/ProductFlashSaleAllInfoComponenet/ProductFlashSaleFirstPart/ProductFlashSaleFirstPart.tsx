@@ -6,7 +6,6 @@ import {
   GetFlashSaleProductProps,
   ProductOptionImageProps,
 } from '../../ProductFlashSaleAllInfo/ProductFlashSaleAllInfo';
-import SvgExit from '../../../Svg/SvgExit/SvgExit';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
@@ -21,6 +20,7 @@ const ProductFlashSaleFirstPart = ({
 }: ProductFlashSaleFirstPartProps) => {
   const RefContainerArrowLeft = useRef<HTMLDivElement | null>(null);
   const RefContainerArrowRight = useRef<HTMLDivElement | null>(null);
+  const [clickImgProduct, setClickImgProduct] = useState<ProductOptionImageProps | null>(null);
 
   useEffect(() => {
     if (productOptionImageAll.length <= 0) return;
@@ -59,6 +59,36 @@ const ProductFlashSaleFirstPart = ({
     updateArrowsVisibility();
   }, [productOptionImageAll]);
 
+  const onClickContainerArrowLeftAfterClicked = () => {
+    const index = productOptionImageAll.findIndex((el) => el.id === clickImgProduct?.id);
+    let nextObj = productOptionImageAll[index - 1];
+
+    if (nextObj === undefined || nextObj === null) {
+      nextObj = productOptionImageAll[productOptionImageAll.length - 1];
+    }
+
+    if (nextObj.optionType === 'Color') {
+      nextObj = productOptionImageAll[index - 2];
+    }
+
+    setClickImgProduct(nextObj);
+  };
+
+  const onClickContainerArrowRightAfterClicked = () => {
+    const index = productOptionImageAll.findIndex((el) => el.id === clickImgProduct?.id);
+    let nextObj = productOptionImageAll[index + 1];
+
+    if (nextObj === undefined || nextObj === null) {
+      nextObj = productOptionImageAll[0];
+    }
+
+    if (nextObj.optionType === 'Color') {
+      nextObj = productOptionImageAll[index + 2];
+    }
+
+    setClickImgProduct(nextObj);
+  };
+
   const funcFormatFavoriteQuantity = (favoriteQuantity: number) => {
     if (favoriteQuantity >= 1000) {
       // Divide por 1000 e formata com uma casa decimal
@@ -85,8 +115,6 @@ const ProductFlashSaleFirstPart = ({
   };
 
   const onMouseLeaveImgProductBottom = () => {};
-
-  const [clickImgProduct, setClickImgProduct] = useState<ProductOptionImageProps | null>(null);
 
   const onClickClickImgProduct = (productImgMain: ProductOptionImageProps) => {
     setClickImgProduct(productImgMain);
@@ -115,8 +143,6 @@ const ProductFlashSaleFirstPart = ({
     document.body.style.overflowY = 'auto';
   };
 
-  // SEPARAR ESSES CONTAINER DE IMAGENS, MODAL, E TAL E FALTA MAIS UMA COISA AQUI 'ContainerModalAfterClicked'
-
   return (
     <Styled.ContainerImageProductAndAllImagePartBottom>
       <Styled.ContainerImageProduct>
@@ -141,9 +167,23 @@ const ProductFlashSaleFirstPart = ({
           <FontAwesomeIcon icon={faXmark} onClick={onClickExitContainerModal} />
           <Styled.Container>
             <Styled.ContainerFirstImgThatWasClicked>
+              <Styled.ContainerArrowLeftAfterClicked
+                onClick={onClickContainerArrowLeftAfterClicked}
+              >
+                <Styled.Container>
+                  <SvgArrowRight />
+                </Styled.Container>
+              </Styled.ContainerArrowLeftAfterClicked>
               <Styled.Container>
                 <Styled.Img src={clickImgProduct.imageUrl} alt={clickImgProduct.imgAlt} />
               </Styled.Container>
+              <Styled.ContainerArrowRightAfterClicked
+                onClick={onClickContainerArrowRightAfterClicked}
+              >
+                <Styled.Container>
+                  <SvgArrowRight />
+                </Styled.Container>
+              </Styled.ContainerArrowRightAfterClicked>
             </Styled.ContainerFirstImgThatWasClicked>
 
             <Styled.ContainerSecondPartAllImgs>
@@ -155,7 +195,7 @@ const ProductFlashSaleFirstPart = ({
                 {productOptionImageAll &&
                   productOptionImageAll.map((el) => (
                     <Styled.ContainerImgAllInnerModel
-                      id={el.id}
+                      key={el.id}
                       $istrue={el.optionType.length <= 0}
                       $idImg={el.id}
                       $whichIdWasClciked={clickImgProduct.id}

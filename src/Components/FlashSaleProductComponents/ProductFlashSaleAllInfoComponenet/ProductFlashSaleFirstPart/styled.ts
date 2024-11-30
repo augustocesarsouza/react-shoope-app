@@ -63,7 +63,6 @@ export const ContainerArrowLeft = styled.div`
   top: 25px;
   width: 24px;
   height: 50%;
-  /* display: flex; */
   display: none;
   align-items: center;
   justify-content: flex-start;
@@ -72,17 +71,14 @@ export const ContainerArrowLeft = styled.div`
   background-color: #4241415c;
 
   >div {
-    /* padding: 10px; */
     display: flex;
   }
 
   >div>svg {
     fill: rgb(255 255 255);
     width: 20px;
-    transform: rotate(180deg); /* Rotaciona o SVG em 180 graus */
-    transition: transform 0.3s ease; /* Adiciona transição suave */
-
-    /* height: 14px; */
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
   }
 `;
 
@@ -97,18 +93,15 @@ export const ContainerArrowRight = styled.div`
   align-items: center;
   justify-content: center;
   background-color: #4241415c;
-  /* border-radius: 50%; */
   cursor: pointer;
   
   >div {
-    /* padding: 10px; */
     display: flex;
   }
 
   >div>svg {
     fill: rgb(255 255 255);
     width: 20px;
-    /* height: 14px; */
   }
 `;
 
@@ -221,6 +214,7 @@ export const ContainerModalAfterClicked = styled.div`
     background-color: #fff;
     width: 853px;
     height: 540px;
+    user-select: none;
   }
 
   >svg {
@@ -234,9 +228,62 @@ export const ContainerModalAfterClicked = styled.div`
   }
 `;
 
+export const ContainerArrowLeftAfterClicked = styled.div`
+  position: absolute;
+  left: 0px;
+  top: 230px;
+  width: 40px;
+  height: 13%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  cursor: pointer;
+  background-color: #292929c7;
+
+  >div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  >div>svg {
+    fill: rgb(255 255 255);
+    width: 20px;
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+  }
+`;
+
+export const ContainerArrowRightAfterClicked = styled.div`
+  position: absolute;
+  right: 0px;
+  top: 230px;
+  z-index: 1;
+  width: 40px;
+  height: 13%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #292929c7;
+  cursor: pointer;
+  
+  >div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  >div>svg {
+    fill: rgb(255 255 255);
+    width: 20px;
+  }
+`;
+
 export const ContainerFirstImgThatWasClicked = styled.div`
   width: 516px;
   padding: 12px 0px 12px 12px;
+  position: relative;
 
   >div {
     display: flex;
