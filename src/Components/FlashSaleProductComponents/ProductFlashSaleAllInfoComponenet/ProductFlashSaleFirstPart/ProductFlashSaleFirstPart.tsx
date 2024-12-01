@@ -61,32 +61,40 @@ const ProductFlashSaleFirstPart = ({
 
   const onClickContainerArrowLeftAfterClicked = () => {
     const index = productOptionImageAll.findIndex((el) => el.id === clickImgProduct?.id);
-    let nextObj = productOptionImageAll[index - 1];
 
-    if (nextObj === undefined || nextObj === null) {
-      nextObj = productOptionImageAll[productOptionImageAll.length - 1];
+    // window.open(nextObj?.imageUrl, '_blank');
+
+    if (index === 0) {
+      setClickImgProduct(productOptionImageAll[productOptionImageAll.length - 1]);
+      return;
     }
 
-    if (nextObj.optionType === 'Color') {
-      nextObj = productOptionImageAll[index - 2];
-    }
+    for (let i = index; i < productOptionImageAll.length; i--) {
+      const element = productOptionImageAll[i - 1];
 
-    setClickImgProduct(nextObj);
+      if (element.optionType.length <= 0) {
+        setClickImgProduct(element);
+        break;
+      }
+    }
   };
 
   const onClickContainerArrowRightAfterClicked = () => {
     const index = productOptionImageAll.findIndex((el) => el.id === clickImgProduct?.id);
-    let nextObj = productOptionImageAll[index + 1];
 
-    if (nextObj === undefined || nextObj === null) {
-      nextObj = productOptionImageAll[0];
+    if (index === productOptionImageAll.length - 1) {
+      setClickImgProduct(productOptionImageAll[0]);
+      return;
     }
 
-    if (nextObj.optionType === 'Color') {
-      nextObj = productOptionImageAll[index + 2];
-    }
+    for (let i = index; i < productOptionImageAll.length; i++) {
+      const element = productOptionImageAll[i + 1];
 
-    setClickImgProduct(nextObj);
+      if (element.optionType.length <= 0) {
+        setClickImgProduct(element);
+        break;
+      }
+    }
   };
 
   const funcFormatFavoriteQuantity = (favoriteQuantity: number) => {

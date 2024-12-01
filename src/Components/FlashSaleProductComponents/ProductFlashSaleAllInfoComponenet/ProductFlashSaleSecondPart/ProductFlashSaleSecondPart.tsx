@@ -305,20 +305,24 @@ const ProductFlashSaleSecondPart = ({
 
         <FlashSaleShipping />
 
-        {productOptionImageColor &&
-          productOptionImageColor.map((el) => (
-            <Styled.ContainerCoinsInsuranceColorMain $index={5} key={el.id}>
-              {el.optionType === 'Color' && (
-                <>
-                  <Styled.H1>Cor</Styled.H1>
-                  <Styled.ContainerColorsProductDescription>
-                    <Styled.Img src={el.imageUrl} alt={el.imgAlt} />
-                    <Styled.Span>{el.titleOptionType}</Styled.Span>
-                  </Styled.ContainerColorsProductDescription>
-                </>
-              )}
-            </Styled.ContainerCoinsInsuranceColorMain>
-          ))}
+        {productOptionImageColor && (
+          <Styled.ContainerCoinsInsuranceColorMain $index={5}>
+            <Styled.H1>Cor</Styled.H1>
+
+            <Styled.ContainerColorsAll>
+              {productOptionImageColor.map((el, i) => (
+                <Styled.Container key={i}>
+                  {el.optionType === 'Color' && (
+                    <Styled.ContainerColorsProductDescription>
+                      <Styled.Img src={el.imageUrl} alt={el.imgAlt} />
+                      <Styled.Span>{el.titleOptionType}</Styled.Span>
+                    </Styled.ContainerColorsProductDescription>
+                  )}
+                </Styled.Container>
+              ))}
+            </Styled.ContainerColorsAll>
+          </Styled.ContainerCoinsInsuranceColorMain>
+        )}
 
         {allTheOptionsThatExists && allTheOptionsThatExists.length > 0 && (
           <Styled.ContainerOptionsMain>

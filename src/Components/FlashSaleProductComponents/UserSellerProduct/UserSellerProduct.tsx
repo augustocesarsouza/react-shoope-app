@@ -106,10 +106,12 @@ const UserSellerProduct = ({ userSellerProductDTO }: UserSellerProductProps) => 
             alt="img-user-created"
           />
 
-          <Styled.Img
-            src={userSellerProductDTO.userSellerProductDTO.imgFloating}
-            alt="official-floating"
-          />
+          {userSellerProductDTO.userSellerProductDTO.imgFloating && (
+            <Styled.Img
+              src={userSellerProductDTO.userSellerProductDTO.imgFloating}
+              alt="official-floating"
+            />
+          )}
         </Styled.ContainerUserImg>
 
         <Styled.ContainerUserNameAndOtherInfos>

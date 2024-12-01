@@ -24,7 +24,6 @@ export const ContainerMain = styled.div`
 export const ContainerAllInfoAboutUserWhoCreatedProduct = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 700px;
 `;
 
 export const ContainerUserCreatedProductInfo = styled.div`

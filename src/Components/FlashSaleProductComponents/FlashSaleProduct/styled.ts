@@ -41,12 +41,12 @@ export const ContainerProductLayers = styled.div`
   gap: 6px;
   margin-bottom: 40px;
 
-  >span {
+  >div>span {
     font-size: 14px;
     color: rgb(0, 85, 170);
   }
 
-  >svg {
+  >div>svg {
     width: 12px;
     height: 12px;
     fill: #000000a6;

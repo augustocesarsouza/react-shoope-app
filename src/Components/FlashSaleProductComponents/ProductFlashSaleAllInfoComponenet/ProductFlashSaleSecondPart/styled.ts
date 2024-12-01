@@ -199,7 +199,8 @@ interface ContainerCoinsMainProps {
 
 export const ContainerCoinsInsuranceColorMain = styled.div<ContainerCoinsMainProps>`
   display: flex;
-  align-items: center;
+  /* align-items: center; */
+  align-items: ${props => props.$index === 5 ? "none" : "center"};
   margin-bottom: 25px;
 
   >h1 {
@@ -393,12 +394,24 @@ export const InputCep = styled.input`
   padding: 10px;
 `;
 
+export const ContainerColorsAll = styled.div`
+  display: flex;
+  flex-basis: 515px;
+  flex-wrap: wrap;
+  margin-top: -8px;
+  max-height: 220px;
+  max-width: 515px;
+  overflow-y: auto;
+  gap: 7px;
+`;
+
 export const ContainerColorsProductDescription = styled.div`
   display: flex;
   align-items: center;
   border: 1px solid #0000001c;
   /* padding: 4px 5px; */
   padding: 8px;
+  gap: 5px;
 
   >span:nth-of-type(1) {
     font-size: 15px;
