@@ -30,12 +30,12 @@ export const ContainerImageProduct = styled.div`
   width: 450px;
   position: relative;
   margin-bottom: 20px;
+  cursor: pointer;
 
   > img:nth-of-type(1){
     width: 100%;
     height: auto;
     object-fit: cover;
-    cursor: pointer;
   }
 
   > img:nth-of-type(2) {
@@ -328,7 +328,7 @@ export const ContainerImgAllInnerModel = styled.div<ContainerImgAllInnerModelPro
     cursor: pointer;
 
     border: ${props => props.$whichIdWasClciked === props.$idImg && "2px solid red"};
-  
+    
     &:hover {
       opacity: 0.7;
     }

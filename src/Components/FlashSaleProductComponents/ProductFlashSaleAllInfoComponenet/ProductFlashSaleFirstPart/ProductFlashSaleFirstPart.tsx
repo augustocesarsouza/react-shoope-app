@@ -8,19 +8,29 @@ import {
 } from '../../ProductFlashSaleAllInfo/ProductFlashSaleAllInfo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { v4 as uuidv4 } from 'uuid';
 
 interface ProductFlashSaleFirstPartProps {
   productOptionImageAll: ProductOptionImageProps[];
   getFlashSaleProduct: GetFlashSaleProductProps;
+  whichColorWasClicked: ProductOptionImageProps | null;
+  onMouseEnterMouseLeaveColor: ProductOptionImageProps | null;
+  backToImageBelowMainImage: boolean;
 }
 
 const ProductFlashSaleFirstPart = ({
   productOptionImageAll,
   getFlashSaleProduct,
+  whichColorWasClicked,
+  onMouseEnterMouseLeaveColor,
+  backToImageBelowMainImage,
 }: ProductFlashSaleFirstPartProps) => {
   const RefContainerArrowLeft = useRef<HTMLDivElement | null>(null);
   const RefContainerArrowRight = useRef<HTMLDivElement | null>(null);
   const [clickImgProduct, setClickImgProduct] = useState<ProductOptionImageProps | null>(null);
+  const [newProductOptionImageAll, setNewProductOptionImageAll] = useState<
+    ProductOptionImageProps[] | null
+  >(null);
 
   useEffect(() => {
     if (productOptionImageAll.length <= 0) return;
@@ -60,33 +70,57 @@ const ProductFlashSaleFirstPart = ({
   }, [productOptionImageAll]);
 
   const onClickContainerArrowLeftAfterClicked = () => {
-    const index = productOptionImageAll.findIndex((el) => el.id === clickImgProduct?.id);
-    let nextObj = productOptionImageAll[index - 1];
+    let whichArrayIsGoingUse = [];
 
-    if (nextObj === undefined || nextObj === null) {
-      nextObj = productOptionImageAll[productOptionImageAll.length - 1];
+    if (newProductOptionImageAll) {
+      whichArrayIsGoingUse = newProductOptionImageAll;
+    } else {
+      whichArrayIsGoingUse = productOptionImageAll;
     }
 
-    if (nextObj.optionType === 'Color') {
-      nextObj = productOptionImageAll[index - 2];
+    const index = whichArrayIsGoingUse.findIndex((el) => el.id === clickImgProduct?.id);
+
+    // window.open(nextObj?.imageUrl, '_blank');
+
+    if (index === 0) {
+      setClickImgProduct(whichArrayIsGoingUse[whichArrayIsGoingUse.length - 1]);
+      return;
     }
 
-    setClickImgProduct(nextObj);
+    for (let i = index; i < whichArrayIsGoingUse.length; i--) {
+      const element = whichArrayIsGoingUse[i - 1];
+
+      if (element.optionType.length <= 0) {
+        setClickImgProduct(element);
+        break;
+      }
+    }
   };
 
   const onClickContainerArrowRightAfterClicked = () => {
-    const index = productOptionImageAll.findIndex((el) => el.id === clickImgProduct?.id);
-    let nextObj = productOptionImageAll[index + 1];
+    let whichArrayIsGoingUse = [];
 
-    if (nextObj === undefined || nextObj === null) {
-      nextObj = productOptionImageAll[0];
+    if (newProductOptionImageAll) {
+      whichArrayIsGoingUse = newProductOptionImageAll;
+    } else {
+      whichArrayIsGoingUse = productOptionImageAll;
     }
 
-    if (nextObj.optionType === 'Color') {
-      nextObj = productOptionImageAll[index + 2];
+    const index = whichArrayIsGoingUse.findIndex((el) => el.id === clickImgProduct?.id);
+
+    if (index === whichArrayIsGoingUse.length - 1) {
+      setClickImgProduct(whichArrayIsGoingUse[0]);
+      return;
     }
 
-    setClickImgProduct(nextObj);
+    for (let i = index; i < whichArrayIsGoingUse.length; i++) {
+      const element = whichArrayIsGoingUse[i + 1];
+
+      if (element.optionType.length <= 0) {
+        setClickImgProduct(element);
+        break;
+      }
+    }
   };
 
   const funcFormatFavoriteQuantity = (favoriteQuantity: number) => {
@@ -105,6 +139,7 @@ const ProductFlashSaleFirstPart = ({
   const [productImgMain, setProductImgMain] = useState<ProductOptionImageProps | null>(null);
 
   const onClickImgsProductPartBottom = (productImg: ProductOptionImageProps) => {
+    setNewProductOptionImageAll(null);
     setClickImgProduct(productImg);
     document.body.style.overflowY = 'hidden';
   };
@@ -116,9 +151,34 @@ const ProductFlashSaleFirstPart = ({
 
   const onMouseLeaveImgProductBottom = () => {};
 
-  const onClickClickImgProduct = (productImgMain: ProductOptionImageProps) => {
-    setClickImgProduct(productImgMain);
+  // window.open(productImgMain.imageUrl, '_blank');
+  const onClickClickImgProduct = (productImgMain: ProductOptionImageProps | null) => {
+    if (productImgMain === null) return;
 
+    if (productImgMain.optionType.length <= 0) {
+      setNewProductOptionImageAll(null);
+    }
+
+    if (productImgMain.optionType.length > 0) {
+      const uuidProduct = uuidv4();
+
+      let productClicked = {
+        id: uuidProduct,
+        imageUrl: productImgMain.imageUrl,
+        imgAlt: productImgMain.imgAlt,
+        optionType: '',
+        titleOptionType: productImgMain.titleOptionType,
+      };
+      productClicked.id = uuidProduct;
+
+      const array = [...productOptionImageAll];
+      array.push(productClicked);
+      setClickImgProduct(productClicked);
+      setNewProductOptionImageAll(array);
+      return;
+    }
+
+    setClickImgProduct(productImgMain);
     document.body.style.overflowY = 'hidden';
   };
 
@@ -143,14 +203,25 @@ const ProductFlashSaleFirstPart = ({
     document.body.style.overflowY = 'auto';
   };
 
+  useEffect(() => {
+    if (backToImageBelowMainImage) {
+      setProductImgMain(productOptionImageAll[indexImg]);
+    }
+
+    if (whichColorWasClicked === null) return;
+    setProductImgMain(whichColorWasClicked);
+  }, [whichColorWasClicked, backToImageBelowMainImage]);
+
   return (
     <Styled.ContainerImageProductAndAllImagePartBottom>
-      <Styled.ContainerImageProduct>
-        {productImgMain && (
+      <Styled.ContainerImageProduct onClick={() => onClickClickImgProduct(productImgMain)}>
+        {productImgMain && onMouseEnterMouseLeaveColor === null && (
+          <Styled.Img src={productImgMain.imageUrl} alt={productImgMain.imgAlt} />
+        )}
+        {onMouseEnterMouseLeaveColor && (
           <Styled.Img
-            src={productImgMain.imageUrl}
-            alt={productImgMain.imgAlt}
-            onClick={() => onClickClickImgProduct(productImgMain)}
+            src={onMouseEnterMouseLeaveColor.imageUrl}
+            alt={onMouseEnterMouseLeaveColor.imgAlt}
           />
         )}
 
@@ -192,8 +263,24 @@ const ProductFlashSaleFirstPart = ({
               </Styled.H1>
 
               <Styled.ContainerAllImgAll>
-                {productOptionImageAll &&
+                {newProductOptionImageAll === null &&
                   productOptionImageAll.map((el) => (
+                    <Styled.ContainerImgAllInnerModel
+                      key={el.id}
+                      $istrue={el.optionType.length <= 0}
+                      $idImg={el.id}
+                      $whichIdWasClciked={clickImgProduct.id}
+                    >
+                      <Styled.Img
+                        src={el.imageUrl}
+                        alt={el.imgAlt}
+                        onClick={() => onClickImgAfterClicked(el)}
+                      />
+                    </Styled.ContainerImgAllInnerModel>
+                  ))}
+
+                {newProductOptionImageAll &&
+                  newProductOptionImageAll.map((el) => (
                     <Styled.ContainerImgAllInnerModel
                       key={el.id}
                       $istrue={el.optionType.length <= 0}

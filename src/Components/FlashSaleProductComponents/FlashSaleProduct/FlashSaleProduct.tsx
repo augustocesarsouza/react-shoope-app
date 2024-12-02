@@ -11,6 +11,7 @@ import { GetUserFromLocalStorage } from '../../LoginComponents/GetUserFromLocalS
 import { ObjUser } from '../../InterfaceAll/IObjUser/IObjUser';
 import { IProductSeller } from '../../InterfaceAll/IProductSeller/IProductSeller';
 import UserSellerProduct from '../UserSellerProduct/UserSellerProduct';
+import ProductFlashSaleDetails from '../ProductFlashSaleDetails/ProductFlashSaleDetails';
 
 const FlashSaleProduct = () => {
   const obj = useParams();
@@ -98,6 +99,13 @@ const FlashSaleProduct = () => {
     }
   };
 
+  const [productCategories, setProductCategories] = useState([
+    'Shopee',
+    'Saúde',
+    'Cuidados Pessoais',
+    'Cuidados Bucais',
+  ]);
+
   return (
     <Styled.ContainerMain>
       <HeaderFlashSaleMain></HeaderFlashSaleMain>
@@ -105,14 +113,13 @@ const FlashSaleProduct = () => {
         {getFlashSaleProduct && idProductClicked !== null && (
           <Styled.ContainerProductWasClicked>
             <Styled.ContainerProductLayers>
-              <Styled.Span>Shopee</Styled.Span>
-              <SvgArrowBottom />
-              <Styled.Span>Saúde</Styled.Span>
-              <SvgArrowBottom />
-              <Styled.Span>Cuidados Pessoais</Styled.Span>
-              <SvgArrowBottom />
-              <Styled.Span>Cuidados Bucais</Styled.Span>
-              <SvgArrowBottom />
+              {productCategories &&
+                productCategories.map((el, i) => (
+                  <Styled.Container key={i}>
+                    <Styled.Span>{el}</Styled.Span>
+                    <SvgArrowBottom />
+                  </Styled.Container>
+                ))}
               <Styled.H1>
                 {getFlashSaleProduct.productsOfferFlashDTO.title.substring(0, 50)}
               </Styled.H1>
@@ -125,6 +132,13 @@ const FlashSaleProduct = () => {
 
             {userSellerProductDTO && (
               <UserSellerProduct userSellerProductDTO={userSellerProductDTO} />
+            )}
+
+            {idProductClicked && (
+              <ProductFlashSaleDetails
+                productCategories={productCategories}
+                idProductClicked={idProductClicked}
+              />
             )}
           </Styled.ContainerProductWasClicked>
         )}
