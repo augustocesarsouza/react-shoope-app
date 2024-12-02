@@ -239,6 +239,54 @@ const ProductFlashSaleSecondPart = ({
     getOnMouseEnterAndLeaveColor(null);
   };
 
+  const [quantityProduct, setQuantityProduct] = useState<string>('1');
+
+  const onClickIncreaseQuantityOfProduct = () => {
+    setQuantityProduct((prev) => {
+      if (Number(prev) >= 1 && Number(prev) < Number(quantityParts)) {
+        const value = String(Number(prev) + 1);
+
+        return value;
+      }
+
+      if (quantityParts <= Number(prev)) {
+        return prev;
+      }
+      return '1';
+    });
+  };
+
+  const onClickDecreaseQuantityOfProduct = () => {
+    setQuantityProduct((prev) => {
+      if (Number(prev) > 1) {
+        let value = String(Number(prev) - 1);
+        return value;
+      }
+      return '1';
+    });
+  };
+
+  const onChangeInputNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    if (/^\d*$/.test(value)) {
+      let valueNumber = Number(value);
+
+      if (valueNumber > quantityParts) {
+        setQuantityProduct(quantityParts.toString());
+        return;
+      }
+
+      // Permite apenas números ou vazio
+      setQuantityProduct(value);
+    }
+  };
+
+  const onBlurInputNumber = () => {
+    const value = parseInt(quantityProduct, 10);
+    setQuantityProduct(value > 0 ? value.toString() : '1'); // Reseta para "1" se inválido ou vazio
+  };
+
   return (
     <Styled.ContainerProductFlashSaleDescription>
       <Styled.H1>
@@ -424,13 +472,17 @@ const ProductFlashSaleSecondPart = ({
         <Styled.ContainerCoinsInsuranceColorMain $index={7}>
           <Styled.H1>Quantidade</Styled.H1>
           <Styled.ContainerQuantityProductDescription>
-            <Styled.Container>
+            <Styled.Container onClick={onClickDecreaseQuantityOfProduct}>
               <MinusSignSvg />
             </Styled.Container>
-            <Styled.Container>
-              <Styled.Span>1</Styled.Span>
-            </Styled.Container>
-            <Styled.Container>
+            <Styled.Input
+              type="number"
+              value={quantityProduct}
+              onChange={onChangeInputNumber}
+              onBlur={onBlurInputNumber}
+            />
+            {/* <Styled.Span>{quantityProduct}</Styled.Span> */}
+            <Styled.Container onClick={onClickIncreaseQuantityOfProduct}>
               <SumSignSvg />
             </Styled.Container>
           </Styled.ContainerQuantityProductDescription>

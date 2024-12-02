@@ -203,6 +203,8 @@ export const ContainerCoinsInsuranceColorMain = styled.div<ContainerCoinsMainPro
   align-items: ${props => props.$index === 5 ? "none" : "center"};
   margin-bottom: 25px;
 
+  user-select: ${props => props.$index === 7 && "none"};
+
   >h1 {
     font-size: 15px;
     font-weight: 400;
@@ -531,9 +533,10 @@ export const ContainerVoltages = styled.div<ContainerVoltagesProps>`
 
 export const ContainerQuantityProductDescription = styled.div`
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   /* padding: 4px 5px; */
   margin-right: 7px;
+  user-select: none;
 
   >div {
     display: flex;
@@ -554,7 +557,7 @@ export const ContainerQuantityProductDescription = styled.div`
     cursor: pointer;
   }
 
-  >div:nth-of-type(2){
+  /* >div:nth-of-type(2){
     font-size: 16px;
     font-weight: 400;
     color: #000000b8;
@@ -562,9 +565,42 @@ export const ContainerQuantityProductDescription = styled.div`
     width: 50px;
     border-top: 1px solid #00000024;
     border-bottom: 1px solid #00000024;
+
+    >input {
+      background-color: red;
+      width: 100%;
+      cursor: pointer;
+      text-align: center;
+    }
+  } */
+
+  >input {
+    /* background-color: red; */
+    width: 50px;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid #00000024;
+
+    border-left: 0;
+    border-radius: 0;
+    border-right: 0;
+    box-sizing: border-box;
+    cursor: text;
+    font-size: 16px;
+    font-weight: 400;
+
+    &:focus{
+      outline: none;
+    }
   }
 
-  >div:nth-of-type(3){
+  >input[type="number"]::-webkit-inner-spin-button,
+  >input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  >div:nth-of-type(2){
     border: 1px solid #00000024;
     cursor: pointer;
   }
