@@ -131,12 +131,47 @@ const ProductFlashSaleAllInfo = ({
     }
   };
 
+  const [whichColorWasClicked, setWhichColorWasClicked] = useState<ProductOptionImageProps | null>(
+    null
+  );
+  const [onMouseEnterMouseLeaveColor, setOnMouseEnterMouseLeaveColor] =
+    useState<ProductOptionImageProps | null>(null);
+
+  const getWhichColorWasClicked = (el: ProductOptionImageProps | null) => {
+    setWhichColorWasClicked(el);
+  };
+
+  const getOnMouseEnterAndLeaveColor = (el: ProductOptionImageProps | null) => {
+    setOnMouseEnterMouseLeaveColor(el);
+  };
+
+  const [backToImageBelowMainImage, setBackToImageBelowMainImage] = useState(false);
+
+  const functionBackToImageBelowMainImage = (value: boolean) => {
+    setBackToImageBelowMainImage(value);
+  };
+
+  const functionGetClickMainImg = (productImgMain: ProductOptionImageProps) => {
+    setProductOptionImageAll((arrayProduct) => {
+      if (arrayProduct) {
+        const array = [...arrayProduct, productImgMain];
+
+        return array;
+      }
+
+      return arrayProduct;
+    });
+  };
+
   return (
     <Styled.ContainerImageProductAndDescription>
       {productOptionImageAll && (
         <ProductFlashSaleFirstPart
           productOptionImageAll={productOptionImageAll}
           getFlashSaleProduct={getFlashSaleProduct}
+          whichColorWasClicked={whichColorWasClicked}
+          onMouseEnterMouseLeaveColor={onMouseEnterMouseLeaveColor}
+          backToImageBelowMainImage={backToImageBelowMainImage}
         />
       )}
 
@@ -145,6 +180,9 @@ const ProductFlashSaleAllInfo = ({
           productOptionImageColor={productOptionImageColor}
           allTheOptionsThatExists={allTheOptionsThatExists}
           getFlashSaleProduct={getFlashSaleProduct}
+          getWhichColorWasClicked={getWhichColorWasClicked}
+          getOnMouseEnterAndLeaveColor={getOnMouseEnterAndLeaveColor}
+          functionBackToImageBelowMainImage={functionBackToImageBelowMainImage}
         />
       )}
     </Styled.ContainerImageProductAndDescription>

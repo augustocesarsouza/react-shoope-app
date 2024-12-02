@@ -24,12 +24,18 @@ interface ProductFlashSaleSecondPartProps {
   productOptionImageColor: ProductOptionImageProps[];
   allTheOptionsThatExists: ProductOptionImageProps[];
   getFlashSaleProduct: GetFlashSaleProductProps;
+  getWhichColorWasClicked: (el: ProductOptionImageProps | null) => void;
+  getOnMouseEnterAndLeaveColor: (el: ProductOptionImageProps | null) => void;
+  functionBackToImageBelowMainImage: (value: boolean) => void;
 }
 
 const ProductFlashSaleSecondPart = ({
   productOptionImageColor,
   allTheOptionsThatExists,
   getFlashSaleProduct,
+  getWhichColorWasClicked,
+  getOnMouseEnterAndLeaveColor,
+  functionBackToImageBelowMainImage,
 }: ProductFlashSaleSecondPartProps) => {
   const [whichDivOptionsWasClicked, setWhichDivOptionsWasClicked] = useState(0);
   const [whichDivVoltagensWasClicked, setWhichDivVoltagensWasClicked] = useState(0);
@@ -202,6 +208,37 @@ const ProductFlashSaleSecondPart = ({
     setFlashSaleCountdown(flashSaleCountdown);
   }, []);
 
+  const [whichColorWasClicked, setWhichColorWasClicked] = useState<ProductOptionImageProps | null>(
+    null
+  );
+
+  const onClickWhichColorWasClicked = (color: ProductOptionImageProps) => {
+    if (color === null) {
+      // getOnMouseEnterAndLeaveColor(null);
+      return;
+    }
+
+    setWhichColorWasClicked((el) => {
+      if (el && el.id === color.id) {
+        functionBackToImageBelowMainImage(true);
+        getWhichColorWasClicked(null);
+        return null;
+      }
+
+      functionBackToImageBelowMainImage(false);
+      getWhichColorWasClicked(color);
+      return color;
+    });
+  };
+
+  const onMouseEnterColor = (el: ProductOptionImageProps) => {
+    getOnMouseEnterAndLeaveColor(el);
+  };
+
+  const onMouseLeaveColor = () => {
+    getOnMouseEnterAndLeaveColor(null);
+  };
+
   return (
     <Styled.ContainerProductFlashSaleDescription>
       <Styled.H1>
@@ -310,12 +347,24 @@ const ProductFlashSaleSecondPart = ({
             <Styled.H1>Cor</Styled.H1>
 
             <Styled.ContainerColorsAll>
-              {productOptionImageColor.map((el, i) => (
-                <Styled.Container key={i}>
+              {productOptionImageColor.map((el, index) => (
+                <Styled.Container key={index}>
                   {el.optionType === 'Color' && (
-                    <Styled.ContainerColorsProductDescription>
+                    <Styled.ContainerColorsProductDescription
+                      onClick={() => onClickWhichColorWasClicked(el)}
+                      onMouseEnter={() => onMouseEnterColor(el)}
+                      onMouseLeave={onMouseLeaveColor}
+                      $whichColorWasClicked={whichColorWasClicked ? whichColorWasClicked.id : ''}
+                      $divColors={el.id}
+                    >
                       <Styled.Img src={el.imageUrl} alt={el.imgAlt} />
                       <Styled.Span>{el.titleOptionType}</Styled.Span>
+
+                      {whichColorWasClicked?.id === el.id && (
+                        <Styled.Container>
+                          <FontAwesomeIcon icon={faCheck} />
+                        </Styled.Container>
+                      )}
                     </Styled.ContainerColorsProductDescription>
                   )}
                 </Styled.Container>

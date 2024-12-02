@@ -405,13 +405,21 @@ export const ContainerColorsAll = styled.div`
   gap: 7px;
 `;
 
-export const ContainerColorsProductDescription = styled.div`
+interface ContainerColorsProductDescriptionProps {
+  $whichColorWasClicked: string;
+  $divColors: string;
+}
+
+export const ContainerColorsProductDescription = styled.div<ContainerColorsProductDescriptionProps>`
   display: flex;
   align-items: center;
   border: 1px solid #0000001c;
   /* padding: 4px 5px; */
   padding: 8px;
   gap: 5px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 
   >span:nth-of-type(1) {
     font-size: 15px;
@@ -422,6 +430,41 @@ export const ContainerColorsProductDescription = styled.div`
   >img {
     width: 24px;
     height: auto;
+  }
+
+  &:hover {
+    border-color: #ee4d2d;
+  }
+
+  border-color: ${props => props.$whichColorWasClicked === props.$divColors && "#ee4d2d"};
+
+  >div  {
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    z-index: 1;
+
+    &::before {
+      border: 18px solid transparent;
+      border-bottom: 18px solid red;
+      bottom: 0;
+      content: "";
+      position: absolute;
+      right: -18px;
+      z-index: 1;
+    }
+
+    >svg {
+      color: #ffffff;
+      z-index: 20;
+      width: 9px;
+      bottom: -1px;
+      position: absolute;
+      right: 1px;
+      display: flex;
+
+      /* background-color: black; */
+    }
   }
 `;
 
