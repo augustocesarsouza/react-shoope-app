@@ -12,6 +12,7 @@ import { ObjUser } from '../../InterfaceAll/IObjUser/IObjUser';
 import { IProductSeller } from '../../InterfaceAll/IProductSeller/IProductSeller';
 import UserSellerProduct from '../UserSellerProduct/UserSellerProduct';
 import ProductFlashSaleDetails from '../ProductFlashSaleDetails/ProductFlashSaleDetails';
+import ProductDescription from '../ProductDescription/ProductDescription';
 
 const FlashSaleProduct = () => {
   const obj = useParams();
@@ -140,6 +141,8 @@ const FlashSaleProduct = () => {
                 idProductClicked={idProductClicked}
               />
             )}
+
+            <ProductDescription />
           </Styled.ContainerProductWasClicked>
         )}
       </Styled.ContainerProductWasClickedMain>

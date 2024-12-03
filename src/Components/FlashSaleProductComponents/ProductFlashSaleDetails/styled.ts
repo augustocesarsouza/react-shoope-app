@@ -19,7 +19,7 @@ export const Container = styled.div`
 `;
 
 export const ContainerMain = styled.div`
-  margin-bottom: 700px;
+  margin-bottom: 20px;
 
   >h1 {
     font-size: 18px;
