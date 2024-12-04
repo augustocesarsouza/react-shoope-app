@@ -57,7 +57,6 @@ export const ContainerRateAvaliationAndStars = styled.div`
 
 export const ContainerStarQuantity = styled.div`
   display: flex;
-
 `;
 
 export const ContainerStarMain = styled.div`

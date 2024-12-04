@@ -7,6 +7,7 @@ import { UserUpdateData } from '../FillCpfAndBirthdate/FillCpfAndBirthdate';
 import { ObjUser } from '../../../../InterfaceAll/IObjUser/IObjUser';
 import SvgUserBody from '../../../../HeaderComponents/AllSvgHeader/SvgUserBody/SvgUserBody';
 import { GetUserFromLocalStorage } from '../../../../LoginComponents/GetUserFromLocalStorage/GetUserFromLocalStorage';
+import CryptoJS from 'crypto-js';
 
 const Perfil = () => {
   const [userObj, setUserObj] = useState<ObjUser | null>(null);
@@ -26,6 +27,8 @@ const Perfil = () => {
   const location = useLocation();
 
   const emailToShowToUserMyPerfil = (email: string) => {
+    if (!email) return;
+
     if (email.length <= 0) {
       setEmailUser('');
 
@@ -73,7 +76,7 @@ const Perfil = () => {
 
     if (res.status === 403 || res.status === 401) {
       localStorage.removeItem('user');
-      nav('/login');
+      // nav('/login');
       return;
     }
   };
@@ -235,6 +238,7 @@ const Perfil = () => {
   const [showCheckboxF, setShowCheckboxF] = useState(false);
   const [showCheckboxO, setShowCheckboxO] = useState(false);
   const [showUpdateSuccessfully, setShowUpdateSuccessfully] = useState<boolean | null>(false);
+  const [base64StringImage, setBase64StringImage] = useState<string | null>(null);
 
   const onClickChoseGender = (gender: string) => {
     setGenderUser(gender);
@@ -262,7 +266,10 @@ const Perfil = () => {
     e.preventDefault();
     // aqui tem pegar todos os dados "nomeUser, email, phone, gender " e mandar para update
     if (RefInputNameUser.current === null) return;
-    if (userObj === null) return;
+
+    const objUser = GetUserFromLocalStorage();
+
+    if (userObj === null || objUser === null || objUser.isNullUserLocalStorage) return;
 
     let inputValuNameUser = RefInputNameUser.current.value;
     let email = userObj.email;
@@ -277,13 +284,18 @@ const Perfil = () => {
       Phone: phone,
       Cpf: '',
       BirthDate: '',
+      Base64StringImage: base64StringImage,
     };
+
+    if (objUser.user === null) return;
+
+    let userLogin = objUser.user;
 
     const res = await fetch(`${Url}/user/update-user-all`, {
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${userObj.token}`,
-        uid: userObj.id,
+        Authorization: `Bearer ${userLogin.token}`,
+        uid: userLogin.id,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userUpdate),
@@ -296,28 +308,47 @@ const Perfil = () => {
 
       document.body.style.overflow = 'hidden';
 
-      const objUser = GetUserFromLocalStorage();
+      // const objUser = GetUserFromLocalStorage();
 
-      if (objUser.isNullUserLocalStorage) {
-        nav('/login');
-        return;
-      }
+      // if (objUser.isNullUserLocalStorage) {
+      //   nav('/login');
+      //   return;
+      // }
 
-      if (objUser.user === null) {
-        localStorage.removeItem('user');
+      // if (objUser.user === null) {
+      //   localStorage.removeItem('user');
 
-        nav('/login');
-        return;
-      }
+      //   nav('/login');
+      //   return;
+      // }
 
-      let userLocalStoage: ObjUser = objUser.user;
+      // let userLocalStoage: ObjUser = objUser.user;
 
-      userLocalStoage.email = user.email;
-      userLocalStoage.id = user.id;
-      userLocalStoage.name = user.name;
-      userLocalStoage.phone = user.phone;
+      // userLocalStoage.email = user.email;
+      // userLocalStoage.id = user.id;
+      // userLocalStoage.name = user.name;
+      // userLocalStoage.phone = user.phone;
 
-      localStorage.setItem('user', JSON.stringify(userLocalStoage));
+      let userLocalStoage = {
+        id: objUser.user.id,
+        name: user.name,
+        email: user.email,
+        gender: gender,
+        phone: user.phone,
+        cpf: '',
+        birthDate: '',
+        token: objUser.user.token,
+        userImage: user.userImage,
+      };
+
+      const secretKey = import.meta.env.VITE__APP_SECRET_KEY_USER;
+
+      const encrypted = CryptoJS.AES.encrypt(JSON.stringify(userLocalStoage), secretKey).toString();
+
+      localStorage.setItem('user', encrypted);
+      // nav('/');
+
+      // localStorage.setItem('user', JSON.stringify(userLocalStoage));
     }
 
     if (res.status === 400) {
@@ -333,6 +364,8 @@ const Perfil = () => {
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
+
+    if (!genderUser) return;
 
     if (genderUser.length > 0) {
       if (genderUser === 'm') {
@@ -373,6 +406,18 @@ const Perfil = () => {
       if (target.files === null || target.files.length <= 0) return;
 
       const file = target.files[0];
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        setBase64StringImage(base64String);
+      };
+
+      reader.onerror = (error) => {
+        console.error('Erro ao ler o arquivo:', error);
+      };
     });
 
     fileInput.click();
