@@ -20,7 +20,7 @@ export const Container = styled.div`
 
 export const ContainerMain = styled.div`
   display: none;
-  margin-bottom: 700px;
+  margin-bottom: 30px;
 `;
   
 export const ContainerDescription = styled.div`

@@ -151,18 +151,6 @@ const ProductFlashSaleAllInfo = ({
     setBackToImageBelowMainImage(value);
   };
 
-  const functionGetClickMainImg = (productImgMain: ProductOptionImageProps) => {
-    setProductOptionImageAll((arrayProduct) => {
-      if (arrayProduct) {
-        const array = [...arrayProduct, productImgMain];
-
-        return array;
-      }
-
-      return arrayProduct;
-    });
-  };
-
   return (
     <Styled.ContainerImageProductAndDescription>
       {productOptionImageAll && (

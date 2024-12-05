@@ -13,6 +13,7 @@ import { IProductSeller } from '../../InterfaceAll/IProductSeller/IProductSeller
 import UserSellerProduct from '../UserSellerProduct/UserSellerProduct';
 import ProductFlashSaleDetails from '../ProductFlashSaleDetails/ProductFlashSaleDetails';
 import ProductDescription from '../ProductDescription/ProductDescription';
+import ProductReviews from '../ProductReviews/ProductReviews';
 
 const FlashSaleProduct = () => {
   const obj = useParams();
@@ -107,6 +108,8 @@ const FlashSaleProduct = () => {
     'Cuidados Bucais',
   ]);
 
+  // margin-bottom: 700px;
+
   return (
     <Styled.ContainerMain>
       <HeaderFlashSaleMain></HeaderFlashSaleMain>
@@ -143,6 +146,8 @@ const FlashSaleProduct = () => {
             )}
 
             <ProductDescription />
+
+            <ProductReviews getFlashSaleProduct={getFlashSaleProduct} />
           </Styled.ContainerProductWasClicked>
         )}
       </Styled.ContainerProductWasClickedMain>

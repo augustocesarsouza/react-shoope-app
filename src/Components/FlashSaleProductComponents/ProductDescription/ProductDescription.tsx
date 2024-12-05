@@ -79,7 +79,9 @@ const ProductDescription = () => {
             <Styled.H1>Características</Styled.H1>
 
             {productDescriptionObj &&
-              productDescriptionObj.characteristics.map((el) => <Styled.Span>:: {el}</Styled.Span>)}
+              productDescriptionObj.characteristics.map((el, i) => (
+                <Styled.Span key={i}>:: {el}</Styled.Span>
+              ))}
           </Styled.ContainerCharacteristics>
         </Styled.ContainerDescription>
       )}

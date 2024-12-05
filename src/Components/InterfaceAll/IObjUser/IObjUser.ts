@@ -7,4 +7,5 @@ export interface ObjUser {
   birthDate: string;
   gender: string;
   token: string;
+  userImage: string | null;
 }
